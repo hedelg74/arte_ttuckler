@@ -6,24 +6,17 @@
     <title>Arte-TTuckler</title>
     <link rel="icon" href="/public/images/favicon.png" type="image/x-icon"> <!-- Enlace al favicon -->
      
-    <!-- Font Awesome CSS -->
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    
+   <!-- Font Awesome CSS -->
+   <!--   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    --> 
      <!-- Incluir BOOTSTRAP ICONS --> 
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-   
-    
-    <!-- Incluir el MENU script con defer -->
-    <script defer src="./js/menu.js"></script>
+   <!--   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   -->
 
     <!-- Incluir Cargar Imagenes -->
     <script src="./js/cargar.imagenes.js" defer></script>
-    
-    <!-- Incluir funcionalidad carrito de compras -->
-    <script src="./js/carrito.js"></script>
-
-   
-    
+  
+    <link rel="stylesheet" href="./css/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/styles.css">
 
     <link href="./css/output.css" rel="stylesheet">
@@ -82,15 +75,7 @@
             
         </section> 
 
-        <!-- Llamamos a las funciones para cargar la imagenes -->     
-        <script>
-            document.addEventListener('DOMContentLoaded', (event) => {
-              cargarImagenes('/api/images/alambre/collares','img-container-alambre-collares'); // Llama a la función cuando la página se ha cargado
-              cargarImagenes('/api/images/alambre/dijes','img-container-alambre-dijes');
-              cargarImagenes('/api/images/alambre/brazaletes','img-container-alambre-brazaletes');              
-              cargarEventListeners();
-            });
-          </script>
+       
         
         <!-- INFORMACION DE SERVICIOS -->
         <section id="services" class="services">
@@ -159,8 +144,26 @@
     </footer>
 
 
+  
 
- 
+  <!-- Incluir el MENU script con defer -->
+  <script src="./js/menu.js"></script>
+
+  <!-- Incluir funcionalidad carrito de compras -->
+  <script src="./js/carrito.js"></script>
+
+
+   <!-- Llamamos a las funciones para cargar la imagenes -->     
+   <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      cargarImagenes('/api/images/alambre/collares','img-container-alambre-collares'); // Llama a la función cuando la página se ha cargado
+      cargarImagenes('/api/images/alambre/dijes','img-container-alambre-dijes');
+      cargarImagenes('/api/images/alambre/brazaletes','img-container-alambre-brazaletes'); 
+                
+     
+    });
+  </script>  
+
     
 </body>
 </html>

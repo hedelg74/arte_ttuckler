@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+ function insertarMenu () {
     const menu_container = document.getElementById('menu-container');
 
     const menuHTML =`
@@ -101,18 +101,39 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li>    
                    <i class="bi bi-cart4" id="icon-carrito"></i>
                     <div id="carrito">
+                        <h1 class="text-green-500 mb-3">Carrtio de compras:</h1>
+                        
+                        
                         <table id="lista-carrito">
-                            <thead>
-                                <tr>
+                           
+                            <thead class="border-b-2 border-[#60666c]">
+                                
+                                <tr class="text-sm">
+                                    
                                     <th>Imagen</th>
                                     <th>Nombre</th>
                                     <th>Precio</th>
+                                    
                                 </tr>
-                                <tbody></tbody>
-                                  
+                               
                             </thead>
+                            
+                            <tbody>
+                                <!-- Aquí se deben agregar las filas del cuerpo de la tabla -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="px-4 py-2">Total</td>
+                                    <td id="total" class="px-1 py-2 border-t-2 border-[#60666c]">$ 0.00</td>
+                                  
+                                </tr>
+                            </tfoot>
+                            
                         </table>
-                        <a href="#" id="vaciar-carrito" class="btn-vaciar">Vaciar Carrito</a>  
+                      
+                        <a href="#" id="vaciar-carrito" class="btn-vaciar ml-1 text-sm text-red-400">Vaciar Carrito</a>
+                        <a href="#" id="enviar-carrito" class="btn-enviar ml-36 text-sm text-blue-400">Enviar pedido</a>
+
                     </div>
                 </li>
             </ul>   
@@ -123,6 +144,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
     
+};
+
+document.addEventListener('DOMContentLoaded',()=>{
+    insertarMenu();
 });
 
 

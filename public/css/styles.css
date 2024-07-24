@@ -1,4 +1,7 @@
 
+
+/* Otros estilos CSS */
+
 *{
     margin: 0;
     padding: 0;
@@ -66,7 +69,7 @@ header {
 .submenu:hover #carrito{
     display: block;
     position: absolute;
-    background-color: rgb(255,255,255,0.1); /*1% opacidad*/
+    background-color: rgb(255,255,255,0.2); /*1% opacidad*/
     box-shadow: 0px, 4px, 8px rgb(0,0,0,0.5);/*sombra*/
     /* background-color: transparent;
     border: 1px solid #273248; */
@@ -324,10 +327,9 @@ th,tr{
     padding: 5px;
     position: relative;
     z-index: 1;
-    bottom:-5%; /* Ajusta esta posición según sea necesario */
+    bottom:-5%; 
     left:-35%;
-    margin-left: 2px; /* Ajusta este valor según sea necesario */
-    opacity: 0;
+    margin-left: 2px; 
     transition: opacity 0.3s;
     font-size: smaller;
 }
