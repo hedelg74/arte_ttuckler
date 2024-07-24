@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arte-TTuckler</title>
+    <link rel="icon" href="/public/images/favicon.png" type="image/x-icon"> <!-- Enlace al favicon -->
+     
+    <!-- Font Awesome CSS -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+     <!-- Incluir BOOTSTRAP ICONS --> 
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   
+    
+    <!-- Incluir el MENU script con defer -->
+    <script defer src="./js/menu.js"></script>
+
+    <!-- Incluir Cargar Imagenes -->
+    <script src="./js/cargar.imagenes.js" defer></script>
+    
+    <!-- Incluir funcionalidad carrito de compras -->
+    <script src="./js/carrito.js"></script>
+
+   
+    
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <link href="./css/output.css" rel="stylesheet">
+
+    
+    <!-- Incluir Tailwind CSS -->
+   <!--  <script src="https://cdn.tailwindcss.com"></script>
+    -->  
+</head>
+<body class="overflow-auto relative">
+    <header>
+        <img src="./images/favicon.png" alt="logo" class="logo">
+        <!-- Contenedor donde se insertará el menú -->
+        <div id="menu-container">
+           
+        </div>
+    
+    </header>
+    <hr class="mt-2 border-[#383c40]">
+
+    <main class="flex-grow">
+        <section id="alambre-collares">
+
+            <!-- Tiutlo de coleccion -->
+            <h1 class="mt-20 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Collares</h1>
+            <hr class="mt-2 border-[#383c40]">
+            <!-- Contenedor de imagenes -->
+            <div id="img-container-alambre-collares">
+                <!-- Aqui van las imagenes -->
+            </div>
+            
+        </section>
+
+        <section id="alambre-brazaletes">
+
+            <!-- Tiutlo de coleccion -->
+            <h1 class="mt-20 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Brazaletes</h1>
+            <hr class="mt-2 border-[#383c40]">
+            <!-- Contenedor de imagenes -->
+            <div id="img-container-alambre-brazaletes">
+                <!-- Aqui van las imagenes -->
+            </div>
+            
+        </section>
+
+
+        <section id="alambre-dijes">
+
+            <!-- Tiutlo de coleccion -->
+            <h1 class="mt-20 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Dijes</h1>
+            <hr class="mt-2 border-[#383c40]">
+            <!-- Contenedor de imagenes -->
+            <div id="img-container-alambre-dijes">
+                <!-- Aqui van las imagenes -->
+            </div>
+            
+        </section> 
+
+        <!-- Llamamos a las funciones para cargar la imagenes -->     
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+              cargarImagenes('/api/images/alambre/collares','img-container-alambre-collares'); // Llama a la función cuando la página se ha cargado
+              cargarImagenes('/api/images/alambre/dijes','img-container-alambre-dijes');
+              cargarImagenes('/api/images/alambre/brazaletes','img-container-alambre-brazaletes');              
+              cargarEventListeners();
+            });
+          </script>
+        
+        <!-- INFORMACION DE SERVICIOS -->
+        <section id="services" class="services">
+            <h1 class="mt-20 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-info-circle"></i> Servicios</h1>
+            <hr class="mt-2 border-[#383c40]">
+          
+            <div class="card">
+                <div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
+                    <h5 class="card-title"><i class="bi bi-person-fill text-[#15cfc6]"></i> Asesoramiento Personalizado</h5>
+                    <p class="card-text">Te ayudo a encontrar los productos que mejor se adapten a tus necesidades.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
+                    <h5 class="card-title"><i class="bi bi-dropbox text-[#15cfc6]"></i> Venta de Artículos</h5>
+                    <p class="card-text">Amplia gama de productos disponibles para ti.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
+                    <h5 class="card-title"><i class="bi bi-truck text-[#15cfc6]"></i> Envíos Rápidos</h5>
+                    <p class="card-text">Garantizamos envíos rápidos y seguros a cualquier parte del país.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFORMACION DE CONTACTO -->
+        <section id="contact">
+            <h1 class="mt-20 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-info-circle"></i> Contacto</h1>
+            <hr class="mt-2 border-[#383c40]">
+            <div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
+                <p>¿Tienes alguna pregunta o necesitas más información? No dudes en contactarme.</p>
+                <p><i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email: <a href="hdelgados74@gmail.com">hdelgados74@gmail.com</a></p>
+                <p><i class="bi bi-telephone-forward text-[#15cfc6]"></i> Teléfono: +50672137516</p>
+            </div>
+        </section>
+        
+        <div class="tooltip">
+            <!-- Botón flotante de WhatsApp -->
+            <a href="https://wa.me/50672137516?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n." class="whatsapp_float" target="_blank">
+                <img src="./images/whatsapp.png" alt="WhatsApp"> 
+                <span class="tooltiptext">Contáctanos</span>  
+            </a>
+             
+        </div>
+        <section id="media-icons">
+            <div class="flex justify-center gap-x-10 mt-20">
+                <a href="#"><i class="bi bi-facebook text-3xl text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
+                <a href="#"> <i class="bi bi-messenger text-3xl text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
+                <a href="#"> <i class="bi bi-instagram text-3xl text-pink-500 hover:text-pink-700 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
+
+            </div>
+        </section>
+
+       
+    </main>
+
+       
+
+
+    <!-- FOOTER -->
+    <footer id="index-footer" class="mt-20 p-10 flex justify-center bg-[#252a33] text-[#748297]">
+        <p>
+            &copy; <p>Creado por: <i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email: <a href="hdelgados74@gmail.com">Henry Delgado</a></p>
+        </p>
+    </footer>
+
+
+
+ 
+    
+</body>
+</html>
