@@ -5,11 +5,11 @@ const routerProductos=express.Router();
 
 // Route para servir coleccion alambre
 routerProductos.get('/api/images/alambre/collares', controllerProductos.macrameCollares);
-routerProductos.get('/api/images/alambre/brazaletes', controllerProductos.macrameBrazaletes)
-routerProductos.get('/api/images/alambre/dijes', controllerProductos.macrameDijes)
+routerProductos.get('/api/images/alambre/brazaletes', controllerProductos.macrameBrazaletes);
+routerProductos.get('/api/images/alambre/dijes', controllerProductos.macrameDijes);
 
 
 
 
 
-export default routerProductos
+export default routerProductos;

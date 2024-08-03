@@ -11,7 +11,7 @@ const getProductos ={
     macrameCollares: async (req, res, next) => {
         try {
             const productos = await new Promise((resolve, reject) => {
-                conn.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='collares'", (err, productos) => {
+                conn.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='collares' AND estado=1", (err, productos) => {
                     if (err) {
                         reject(err);
                     } else {

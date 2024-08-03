@@ -104,11 +104,11 @@
                         <h1 class="text-green-500 mb-3">Carrtio de compras:</h1>
                         
                         
-                        <table id="lista-carrito">
+                        <table id="lista-carrito" class="border-b">
                            
-                            <thead class="border-b-2 border-[#60666c]">
+                            <thead class="border-b">
                                 
-                                <tr class="text-sm">
+                                <tr class="text-sm text-left"">
                                     
                                     <th>Imagen</th>
                                     <th>Nombre</th>
@@ -124,7 +124,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="2" class="px-4 py-2">Total</td>
-                                    <td id="total" class="px-1 py-2 border-t-2 border-[#60666c]">$ 0.00</td>
+                                    <td id="total" class="px-1 py-2 border-t">$ 0.00</td>
                                   
                                 </tr>
                             </tfoot>
@@ -132,7 +132,7 @@
                         </table>
                       
                         <a href="#" id="vaciar-carrito" class="btn-vaciar ml-1 text-sm text-red-400">Vaciar Carrito</a>
-                        <a href="#" id="enviar-carrito" class="btn-enviar ml-36 text-sm text-blue-400">Enviar pedido</a>
+                        <a href="/carrito" id="ver-carrito" class="btn-enviar ml-36 text-sm text-blue-400">Ver carrito</a>
 
                     </div>
                 </li>
