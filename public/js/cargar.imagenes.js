@@ -61,7 +61,7 @@ async function cargarImagenes(api,img_contenedor) {
             figure.appendChild(img);
             figure.appendChild(div_precio_cantidad);
             figure.appendChild(btn_agregar);
-            figure.classList.add("bg-[#252a33]","rounded","flex","flex-col","items-center","w-60","border","border-1","border-[#242430]","hover:border-[#4377bb]","transform","hover:scale-110")
+            figure.classList.add("bg-[#252a33]","rounded","flex","flex-col","items-center","w-60","border","border-1","border-[#242430]","hover:border-[#4377bb]","transform","hover:scale-y-105")
       
            
             contenedor.appendChild(figure);

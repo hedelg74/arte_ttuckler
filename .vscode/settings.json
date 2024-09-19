@@ -6,5 +6,6 @@
     },
     "editor.quickSuggestions": {
         "strings": "on"
-    }
+    },
+    "liveServer.settings.port": 5501
 }

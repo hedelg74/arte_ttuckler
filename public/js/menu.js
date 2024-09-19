@@ -1,154 +1,75 @@
- function insertarMenu () {
-    const menu_container = document.getElementById('menu-container');
+document.addEventListener('DOMContentLoaded', function() {
+  const links = document.querySelectorAll('a[href="#"]');
+  links.forEach(link => {
+      link.addEventListener('click', function(event) {
+          event.preventDefault(); // Previene el comportamiento por defecto
+      });
+  });
+});
 
-    const menuHTML =`
-        <!-- BARRA VERTICAL -->
-        <div class="menu-vertcical-container">
-            <ul class="ul-v">
-                <li class="menu-v">
-                    <i class="bi bi-list "></i>
-            
-                    <nav class="nav-v">
-                        <ul class="ul-v">
-                            <li class="li-v"><a class="a-v" href="./index.html">Inicio</a></li>
-                            <li class="li-v"><a class="a-v" href="./acercade.html">Acerca de</a></li>
-                            <li class="li-v">
-                                <a class="a-v" href="#">Productos <i class="bi bi-chevron-right"></i></a>
-                                <ul class="ul-v">
-                                    <li class="li-v">
-                                        <a class="a-v" href="#">Macramé <i class="bi bi-chevron-right"></i></a>
-                                        <ul class="ul-v">
-                                            <li class="li-v"><a class="a-v" href="#">Aretes</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Collares</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Pulseras</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="li-v">
-                                        <a class="a-v" href="#">Cuero <i class="bi bi-chevron-right"></i></a>
-                                        <ul class="ul-v">
-                                            <li class="li-v"><a class="a-v" href="#">Aretes</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Bolsos</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Carteras</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Pulseras</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="li-v">
-                                        <a class="a-v" href="#">Alambre <i class="bi bi-chevron-right"></i></a>
-                                        <ul class="ul-v">
-                                            <li class="li-v"><a class="a-v" href="#">Anillos</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Aretes</a></li>
-                                            <li class="li-v"><a class="a-v" href="#alambre-collares">Collares</a></li>
-                                            <li class="li-v"><a class="a-v" href="#alambre-brazaletes">Brazaletes</a></li>
-                                            <li class="li-v"><a class="a-v" href="#alambre-dijes">Dijes</a></li>
-                                            <li class="li-v"><a class="a-v" href="#">Pulseras</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="li-v"><a class="a-h" href="#services">Servicios</a></li>
-                            <li class="li-v"><a class="a-v" href="#contact">Contacto</a></li>
-                        </ul>
-                    </nav>
-                </li>
-            
-            </ul>
-        </div>
-        <!-- BARRA HORIZONTAL -->
-        <nav class="nav-h">
-            <ul class="ul-h">
-                <li class="li-h"><a class="a-h" href="#"><i class="bi bi-house"></i></a></li>
-                <li class="li-h"><a class="a-h" href="#">Acerca de</a></li>
-                <li class="li-h">
-                    <a class="a-h" href="#">Productos <i class="bi bi-chevron-down"></i></a>
-                    <ul class="ul-h">
-                        <li class="li-h">
-                            <a class="a-h"href="#">Macramé <i class="bi bi-chevron-right"></i></a>
-                            <ul class="ul-h">
-                                <li class="li-h"><a class="a-h" href="#">Aretes</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Collares</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Pulseras</a></li>
-                            </ul>
-                        </li>
-                        <li class="li-h">
-                            <a class="a-h" href="#">Cuero <i class="bi bi-chevron-right"></i></a>
-                            <ul class="ul-h">
-                                <li class="li-h"><a class="a-h" href="#">Aretes</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Bolsos</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Carteras</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Pulseras</a></li>
-                            </ul>
-                        </li>
-                        <li class="li-h">
-                            <a class="a-h" href="#">Alambre <i class="bi bi-chevron-right"></i></a>
-                            <ul class="ul-h">
-                                <li class="li-h"><a class="a-h" href="#">Anillos</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Aretes</a></li>
-                                <li class="li-h"><a class="a-h" href="#alambre-collares">Collares</a></li>
-                                <li class="li-h"><a class="a-h" href="#alambre-brazaletes">Brazaletes</a></li>
-                                <li class="li-h"><a class="a-h" href="#alambre-dijes">Dijes</a></li>
-                                <li class="li-h"><a class="a-h" href="#">Pulseras</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="li-h"><a class="a-h" href="#services">Servicios</a></li>
-                <li class="li-h"><a class="a-h" href="#contact">Contacto</a></li>
-            </ul>
-            
-        </nav>
-        <div class="carrito-container">
-            <ul class="submenu">
-                <li>    
-                   <i class="bi bi-cart4" id="icon-carrito"></i>
-                    <div id="carrito">
-                        <h1 class="text-green-500 mb-3">Carrtio de compras:</h1>
-                        
-                        
-                        <table id="lista-carrito" class="border-b">
-                           
-                            <thead class="border-b">
-                                
-                                <tr class="text-sm text-left"">
-                                    
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Precio</th>
-                                    
-                                </tr>
-                               
-                            </thead>
-                            
-                            <tbody>
-                                <!-- Aquí se deben agregar las filas del cuerpo de la tabla -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="2" class="px-4 py-2">Total</td>
-                                    <td id="total" class="px-1 py-2 border-t">$ 0.00</td>
-                                  
-                                </tr>
-                            </tfoot>
-                            
-                        </table>
-                      
-                        <a href="#" id="vaciar-carrito" class="btn-vaciar ml-1 text-sm text-red-400">Vaciar Carrito</a>
-                        <a href="/carrito" id="ver-carrito" class="btn-enviar ml-36 text-sm text-blue-400">Ver carrito</a>
+  // Selecciona todos los elementos .menu-item
+  const submenuUno = document.querySelector('.submenu-uno');
+  const childrenUno=submenuUno.querySelector(".children-uno");
+  const arrowUno=submenuUno.querySelector(".bi-chevron-right");
 
-                    </div>
-                </li>
-            </ul>   
-        </div>
-    `;
 
-    menu_container.innerHTML = menuHTML;
+  submenuUno.addEventListener("click", function(event) {
 
-    
-    
-};
+    let height=0;
+    submenuUno.classList.toggle("active");
+    arrowUno.classList.toggle("arrow")
 
-document.addEventListener('DOMContentLoaded',()=>{
-    insertarMenu();
+    if (submenuUno.classList.contains("active")){
+      if(childrenUno.clientHeight=="0"){
+        height=childrenUno.scrollHeight;
+
+      }
+    };
+
+    childrenUno.style.height=`${height}px`;
+  });
+
+  const submenuDos=childrenUno.querySelectorAll(".submenu-dos");
+
+  submenuDos.forEach(item=>{
+    item.addEventListener("click", function(event) {
+      event.stopPropagation();
+      item.classList.toggle("active");
+      const childrenDos=item.querySelector(".children-dos");
+      if (item.classList.contains("active")){
+          childrenDos.style.display="block";
+      }else{
+        childrenDos.style.display="none";
+      };
+      childrenUno.style.height="auto";
+  });
 });
 
 
+
+
+childrenUno.addEventListener("mouseleave",function(event){
+
+          submenuUno.classList.remove("active");
+          childrenUno.style.height="0px";
+          arrowUno.classList.remove("arrow");
+
+
+});
+
+
+
+
+
+window.addEventListener('resize', () => {
+  const isMobile = window.matchMedia("(max-width: 768px)");
+
+  if (isMobile.matches) {
+    // Código para dispositivos móviles
+    console.log("Estás en un dispositivo móvil");
+  } else {
+    // Código para pantallas más grandes
+    console.log("No estás en un dispositivo móvil");
+  }
+});
 
