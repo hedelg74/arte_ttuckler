@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <title>Arte-TTuckler</title>
     <link rel="icon" href="/public/images/favicon.png" type="image/x-icon"> <!-- Enlace al favicon -->
 
@@ -31,7 +33,7 @@
 
 </head>
 
-<body class="overflow-auto relative">
+<body class="overflow-auto relative ">
 
 
     <header class="header">
@@ -45,7 +47,7 @@
 
         <nav class="navbar">
             <ul class="menu">
-                <li class="menu-item"><a href="#"><i class="bi bi-house-up text-custom-blue"></i>Inicio</a></li>
+                <li class="menu-item"><a href="#inicio"><i class="bi bi-house-up text-custom-blue"></i>Inicio</a></li>
                 <li class="menu-item"><a href="#"><i class="bi bi-file-earmark-person text-custom-blue"></i>Acerca de</a></li>
                 <li class="menu-item submenu-uno"><a href="#"><i class="bi bi-dropbox text-custom-blue"></i>Productos<i class="bi bi-chevron-right"></i></a>
 
@@ -120,7 +122,7 @@
 
     </header>
 
-    <hr class="mt-2 border-[#383c40]">
+    <hr id="inicio" class="mt-2 border-[#383c40]">
 
     <main class="flex-grow">
         <section id="alambre-collares">
@@ -243,27 +245,26 @@
 
         </div>
     </div>
-    </div>
+    <!-- </div> -->
 
 
 
     <!-- FOOTER -->
     <footer id="index-footer" class="mt-20 p-10 flex justify-center bg-[#252a33] text-[#748297]">
-        <p>
-            &copy;
-        <p>Creado por: <i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email: <a
+        <p>Powered by: <i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email: <a
                 href="hdelgados74@gmail.com">Henry Delgado</a></p>
-        </p>
+
     </footer>
 
 
     <!-- Variable para verificar si debemos cargar catalogo prinicpal -->
     <script> window.pageName = 'index.html';</script>
-    <!-- Incluir funcionalidad carrito de compras -->
+
     <script src="./js/carrito.js"></script>
     <script src="./js/menu.js"></script>
-    <!-- Incluir Cargar Imagenes -->
-    <script src="./js/cargar.imagenes.js" defer></script>
+
+    <script src="./js/cargar.imagenes.js"></script>
+    <script src="./js/redireccion.js" defer></script>
 
 
     <!-- Llamamos a las funciones para cargar la imagenes -->

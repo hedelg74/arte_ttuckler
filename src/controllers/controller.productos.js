@@ -1,75 +1,41 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { readdir } from 'fs/promises'; // Importa readdir de fs/promises para usar async/await
-import conn from "../../dbconnection/connection.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import createConnection from "../../dbconnection/connection.js";
 
-const getProductos ={ 
-    // CATEGORIA  - ALAMBRE - COLLARES
+
+const getProductos = {
     macrameCollares: async (req, res, next) => {
         try {
-            const productos = await new Promise((resolve, reject) => {
-                conn.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='collares' AND estado=1", (err, productos) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(productos);
-                    }
-                });
-            });
-
-            //const producto_existentes = productos.filter(producto => producto.cantidad > 0);
+            const connection = await createConnection(); // Obtener la conexión
+            const [productos] = await connection.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='collares' AND estado=1");
             res.json(productos);
-
+            await connection.end();
         } catch (err) {
             next(new Error(err));
         }
     },
-    // CATEGORIA  - ALAMBRE - DIJES
     macrameDijes: async (req, res, next) => {
         try {
-            const productos = await new Promise((resolve, reject) => {
-                conn.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='dijes'", (err, productos) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(productos);
-                    }
-                });
-            });
-
-            //const producto_existentes = productos.filter(producto => producto.cantidad > 0);
+            const connection = await createConnection(); // Obtener la conexión
+            const [productos] = await connection.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='dijes' AND estado=1");
             res.json(productos);
-
+            await connection.end();
         } catch (err) {
             next(new Error(err));
         }
     },
-     // CATEGORIA  - ALAMBRE - BRAZALETES
-     macrameBrazaletes: async (req, res, next) => {
+    macrameBrazaletes: async (req, res, next) => {
         try {
-            const productos = await new Promise((resolve, reject) => {
-                conn.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='brazaletes'", (err, productos) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(productos);
-                    }
-                });
-            });
-
-            //const producto_existentes = productos.filter(producto => producto.cantidad > 0);
+            const connection = await createConnection(); // Obtener la conexión
+            const [productos] = await connection.query("SELECT * FROM productos WHERE categoria='alambre' AND sub_categoria='brazaletes' AND estado=1");
             res.json(productos);
-
+            await connection.end();
         } catch (err) {
             next(new Error(err));
         }
     }
 };
-export default getProductos;
 
+export default getProductos;
 
 
 /*(req, res) => {

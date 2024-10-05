@@ -4,98 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Envío</title>
-    
+
     <link href="./css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/intlTelInput.css">
     <link rel="stylesheet" href="./css/bootstrap-icons.css">
     <script> window.pageName = 'pedido.html';</script>
-    <script defer src="./js/carrito.js"></script>
+    <script defer src="./js/detalle.compra.js"></script>
+    <script defer src="./js/pedido.js"></script>
 
   </head>
-  <body class="bg-[#ffffff]">
+  <body class="bg-slate-100 flex max-md:flex-col max-xl:justify-around">
+
     <form>
-      <div id="carrito" class="mx-20 m-2/3 mb-10 mt-12">
-          <h1 class="text-black mb-3 text-2xl font-bold"><i class="bi bi-cart4 text-[#15cfc6]"></i> Tu carrito de compras:</h1>
-          <table id="lista-carrito" class="w-2/3 border-b">
-            <thead class="border-b">
-              <tr class="text-sm">
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-              </tr>
-            </thead>
-            <tbody>
-                <!-- Aquí se deben agregar las filas del cuerpo de la tabla -->
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="2" class="px-4 py-2">Total</td>
-                <td id="total" class="px-1 py-2 border-t">$ 0.00</td>
-              </tr>
-            </tfoot>
-          </table>
-          <a href="#" id="vaciar-carrito" class="btn-vaciar ml-1 text-sm text-red-400">Vaciar Carrito</a>
-        
-      </div>  
 
-
-      <h1 class="mx-20 mb-5 text-3xl font-bold">Informacion para envio:</h1>
-      <fieldset class="mx-20 w-2/3">
-        <legend class="text-gray-700">Nombre Completo<span class="text-[#ff0008]  text-xs"> *</span></legend>
-        <div class="flex justify-between w-full p-3">
-          <div class="flex flex-col w-2/5">
-            <input type="text" name="name" id="name" required class="border rounded">
-            <label for="name" class="text-xs text-[#728cb0]">First name</label>
-          </div>
-          
-          <div class="flex flex-col w-2/5">
-            <input type="text" name="last-name" id="last-name" required class="border rounded">
-            <label for="last-name" class="text-xs text-[#728cb0]">Last name</label>
-          </div>
-        </div>
-      </fieldset>
-      
-      <fieldset class="mx-20 w-2/3 mt-3">
-        <legend class="text-gray-700">Direccion<span class="text-[#ff0008]  text-xs"> *</span></legend>
-        
-        <div class="flex flex-col w-full p-3">
-          <input type="text" name="address" id="address" required class="border rounded">   
-          <label for="address" class="text-xs text-[#728cb0]">Address</label>
-        </div>
-        
-          <div class="flex justify-between w-full p-3">
-            <div class="flex flex-col">
-              <input type="text" name="city" id="city" required class="border rounded"> 
-              <label for="city" class="text-xs text-[#728cb0]">City</label>
+        <h1 class="mb-5 mt-5 text-2xl font-bold">Informacion para envio:</h1>
+        <fieldset class="w-full">
+          <legend class="text-gray-700">Nombre Completo<span class="text-[#ff0008]  text-[10px]"> *</span></legend>
+          <div class="flex max-md:flex-col gap-3 w-full p-1">
+            <div class="flex flex-col w-2/3">
+              <input type="text" name="name" id="name" required class="border rounded">
+              <label for="name" class="text-[10px] text-[#728cb0]">Nombre/First name</label>
             </div>
 
-            <div class="flex flex-col">
-              <input type="text" name="state" id="state" required class="border rounded">   
-              <label for="state" class="text-xs text-[#728cb0]">State</label>
-            </div>
-
-            <div class="flex flex-col">
-              <input type="text" name="country" id="country" required class="border rounded">   
-              <label for="country" class="text-xs text-[#728cb0]">Country</label>
+            <div class="flex flex-col w-2/3">
+              <input type="text" name="last-name" id="last-name" required class="border rounded">
+              <label for="last-name" class="text-[10px] text-[#728cb0]">Apellido/Last name</label>
             </div>
           </div>
-        
-      </Fieldset>
+        </fieldset>
 
-      <div class="flex justify-between mx-20 mt-3 p-3 w-2/3">
-        <div class="flex flex-col w-2/5">
-          
-          <input type="text" name="email" id="email" required class="border rounded">   
-          <label for="country" class="text-xs text-[#728cb0]">Email<span class="text-[#ff0008]"> *</span></label>
+        <fieldset class="w-full mt-3">
+          <legend class="text-gray-700">Direccion<span class="text-[#ff0008]  text-[10px]"> *</span></legend>
+
+          <div class="flex flex-col w-full p-1">
+            <input type="text" name="address" id="address" required class="border rounded">
+            <label for="address" class="text-[10px] text-[#728cb0]">Direccion/Address</label>
+          </div>
+
+          <div class="flex  flex-col w-full">
+            <div class="flex flex-col w-2/3 p-1">
+              <input type="text" name="city" id="city" required class="border rounded">
+              <label for="city" class="text-[10px] text-[#728cb0]">Ciudad/City</label>
+            </div>
+
+            <div class="flex flex-col w-2/3 p-1">
+              <input type="text" name="state" id="state" required class="border rounded">
+              <label for="state" class="text-[10px] text-[#728cb0]">Provincia/State</label>
+            </div>
+
+            <div class="flex flex-col w-2/3 p-1">
+              <input type="text" name="country" id="country" required class="border rounded">
+              <label for="country" class="text-[10px] text-[#728cb0]">Pais/Country</label>
+            </div>
+
+            <div class="flex flex-col w-2/3 p-1">
+              <input type="text" name="postal-code" id="postal-code" required class="border rounded">
+              <label for="country" class="text-[10px] text-[#728cb0]">Codigo postal/Postal code</label>
+            </div>
+          </div>
+        </Fieldset>
+
+        <div class="flex max-md:flex-col gap-3 mt-3 p-1 w-full">
+          <div class="flex flex-col w-2/3">
+            <input type="text" name="email" id="email" required class="border rounded">
+            <label for="country" class="text-[10px] text-[#728cb0]">Email<span class="text-[#ff0008]"> *</span></label>
+          </div>
+
+          <div class="flex flex-col w-2/3">
+
+              <input type="text" name="phone-number" id="phone-number" placeholder="" class="border rounded">
+
+            <label for="country" class="text-[10px] text-[#728cb0]" >Numero Telefonico/Phone number<span class="text-[#ff0008]"> *</span></label>
+          </div>
         </div>
-        
-        <div class="flex flex-col w-2/5">
-          
-          <input type="text" name="phone-number" id="phone-number" placeholder="+" class="border rounded">   
-          <label for="country" class="text-xs text-[#728cb0]" >Phone number<span class="text-[#ff0008]"> *</span></label>
-        </div>
+
+      <div class="flex justify-around">
+        <button type="submit" class="rounded bg-blue-700 text-white text-sm border hover:border-blue-700  hover:bg-white hover:text-blue-700 p-2 px-4 mt-10 mb-10 w-40">Enviar pedido</button>
+        <a href="/" id="seguir-comprando" class="rounded bg-blue-700 text-white text-center text-sm border hover:border-blue-700 hover:bg-white hover:text-blue-700 p-2 px-4 mt-10 mb-10 w-40">Seguir comprando</a>
       </div>
-      <button type="submit" class="bg-blue-500 text-white py-2 px-4 m-20 w-60 rounded hover:bg-blue-600">Enviar</button>
     </form>
 
+
+    <div id="carrito" class="max-md:mt-0 flex flex-col justify-center items-center">
+      <h1 class="text-black mb-3 text-2xl"><i class="bi bi-cart4 text-[#15cfc6]"></i> Detalle de compra:</h1>
+      <table id="lista-carrito" class="border-b">
+        <thead class="border-b">
+          <tr class="text-xs">
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th class="text-right"><p><span id="n-cart-items" data-nItems="0" class="text-xs not-italic">0 </span><i class="bi bi-cart4" id="icon-carrito"></i></p></th>
+          </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se deben agregar las filas del cuerpo de la tabla -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td  colspan="3" class="py-2 text-left">I.V.I</td>
+            <td id="impuesto-ventas" class="text-right px-1 py-2 border-t">$ 0.00</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="py-2 text-left">Total</td>
+            <td id="total" class="py-2 text-right">$ 0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+   <!--  <script src="./js/geo.info.js"></script> -->
+    <script src="/js/intlTelInput.min.js"></script>
+    <script src="./js/intelInput.js"></script>
   </body>
 </html>

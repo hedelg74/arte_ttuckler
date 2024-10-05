@@ -15,6 +15,7 @@
     const cartItemsNode = document.querySelector("#n-cart-items");
 
 
+
     let elemento1 = null;
     let elemento2 = null;
     let elemento3 = null;
@@ -23,16 +24,16 @@
         elemento1 = document.getElementById("img-container-alambre-collares");
         elemento2 = document.getElementById("img-container-alambre-brazaletes");
         elemento3 = document.getElementById("img-container-alambre-dijes");
-    }
+    };
 
     function cargarEventListeners() {
         if (currentPage === 'index.html') {
             elemento1.addEventListener("click", comprarElemento);
             elemento2.addEventListener("click", comprarElemento);
             elemento3.addEventListener("click", comprarElemento);
-        }
+        };
 
-        carrito.addEventListener("click", eliminarElemento);
+        carrito.addEventListener("click",functionSelector);
         limpiar_carrito.addEventListener("click", openModal);
 
         // Evitar la propagación de clics en el fondo
@@ -40,7 +41,6 @@
             event.stopPropagation();
         });
     };
-
 
     // Recuperar items del carrito de localStorage o inicializar un arreglo vacío si no existen
     function getCartItems() {
@@ -56,9 +56,28 @@
     // Añadir un nuevo item al carrito y actualizar localStorage
     function addToCart(item) {
         const cartItems = getCartItems();
-        cartItems.push(item);
+        let index = cartItems.findIndex(elemento => elemento.id === item.id);
+
+        if (index !== -1) {
+            cartItems[index].cantidad = Number(cartItems[index].cantidad) + Number( item.cantidad) ;
+        }else cartItems.push(item);
+
         saveCartItems(cartItems);
         //renderCartItems();
+    }
+    // Modifica la cantidad un item del carrito por su id y actualizar localStorage
+    function updateCart(id,new_amount) {
+
+        let cartItems = getCartItems();
+        // Buscar el índice del elemento con id 2
+        let index = cartItems.findIndex(elemento => elemento.id === id);
+
+        if (index !== -1) {
+            cartItems[index].cantidad = new_amount;
+        }
+        console.log(cartItems);
+        saveCartItems(cartItems);
+        // renderCartItems();
     }
 
     // Eliminar un item del carrito por su id y actualizar localStorage
@@ -76,14 +95,11 @@
 
     function cargarCarritoCompras() {
         const cartItems = getCartItems();
-
         if (cartItems) {
             cartItems.forEach(item => insertarCarrito(item));
             actualizarTotal();
-
         }
-
-    }
+    };
 
     cargarEventListeners();
     cargarCarritoCompras();
@@ -117,9 +133,8 @@
 
     function insertarCarrito(elemento) {
 
-
         let totalProductosRequeridos = Number(cartItemsNode.getAttribute("data-nItems"));
-        console.log(totalProductosRequeridos);
+
         const row_producto = document.getElementById(`${elemento.id}`);
         if (row_producto) {
 
@@ -137,24 +152,34 @@
             row.classList.add("text-sm")
             row.setAttribute("id", `${elemento.id}`);
             let img_hw = "h-8 w-8";
-            if (currentPage === "carrito.html") img_hw = "h-36 w-36"
+            if (currentPage === "carrito.html") img_hw = "h-20 w-20"
             row.innerHTML = `
                 <td>
-                    <img src="${elemento.imagen}" class="${img_hw} mt-1 rounded">
+                    <img src="${elemento.imagen}" class="${img_hw} mt-1 rounded max-md:h-8 max-md:w-8">
                 </td>
 
                 <td>
                     ${elemento.titulo}
                 </td>
+
                 <td class="text-right pr-4" data-cantidad="${elemento.cantidad}">
                     ${elemento.cantidad}x
                 </td>
+
+                  ${currentPage === "carrito.html" ? `
+                    <td>
+                    <button id="decrement" data-id="${elemento.id}" class="decrement px-2 bg-gray-300 hover:bg-gray-400 rounded">-</button>
+                    &nbsp;
+                    <button id="increment" data-id="${elemento.id}" class="increment px-2 bg-gray-300 hover:bg-gray-400 rounded">+</button>
+                    </td>
+                ` : ''}
+
                 <td class="precio text-right">
                     $ ${elemento.precio}
                 </td>
 
                 <td>
-                    <a href="#" class="px-4 borrar hover:text-red-400" data-id="${elemento.id}"><i class="bi bi-trash borrar"></i></a>
+                    <a href="#" class="px-4 hover:text-red-400"><i data-id="${elemento.id}" class="bi bi-trash borrar"></i></a>
                 </td>
 
             `;
@@ -166,18 +191,48 @@
 
     };
 
+    function eliminarElemento(e){
+        const elementoId = e.target.getAttribute("data-id");
+        e.target.parentElement.parentElement.parentElement.remove();
+        actualizarTotal();
+        removeFromCart(elementoId);
 
-    function eliminarElemento(e) {
-        //e.preventDefault();
-        if (e.target.classList.contains("borrar")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-            actualizarTotal();
-            const elementoId = e.target.getAttribute("data-id");
-            removeFromCart(elementoId);
-        }
     };
 
+    function functionSelector(e) {
+        //e.preventDefault();
+        if (e.target.classList.contains("borrar")) {
+            eliminarElemento(e);
+        }else actualizarCantidad(e);
+    };
 
+    function actualizarCantidad(e) {
+        const elementoId = e.target.getAttribute("data-id");
+        const totalProductosRequeridos = Number(cartItemsNode.getAttribute("data-nItems"));
+        let cantidadProductoRequeridoActual =0;
+        const row_producto = document.getElementById(`${elementoId}`);
+        if (row_producto) {
+
+            const cantidadProductoRequeridoAnterior = Number(row_producto.children[2].getAttribute('data-cantidad'));
+
+                if (e.target.classList.contains("increment")) {
+                    cantidadProductoRequeridoActual = 1;
+
+                }else if (e.target.classList.contains("decrement")){
+                    if (cantidadProductoRequeridoAnterior > 1){
+                        cantidadProductoRequeridoActual = -1;
+                    }else return;
+                };
+
+                const totalProductoRequerido = cantidadProductoRequeridoAnterior + cantidadProductoRequeridoActual;
+                const totalGeneralRequerido = cantidadProductoRequeridoActual + totalProductosRequeridos;
+                setCartNitems(totalGeneralRequerido);
+                row_producto.children[2].setAttribute("data-cantidad", `${totalProductoRequerido}`)
+                row_producto.children[2].innerText = totalProductoRequerido.toString() + "x";
+                actualizarTotal()
+                updateCart(elementoId,totalProductoRequerido)
+            };
+    };
 
     function vaciarCarrito() {
 

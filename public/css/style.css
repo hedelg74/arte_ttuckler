@@ -154,6 +154,7 @@ header nav ul li ul.children-uno{
   position: absolute;
   top: 100%;
   transition: height 0.3s ease; /* Transición para animar el cambio de altura */
+
 }
 
 
@@ -166,9 +167,12 @@ li.submenu-uno:hover ul.children-uno{
 
 
 header nav ul.menu li ul li ul.children-dos{
-  display: none;
-  background: #333c46;
-
+ /*  display: none; */
+ height: 0;
+ overflow: hidden; /* Esto asegura que el contenido no se muestre cuando la altura es 0 */
+ display:none; /* Oculta visualmente el submenú */
+ background: #333c46;
+ transition: height 0.3s ease; /* Transición para animar el cambio de altura */
 }
 
 
@@ -182,7 +186,7 @@ li.submenu-dos ul.children-dos li:hover{
 
 
 /* Pantallas pequeñas (teléfonos en modo vertical) */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
 
   header nav ul.menu {
@@ -232,10 +236,10 @@ li.submenu-dos ul.children-dos li:hover{
   }
 
 
-  header nav ul li.submenu-uno:hover > a i.bi-chevron-right{
+ /*  header nav ul li.submenu-uno:hover > a i.bi-chevron-right{
     transform: rotate(90deg);
     transition: ease 0.5s;
-  }
+  } */
 
   header nav ul li.submenu-uno:hover{
     background-color: #19a93c;
@@ -246,11 +250,11 @@ li.submenu-dos ul.children-dos li:hover{
     position: static;
   }
 
-   li.submenu-uno ul.children-uno li:hover a i{
+/*    li.submenu-uno ul.children-uno li:hover a i{
     transform: rotate(90deg);
     transition: ease 0.5s;
 
-  }
+  } */
   /*---------------------------------*/
   .logo-container{
     margin-left: 20px ;
@@ -278,10 +282,28 @@ li.submenu-dos ul.children-dos li:hover{
 }
 
 /*Pantallas medianas (tabletas en modo vertical o teléfonos en modo horizontal) */
-/* @media (min-width: 601px) and (max-width: 768px) { */
+/*  @media (min-width: 601px) and (max-width: 768px) {
 
+  header nav ul.menu{
+    display: flex;
+    justify-content:center;
+    margin: .5rem auto;
+    z-index: 1000;
+    gap:5px ;
 
- /* Pantallas grandes (tabletas en modo horizontal o computadoras pequeñas) *
+  }
+
+  header nav ul li a {
+    width: 115px;
+    font-size:small;
+  }
+
+  .logo-container p{
+    display: none;
+  }
+
+ }
+ */ /* Pantallas grandes (tabletas en modo horizontal o computadoras pequeñas) *
 @media (min-width: 769px) and (max-width: 1024px) {
 }
 
