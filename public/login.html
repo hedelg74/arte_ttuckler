@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Iniciar session</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #0e454e;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.container {
+				background-color: #252a33;
+				padding: 20px;
+				border-radius: 10px;
+				width: 400px;
+				box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			h1 {
+				color: #fff;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.form-group {
+				margin-bottom: 15px;
+			}
+
+			label {
+				display: block;
+				color: #fff;
+				margin-bottom: 5px;
+			}
+
+			input {
+				width: 100%;
+				padding: 10px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+			input[type="email"],
+			input[type="password"] {
+				background-color: #f9f9f9;
+			}
+
+			.submit-btn {
+				width: 100%;
+				padding: 10px;
+				background-color: #1e90ff;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 16px;
+			}
+
+			.submit-btn:hover {
+				background-color: #156bbf;
+			}
+
+			p {
+				color: #fff;
+				text-align: center;
+				margin-top: 15px;
+			}
+
+			a {
+				color: #1e90ff;
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Iniciar session</h1>
+			<form id="loginForm">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						minlength="5"
+						maxlength="50"
+						pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+						title="Introduce un correo electrónico válido (ejemplo@dominio.com)"
+						placeholder="Enter your email"
+						required
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						minlength="8"
+						maxlength="32"
+						pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
+						title="La contraseña debe tener al menos 8 caracteres, incluir al menos una letra y un número."
+						placeholder="Enter your password"
+						required
+					/>
+				</div>
+
+				<button type="submit" class="submit-btn">Login</button>
+				<p>No tienes una cuenta? <a href="./signup.html">Registrate aqui</a>.</p>
+			</form>
+		</div>
+
+		<script src="./js/login.js"></script>
+	</body>
+</html>

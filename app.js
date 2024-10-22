@@ -1,89 +1,84 @@
 // server.js
-import express from 'express';
-import path from 'path'; //import { join } from 'path';
+import "dotenv/config";
+import express from "express";
+import session from "express-session";
+import path from "path";
 
-import cors from 'cors';
-import { fileURLToPath } from 'url';
-import routerCarrito from './src/routes/route.carrito.js';
-import routerEnviarPedido from './src/routes/route.enviar.pedido.js';
-import routeIndex from './src/routes/route.index.js';
-import ipRoutes from './src/routes/route.ip.js';
-import routerPedido from './src/routes/route.pedido.js';
-import routeProductos from './src/routes/route.productos.js';
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import { fileURLToPath } from "url";
 
+import routerAuth from "./src/routes/route.auth.js";
+import routerEmptyCartPage from "./src/routes/route.emptycart.page.js";
+import routerForgotPassword from "./src/routes/route.forgot.password.js";
+import routerHomePage from "./src/routes/route.home.page.js";
+import routerLogIn from "./src/routes/route.login.js";
+import routerLogOut from "./src/routes/route.logout.js";
+import routerOrderPage from "./src/routes/route.order.page.js";
+import routerProcessOrder from "./src/routes/route.process.order.js";
+import routeProducts from "./src/routes/route.products.js";
+import routerResetPassword from "./src/routes/route.reset.password.js";
+import routerSetPassword from "./src/routes/route.set.password.js";
+import routerSignUp from "./src/routes/route.signup.js";
+import routerSyncCart from "./src/routes/route.syncart.js";
+import routerLoginPage from "./src/routes/router.login.page.js";
 
 //import routerCountry from './src/routes/route.countries.js';
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-app.use(cors());
-// Configura CORS
-/* app.use(cors({
-    origin: 'https://697f-186-151-108-146.ngrok-free.app', // Cambia esto a la URL de tu frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    credentials: true // Si necesitas enviar cookies
-})); */
-app.use(express.json());
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// MiDDLEWARES---------------------------------------------------------
-/* app.use((req, res, next) => {
-    res.setHeader(
-      "Content-Security-Policy",
-      "default-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';"
-    );
-    next();
-  });
- */
-//para servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-// Servir los archivos estáticos (intl-tel-input)
-app.use(express.static(path.join(__dirname, 'node_modules/intl-tel-input/build')));
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET_KEY,
+		resave: false, // No resavea la sesión si no hay cambios
+		saveUninitialized: true,
+		cookie: { secure: false }, // Configura secure: true si estás usando HTTPS
+	}),
+);
 
+app.set("view engine", "ejs"); // Configurar EJS como motor de plantillas
+app.set("views", path.join(__dirname, "views")); // Configurar la carpeta donde estarán las vistas (por defecto es ./views)
+app.use(express.urlencoded({ extended: true })); // Middleware para manejar datos enviados por formularios
 
-//  ROUTES--------------------------------------------------------------
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // Servir los archivos estáticos (intl-tel-input)
 
-//app.use(routerCountry);
+app.use(routerSyncCart);
 
-// para servir index.html en la raíz del servidor
-app.use(routeIndex);
+app.use(routerAuth);
 
-// para servir pedido.html en la raíz del servidor
-app.use('/pedido',routerPedido);
+app.use(routerLogIn);
+app.use(routerSignUp);
+app.use(routerLogOut);
+app.use(routerForgotPassword);
+app.use(routerResetPassword);
+app.use(routerSetPassword);
 
-// para recibir el pedido
-app.use(routerEnviarPedido);
+app.use(routeProducts);
+app.use(routerProcessOrder);
 
+app.use(routerHomePage);
+app.use(routerLoginPage);
+app.use(routerEmptyCartPage);
+app.use(routerOrderPage);
 
-// para servir carrito.html en la raíz del servidor
-app.use(routerCarrito);
+/* ------------------------------------------------------
+    #MANEJO DE CENTRALIZADO  DE ERRORES
+	--------------------------------------------------------*/
+/* app.use((err, req, res, next) => {
+	res.status(500).send({ error: err.message });
+	}); */
 
-
-// Endpoint para obtener la lista de imágenes
-app.use(routeProductos)
-
-// Usar el router para las rutas de IP
-app.use('/api', ipRoutes);
-
-//ERRORES---------------------------------------------------------------
-//app.use((err,req,res,next)=>{
-//    res.send({error:err.message})
-//});
-
-// MANEJO DE ERRORES---------------------------------------------------
-app.use((err, req, res, next) => {
-    res.status(500).send({ error: err.message });
+app.use((req, res) => {
+	res.sendFile(path.join(__dirname, "./public/404.html")); //Servimmos page 404.html
 });
 
-//Servimmos page 404.html
-app.use((req,res)=>{
-    res.sendFile(path.join(__dirname,'./public/404.html'))
-})
-
-app.listen(PORT,'0.0.0.0', () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+	console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

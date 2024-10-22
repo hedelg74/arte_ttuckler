@@ -1,0 +1,67 @@
+<!-- success.ejs -->
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Éxito</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #0e454e;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.container {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				background-color: #252a33;
+				padding: 20px;
+				border-radius: 10px;
+				width: 400px;
+				box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			h1 {
+				color: #fff;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			p {
+				color: #fff;
+				text-align: center;
+				margin-top: 15px;
+			}
+
+			a {
+				color: #1e90ff;
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1><%=message.header%></h1>
+
+			<p><%= message.body %></p>
+			<br />
+			<a href="<%=message.link %>"><%=message.page%></a>
+		</div>
+	</body>
+</html>
