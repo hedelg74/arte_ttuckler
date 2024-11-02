@@ -67,8 +67,6 @@ function addToCart(item) {
 	} else cartItems.push(item);
 
 	saveCartItems(cartItems);
-
-	// renderCartItems();
 }
 
 // Modify the quantity of an item in the cart by its id and update localStorage
@@ -118,7 +116,6 @@ function buyItem(e) {
 	}
 }
 
-// 2
 function readItemData(element) {
 	const itemInfo = {
 		id: element.querySelector(".add-to-cart").getAttribute("data-id"),
@@ -168,9 +165,9 @@ function insertCart(item) {
 									currentPath === "/shopping-cart.html"
 										? `
                     <td>
-                    <button id="decrement" data-id="${item.id}" class="decrement px-2 text-[#dc3545] hover:border-[#dc3545] border-2 border-transparent rounded">&ndash;</button>
+                    <button id="decrement" data-id="${item.id}" class="decrement px-2 text-[#dc3545] hover:border-[#dc3545] border-2  rounded">&ndash;</button>
                     &nbsp;
-                    <button id="increment" data-id="${item.id}" class="increment px-2 text-[#28a745] hover:border-[#28a745] border-2 border-transparent rounded">+</button>
+                    <button id="increment" data-id="${item.id}" class="increment px-2 text-[#28a745] hover:border-[#28a745] border-2  rounded">+</button>
                     </td>
                 `
 										: ""

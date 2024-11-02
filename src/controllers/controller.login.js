@@ -33,9 +33,11 @@ const controllerLogIn = {
 					maxAge: 3600000, // Establece la duración de la cookie (1 hora en milisegundos)
 				});
 
+				req.session.userId = user[0].id;
+
 				const redirectTo = req.session.returnTo || "/";
 				delete req.session.returnTo;
-				console.log(redirectTo);
+
 				console.log("Inicio de sesión exitoso, redirigiendo...");
 				return res.status(200).json({ redirect: redirectTo, username: user[0].username });
 			} else {
@@ -44,7 +46,7 @@ const controllerLogIn = {
 			}
 		} catch (e) {
 			console.error("Error al iniciar sesión: ", e.message);
-			res.status(500).json({ message: "Error en el servidor." }); // Cambia el mensaje para no revelar detalles
+			res.status(500).json({ success: false, message: e.message }); // Cambia el mensaje para no revelar detalles
 		} finally {
 			await connection.end();
 		}

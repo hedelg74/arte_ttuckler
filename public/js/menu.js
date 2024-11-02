@@ -6,17 +6,32 @@ const submenuContent = mainMenu.querySelector(".children-one");
 const submenuToggleArrow = mainMenu.querySelector(".bi-chevron-right");
 const divUser = document.getElementById("user");
 const ulDropDown = document.getElementById("dropdown");
+const divCartContainer = document.querySelector(".cart-container");
+const ulSubMenuCart = document.querySelector(".submenu-cart");
 
-divUser.addEventListener("click", (e) => {
-	ulDropDown.classList.toggle("hidden");
+ulSubMenuCart.addEventListener("click", (e) => {
+	e.stopPropagation();
 });
+
+divCartContainer.addEventListener("click", () => {
+	ulSubMenuCart.classList.toggle("hidden");
+});
+
 ulDropDown.addEventListener("click", (e) => {
 	e.stopPropagation();
 });
 
+divUser.addEventListener("click", (e) => {
+	ulDropDown.classList.toggle("hidden");
+});
+
 document.addEventListener("click", (e) => {
-	if (!divUser.contains(event.target)) {
+	if (!divUser.contains(e.target)) {
 		ulDropDown.classList.add("hidden");
+	}
+
+	if (!divCartContainer.contains(e.target)) {
+		ulSubMenuCart.classList.add("hidden");
 	}
 });
 

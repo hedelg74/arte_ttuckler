@@ -18,9 +18,7 @@
 		<header class="header">
 			<div class="flex justify-between max-sm:flex max-sm:items-baseline">
 				<input type="checkbox" id="input-check" class="check" />
-				<label for="input-check" class="hamb"
-					><i class="bi bi-list"></i><i class="bi bi-x-lg"></i>Menu</label
-				>
+				<label for="input-check" class="hamb"><i class="bi bi-list"></i><i class="bi bi-x-lg"></i>Menu</label>
 				<div class="logo-container max-sm:flex-col">
 					<img src="./images/favicon.png" alt="logo" class="logo" />
 					<p>Arte-TTuckler</p>
@@ -32,16 +30,10 @@
 							<a href="#inicio"><i class="bi bi-house-up text-[#15cfc6]"></i>Inicio</a>
 						</li>
 						<li class="menu-item">
-							<a href="./about-me.html"
-								><i class="bi bi-file-earmark-person text-[#15cfc6]"></i>Acerca de</a
-							>
+							<a href="./about-me.html"><i class="bi bi-file-earmark-person text-[#15cfc6]"></i>Acerca de</a>
 						</li>
 						<li class="menu-item submenu-one">
-							<a href="#"
-								><i class="bi bi-dropbox text-[#15cfc6]"></i>Productos<i
-									class="bi bi-chevron-right"
-								></i
-							></a>
+							<a href="#"><i class="bi bi-dropbox text-[#15cfc6]"></i>Productos<i class="bi bi-chevron-right"></i></a>
 
 							<ul class="children-one">
 								<li class="submenu-two">
@@ -82,12 +74,9 @@
 						</li>
 					</ul>
 				</nav>
-				<div class="cart-container p-2">
-					<p>
-						<span id="n-cart-items" data-nItems="0" class="text-white text-xs not-italic">0 </span
-						><i class="bi bi-cart4 text-[#15cfc6]" id="icon-cart"></i>
-					</p>
-					<ul class="submenu-cart">
+				<div class="cart-container cursor-pointer p-2">
+					<p><span id="n-cart-items" data-nItems="0" class="text-white text-xs not-italic">0 </span><i class="bi bi-cart4 text-[#15cfc6]" id="icon-cart"></i></p>
+					<ul class="submenu-cart hidden">
 						<li>
 							<div id="cart">
 								<h1 class="text-green-500 mb-4">Carrtio de compras:</h1>
@@ -113,10 +102,7 @@
 									</tfoot>
 								</table>
 
-								<a
-									href="#"
-									id="empty-cart"
-									class="btn-vaciar rounded ml-1 text-xs text-white p-2 border border-white bg-red-400 hover:text-red-400 hover:border-red-400 hover:bg-transparent"
+								<a href="#" id="empty-cart" class="btn-vaciar rounded ml-1 text-xs text-white p-2 border border-white bg-red-400 hover:text-red-400 hover:border-red-400 hover:bg-transparent"
 									>Vaciar Carrito</a
 								>
 								<a
@@ -137,29 +123,19 @@
 				</div>
 				<!-- menu urarios -->
 				<div id="user" class="flex flex-col relative mt-2 mb-2 z-[1001] p-2 mr-2">
-					<div class="flex flex-col mr-5 items-center">
+					<div class="flex flex-col mr-5 items-center cursor-pointer">
 						<a href="#" class="user-icon max-sm:text-2xl">
 							<i class="bi bi-person-circle text-[#15cfc6]"></i>
 						</a>
 						<span id="session-status" class="text-[#daa520]"></span>
 					</div>
-					<ul
-						id="dropdown"
-						class="hidden bg-[#252a33] absolute top-[100%] right-[-5px] w-[360px] rounded"
-					>
+					<ul id="dropdown" class="hidden bg-[#252a33] absolute top-[100%] right-[-5px] w-[360px] rounded">
 						<li class="mt-4">
-							<a
-								href="/profile"
-								class="text-sm text-slate-200 hover:text-[#daa520] block p-2 m-2 rounded hover:bg-[#3b414d]"
-								><i class="bi bi-person-badge text-[#15cfc6]"></i> Perfil</a
-							>
+							<a id="profile" href="/profile" class="text-sm text-slate-200 hover:text-[#daa520] hidden p-2 m-2 rounded hover:bg-[#3b414d]"><i class="bi bi-person-badge text-[#15cfc6]"></i> Perfil</a>
 						</li>
 						<hr class="m-2 border-gray-500" />
 						<li>
-							<a
-								href="/account"
-								class="text-sm text-slate-200 hover:text-[#daa520] p-2 block m-2 rounded hover:bg-[#3b414d]"
-								hover:text-[#daa520]
+							<a href="/account" class="text-sm text-slate-200 hover:text-[#daa520] p-2 block m-2 rounded hover:bg-[#3b414d]" hover:text-[#daa520]
 								><i class="bi bi-gear text-[#15cfc6]"></i> Configurar cuenta</a
 							>
 						</li>
@@ -168,12 +144,8 @@
 							<form id="loginForm" class="flex flex-col">
 								<div class="grid grid-cols-3 mt-2">
 									<div class="flex flex-col gap-y-3 ml-2 p-2">
-										<span class="text-sm text-slate-200"
-											><i class="bi bi-envelope-at-fill text-[#15cfc6]"></i>Email:
-										</span>
-										<span class="text-sm text-slate-200"
-											><i class="bi bi-pass text-[#15cfc6]"></i> Password:
-										</span>
+										<span class="text-sm text-slate-200"><i class="bi bi-envelope-at-fill text-[#15cfc6]"></i>Email: </span>
+										<span class="text-sm text-slate-200"><i class="bi bi-pass text-[#15cfc6]"></i> Password: </span>
 									</div>
 									<div class="flex flex-col gap-y-2 mr-2 col-span-2">
 										<input
@@ -203,45 +175,24 @@
 										/>
 									</div>
 								</div>
-								<button
-									id="login"
-									type="submit"
-									class="text-sm text-slate-200 hover:text-[#daa520] hover:bg-[#3b414d] block rounded p-2 m-2"
-								>
-									Iniciar session
-								</button>
+								<button id="login" type="submit" class="text-sm text-slate-200 hover:text-[#daa520] hover:bg-[#3b414d] block rounded p-2 m-2">Iniciar session</button>
 							</form>
 						</li>
 						<hr id="line-3" class="hidden m-2 border-gray-500" />
 						<li>
-							<a
-								id="logout"
-								href="#"
-								class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]"
-								onclick="logOut()"
-							>
+							<a id="logout" href="#" class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]" onclick="logOut()">
 								<i class="bi bi-box-arrow-right text-[#15cfc6]"></i> Cerrar session</a
 							>
 						</li>
 						<hr class="m-2 border-gray-500" />
 						<li class="mb-4">
 							<div class="text-center">
-								<a
-									id="signup"
-									href="/signup.html"
-									class="text-xs text-slate-200 block p-2 m-2 rounded hover:bg-[#3b414d]"
-									>Crear un cuenta</a
-								>
+								<a id="signup" href="/signup.html" class="text-xs text-slate-200 block p-2 m-2 rounded hover:bg-[#3b414d]">Crear un cuenta</a>
 							</div>
 						</li>
 						<li class="mb-4">
 							<div class="text-center">
-								<a
-									id="forgot-pwd"
-									href="/forgot-password.html"
-									class="text-xs text-blue-500 block p-2 m-2 rounded hover:bg-[#3b414d]"
-									>Olvido su contrasena?</a
-								>
+								<a id="forgot-pwd" href="/forgot-password.html" class="text-xs text-blue-500 block p-2 m-2 rounded hover:bg-[#3b414d]">Olvido su contrasena?</a>
 							</div>
 						</li>
 					</ul>
@@ -254,9 +205,7 @@
 		<main class="flex-grow">
 			<section id="alambre-collares">
 				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]">
-					<i class="bi bi-collection"></i> Colleccion Alambre-Collares
-				</h1>
+				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Collares</h1>
 				<hr class="mt-2 border-[#D0AB73]" />
 				<!-- Contenedor de imagenes -->
 				<div id="img-container-alambre-collares">
@@ -266,9 +215,7 @@
 
 			<section id="alambre-brazaletes">
 				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]">
-					<i class="bi bi-collection"></i> Colleccion Alambre-Brazaletes
-				</h1>
+				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Brazaletes</h1>
 				<hr class="mt-2 border-[#383c40]" />
 				<!-- Contenedor de imagenes -->
 				<div id="img-container-alambre-brazaletes">
@@ -278,9 +225,7 @@
 
 			<section id="alambre-dijes">
 				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]">
-					<i class="bi bi-collection"></i> Colleccion Alambre-Dijes
-				</h1>
+				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Dijes</h1>
 				<hr class="mt-2 border-[#D0AB73]" />
 				<!-- Contenedor de imagenes -->
 				<div id="img-container-alambre-dijes">
@@ -290,44 +235,32 @@
 
 			<!-- INFORMACION DE SERVICIOS -->
 			<section id="services" class="services">
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]">
-					<i class="bi bi-info-circle"></i> Servicios
-				</h1>
+				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-info-circle"></i> Servicios</h1>
 				<hr class="mt-2 border-[#D0AB73]" />
 
 				<div class="card">
 					<div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
-						<h5 class="card-title">
-							<i class="bi bi-person-fill text-[#15cfc6]"></i> Asesoramiento Personalizado
-						</h5>
-						<p class="card-text">
-							Te ayudo a encontrar los productos que mejor se adapten a tus necesidades.
-						</p>
+						<h5 class="card-title"><i class="bi bi-person-fill text-[#15cfc6]"></i> Asesoramiento Personalizado</h5>
+						<p class="card-text">Te ayudo a encontrar los productos que mejor se adapten a tus necesidades.</p>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
-						<h5 class="card-title">
-							<i class="bi bi-dropbox text-[#15cfc6]"></i> Venta de Artículos
-						</h5>
+						<h5 class="card-title"><i class="bi bi-dropbox text-[#15cfc6]"></i> Venta de Artículos</h5>
 						<p class="card-text">Amplia gama de productos disponibles para ti.</p>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
 						<h5 class="card-title"><i class="bi bi-truck text-[#15cfc6]"></i> Envíos Rápidos</h5>
-						<p class="card-text">
-							Garantizamos envíos rápidos y seguros a cualquier parte del país.
-						</p>
+						<p class="card-text">Garantizamos envíos rápidos y seguros a cualquier parte del país.</p>
 					</div>
 				</div>
 			</section>
 
 			<!-- INFORMACION DE CONTACTO -->
 			<section id="contact">
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]">
-					<i class="bi bi-info-circle"></i> Contacto
-				</h1>
+				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-info-circle"></i> Contacto</h1>
 				<hr class="mt-2 border-[#D0AB73]" />
 				<div class="card-body border bottom-1 border-gray-500 text-[#ffffff] rounded p-4 m-4">
 					<p>¿Tienes alguna pregunta o necesitas más información? No dudes en contactarme.</p>
@@ -341,32 +274,16 @@
 
 			<div class="tooltip">
 				<!-- Botón flotante de WhatsApp -->
-				<a
-					href="https://wa.me/50672137516?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n."
-					class="whatsapp_float"
-					target="_blank"
-				>
+				<a href="https://wa.me/50672137516?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n." class="whatsapp_float" target="_blank">
 					<img src="./images/whatsapp.png" alt="WhatsApp" />
 					<span class="tooltiptext">Contáctanos</span>
 				</a>
 			</div>
 			<section id="media-icons">
 				<div class="flex justify-center gap-x-10 mt-20">
-					<a href="#"
-						><i
-							class="bi bi-facebook text-3xl text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-110"
-						></i
-					></a>
-					<a href="#">
-						<i
-							class="bi bi-messenger text-3xl text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-110"
-						></i
-					></a>
-					<a href="#">
-						<i
-							class="bi bi-instagram text-3xl text-pink-500 hover:text-pink-700 transition duration-300 ease-in-out transform hover:scale-110"
-						></i
-					></a>
+					<a href="#"><i class="bi bi-facebook text-3xl text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
+					<a href="#"> <i class="bi bi-messenger text-3xl text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
+					<a href="#"> <i class="bi bi-instagram text-3xl text-pink-500 hover:text-pink-700 transition duration-300 ease-in-out transform hover:scale-110"></i></a>
 				</div>
 			</section>
 		</main>
@@ -381,19 +298,14 @@
 			<div class="bg-white p-6 rounded shadow-lg flex flex-col justify-center">
 				<h2 class="text-xl mb-4">¿Estás seguro de que deseas vaciar tu cart de compras?</h2>
 				<div class="flex justify-around items-center">
-					<button onclick="confirmAction()" class="bg-green-500 text-white px-4 py-2 rounded mr-2">
-						Sí
-					</button>
+					<button onclick="confirmAction()" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Sí</button>
 					<button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">No</button>
 				</div>
 			</div>
 		</div>
 
 		<!-- FOOTER -->
-		<footer
-			id="index-footer"
-			class="mt-20 p-10 flex justify-center items-center bg-[#252a33] text-[#748297]"
-		>
+		<footer id="index-footer" class="mt-20 p-10 flex justify-center items-center bg-[#252a33] text-[#748297]">
 			<p class="text-center">
 				Powered by: <i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email:
 				<a href="hdelgados74@gmail.com">Henry Delgado</a>

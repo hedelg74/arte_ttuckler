@@ -162,9 +162,7 @@ li.submenu-two ul.children-two li:hover {
 }
 
 ul.submenu-cart {
-	display: none;
 	position: absolute;
-
 	top: 100%;
 	right: 0;
 }
@@ -183,10 +181,10 @@ ul.submenu-cart {
 	overflow-y: auto;
 }
 
-.cart-container:hover .submenu-cart {
+/* .cart-container:hover .submenu-cart {
 	display: block;
 }
-
+ */
 table {
 	width: 100%;
 }

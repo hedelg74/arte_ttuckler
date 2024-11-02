@@ -9,7 +9,7 @@ function logOut() {
 		.then((response) => {
 			if (response.ok) {
 				document.getElementById("line-2").classList.toggle("hidden");
-				document.getElementById("form").classList.toggle("hidden");
+				document.getElementById("loginForm").classList.toggle("hidden");
 				document.getElementById("logout").classList.toggle("hidden");
 				document.getElementById("session-status").textContent = "Login";
 				document.getElementById("line-3").classList.toggle("hidden");

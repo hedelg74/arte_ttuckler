@@ -12,10 +12,10 @@ const controllerAuth = (req, res) => {
 		}
 
 		req.user = decoded;
+		req.session.userId = req.user.id;
+		console.log(req.session.userId);
 
-		return res
-			.status(200)
-			.json({ success: true, message: "token valido.", username: req.user.username });
+		return res.status(200).json({ success: true, message: "token valido.", username: req.user.username });
 	});
 };
 export default controllerAuth;
