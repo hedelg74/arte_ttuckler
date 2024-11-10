@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<title>Arte-TTuckler</title>
-		<link rel="icon" href="/public/images/favicon.png" type="image/x-icon" />
+		<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
 		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
 
@@ -131,11 +131,11 @@
 					</div>
 					<ul id="dropdown" class="hidden bg-[#252a33] absolute top-[100%] right-[-5px] w-[360px] rounded">
 						<li class="mt-4">
-							<a id="profile" href="/profile" class="text-sm text-slate-200 hover:text-[#daa520] hidden p-2 m-2 rounded hover:bg-[#3b414d]"><i class="bi bi-person-badge text-[#15cfc6]"></i> Perfil</a>
+							<a id="profile" href="/profile" class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]"><i class="bi bi-person-badge text-[#15cfc6]"></i> Perfil</a>
 						</li>
-						<hr class="m-2 border-gray-500" />
+						<hr id="line-1" class="hidden m-2 border-gray-500" />
 						<li>
-							<a href="/account" class="text-sm text-slate-200 hover:text-[#daa520] p-2 block m-2 rounded hover:bg-[#3b414d]" hover:text-[#daa520]
+							<a id="account" href="/account" class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]" hover:text-[#daa520]
 								><i class="bi bi-gear text-[#15cfc6]"></i> Configurar cuenta</a
 							>
 						</li>
@@ -144,7 +144,7 @@
 							<form id="loginForm" class="flex flex-col">
 								<div class="grid grid-cols-3 mt-2">
 									<div class="flex flex-col gap-y-3 ml-2 p-2">
-										<span class="text-sm text-slate-200"><i class="bi bi-envelope-at-fill text-[#15cfc6]"></i>Email: </span>
+										<span class="text-sm text-slate-200"><i class="bi bi-envelope-at-fill text-[#15cfc6]"></i> Email: </span>
 										<span class="text-sm text-slate-200"><i class="bi bi-pass text-[#15cfc6]"></i> Password: </span>
 									</div>
 									<div class="flex flex-col gap-y-2 mr-2 col-span-2">
@@ -154,8 +154,7 @@
 											name="email"
 											minlength="5"
 											maxlength="50"
-											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-											title="Introduce un correo electrónico válido (ejemplo@dominio.com)"
+											title="Introduce tu correo electrónico."
 											placeholder="Enter your email"
 											required
 											class="border rounded bg-slate-200"
@@ -167,20 +166,20 @@
 											id="password"
 											minlength="8"
 											maxlength="32"
-											pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
-											title="La contraseña debe tener al menos 8 caracteres, incluir al menos una letra y un número."
+											title="Introce tu contrasena."
 											placeholder="Enter your password"
 											required
 											class="border rounded bg-slate-200"
 										/>
 									</div>
 								</div>
+								<span id="login-error-message" class="text-red-700 text-center hidden"></span>
 								<button id="login" type="submit" class="text-sm text-slate-200 hover:text-[#daa520] hover:bg-[#3b414d] block rounded p-2 m-2">Iniciar session</button>
 							</form>
 						</li>
 						<hr id="line-3" class="hidden m-2 border-gray-500" />
 						<li>
-							<a id="logout" href="#" class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]" onclick="logOut()">
+							<a id="logout" href="#" class="hidden text-sm text-slate-200 hover:text-[#daa520] p-2 m-2 rounded hover:bg-[#3b414d]">
 								<i class="bi bi-box-arrow-right text-[#15cfc6]"></i> Cerrar session</a
 							>
 						</li>
@@ -298,8 +297,8 @@
 			<div class="bg-white p-6 rounded shadow-lg flex flex-col justify-center">
 				<h2 class="text-xl mb-4">¿Estás seguro de que deseas vaciar tu cart de compras?</h2>
 				<div class="flex justify-around items-center">
-					<button onclick="confirmAction()" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Sí</button>
-					<button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">No</button>
+					<button id="confirmAction" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Sí</button>
+					<button id="closeModal" class="bg-red-500 text-white px-4 py-2 rounded">No</button>
 				</div>
 			</div>
 		</div>
@@ -317,9 +316,9 @@
 		<script src="./js/load.product.js"></script>
 		<script src="./js/verify.shoppingcart.js"></script>
 		<script type="module" src="./js/syncCartWithServer.js"></script>
-		<script src="./js/login.js"></script>
-		<script src="./js/logout.js"></script>
-		<script src="./js/authenticate.client.token.js"></script>
+		<script type="module" src="./js/login.js"></script>
+		<script type="module" src="./js/logout.js"></script>
+		<script type="module" src="./js/authenticate.client.token.js"></script>
 
 		<!-- Llamamos a las funciones para cargar la imagenes -->
 		<script>

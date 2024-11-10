@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	// Inicializar intl-tel-input
-	const iti = window.intlTelInput(input, {
+	window.itiInstance = window.intlTelInput(input, {
 		initialCountry: "auto",
 		separateDialCode: true,
 		strictMode: true,
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		utilsScript: "/js/utils.js",
 	});
 
-	//iti.i18n='Hindi';
+	/*//iti.i18n='Hindi';
 
 	// Escuchar el evento 'change' en el menú de selección de países
 	// eslint-disable-next-line no-unused-vars
@@ -46,5 +46,5 @@ document.addEventListener("DOMContentLoaded", () => {
 		//document.querySelector('#state').value = data.region;
 		document.querySelector("#country").value = data.name || "";
 		//document.querySelector('#postal-code').value = data.postal;
-	}
+	}*/
 });

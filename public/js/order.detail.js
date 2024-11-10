@@ -1,3 +1,4 @@
+
 // Access the custom attribute
 const currentPage = window.location.pathname;
 // DOM Elements
@@ -73,9 +74,7 @@ const updateTotal = () => {
 	const products = cartList.querySelectorAll("tr");
 
 	products.forEach((product) => {
-		const quantity = parseFloat(
-			product.querySelector("td[data-quantity]").getAttribute("data-quantity"),
-		);
+		const quantity = parseFloat(product.querySelector("td[data-quantity]").getAttribute("data-quantity"));
 		const price = parseFloat(product.querySelector(".price").innerText.replace("$", ""));
 
 		total += quantity * price;

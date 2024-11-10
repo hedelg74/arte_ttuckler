@@ -8,9 +8,17 @@ export function syncCartWithServer() {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ cartItems }),
-	}).catch((error) => {
-		console.error("Error al sincronizar el carrito:", error);
-	});
+	})
+		.then((response) => {
+			response.json().then((data) => {
+				if (!response.ok) {
+					throw new Error(data.message + response.statusText);
+				}
+			});
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 }
 
 // Llama a la función cada vez que la página se cargue

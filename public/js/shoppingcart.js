@@ -17,14 +17,14 @@ let divItem1 = null;
 let divItem2 = null;
 let divItem3 = null;
 
-if (currentPath === "/") {
+if (currentPath === "/" || currentPath === "/index.html") {
 	divItem1 = document.getElementById("img-container-alambre-collares");
 	divItem2 = document.getElementById("img-container-alambre-brazaletes");
 	divItem3 = document.getElementById("img-container-alambre-dijes");
 }
 
 function loadEventListeners() {
-	if (currentPath === "/") {
+	if (currentPath === "/" || currentPath === "/index.html") {
 		divItem1.addEventListener("click", buyItem);
 		divItem2.addEventListener("click", buyItem);
 		divItem3.addEventListener("click", buyItem);
@@ -110,6 +110,7 @@ loadShoppingCart();
 // 1. First function called by the Add to Cart button
 function buyItem(e) {
 	e.preventDefault();
+
 	if (e.target.classList.contains("add-to-cart")) {
 		const element = e.target.parentElement;
 		readItemData(element);
@@ -165,9 +166,9 @@ function insertCart(item) {
 									currentPath === "/shopping-cart.html"
 										? `
                     <td>
-                    <button id="decrement" data-id="${item.id}" class="decrement px-2 text-[#dc3545] hover:border-[#dc3545] border-2  rounded">&ndash;</button>
+                    <button id="decrement" data-id="${item.id}" class="decrement px-2 text-[#dc3545] hover:border-[#dc3545] border-2  border-[#728cb0] rounded">&ndash;</button>
                     &nbsp;
-                    <button id="increment" data-id="${item.id}" class="increment px-2 text-[#28a745] hover:border-[#28a745] border-2  rounded">+</button>
+                    <button id="increment" data-id="${item.id}" class="increment px-2 text-[#28a745] hover:border-[#28a745] border-2 border-[#728cb0] rounded">+</button>
                     </td>
                 `
 										: ""
@@ -246,9 +247,7 @@ function updateTotal() {
 
 	for (const product of products) {
 		// Access the elements inside the <tr> correctly
-		const quantity = parseFloat(
-			product.querySelector("td[data-quantity]").getAttribute("data-quantity"),
-		);
+		const quantity = parseFloat(product.querySelector("td[data-quantity]").getAttribute("data-quantity"));
 		const price = parseFloat(product.querySelector(".precio").innerText.replace("$", ""));
 
 		// Add to the total
@@ -269,12 +268,14 @@ function openModal() {
 	myModal.classList.remove("hidden");
 }
 
+document.getElementById("confirmAction").addEventListener("click", confirmAction);
+document.getElementById("closeModal").addEventListener("click", closeModal);
+
 function closeModal() {
 	modalBackground.classList.add("hidden");
 	myModal.classList.add("hidden");
 }
 
-// eslint-disable-next-line no-unused-vars
 function confirmAction() {
 	emptyCart();
 	closeModal();

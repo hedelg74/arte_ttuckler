@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Perfil de usuario</title>
-		<link rel="icon" href="/public/images/favicon.png" type="image/x-icon" />
+		<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 		<link href="./css/output.css" rel="stylesheet" />
 		<link rel="stylesheet" href="/css/intlTelInput.css" />
 		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
@@ -34,10 +34,12 @@
 						</div>
 						<!-- Campo de teléfono con intlTelInput -->
 						<div class="w-full md:w-1/2">
-							<input type="text" id="phone-number" name="phone-number" class="w-full rounded p-1" placeholder="Número Telefónico" />
+							<input type="text" id="phone-number" name="phone-number" class="w-full rounded p-1" placeholder="Número Telefónico" required />
 						</div>
 						<div class="flex justify-end">
-							<button type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px]">Guardar Cambios</button>
+							<button type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px] hover:text-[#1e90ff] hover:bg-white hover:border-[#1e90ff]">
+								Guardar Cambios
+							</button>
 						</div>
 					</fieldset>
 				</form>
@@ -75,7 +77,9 @@
 						/>
 					</div>
 					<div class="flex justify-end">
-						<button type="submit" class="border bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px]">Cambiar Contraseña</button>
+						<button type="submit" class="border bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px] hover:text-[#1e90ff] hover:bg-white hover:border-[#1e90ff]">
+							Cambiar Contraseña
+						</button>
 					</div>
 				</fieldset>
 			</form>
@@ -97,11 +101,10 @@
 								<option value="" disabled selected class="text-gray-400">-- Selecciona una opcion --</option>
 								<!-- addresses here -->
 							</select>
-							<span id="error-message" style="color: red; display: none">Este tipo de dirección ya existe. Ingresa un nombre único.</span>
 						</div>
 
 						<input type="text" id="address_line1" name="addressLine1" required class="w-full rounded p-1" placeholder="Dirección" />
-						<input type="text" id="address_line2" name="addressLine2" required class="w-full rounded p-1" placeholder="" />
+						<input type="text" id="address_line2" name="addressLine2" class="w-full rounded p-1" placeholder="" />
 
 						<div class="flex flex-col md:flex-row gap-4">
 							<input type="text" id="city" name="city" class="w-full md:w-1/2 rounded p-1" placeholder="Ciudad" />
@@ -114,8 +117,15 @@
 						</div>
 					</div>
 					<div class="flex justify-end">
-						<button id="add" type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px]">Agregar</button>
-						<button id="update" type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px]">Actualizar</button>
+						<button id="add" type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px] hover:text-[#1e90ff] hover:bg-white hover:border-[#1e90ff]">
+							Agregar
+						</button>
+						<button id="update" type="submit" class="border w-[164px] bg-[#1e90ff] m-2 text-white p-2 cursor-pointer rounded font-[16px] hover:text-[#1e90ff] hover:bg-white hover:border-[#1e90ff]">
+							Actualizar
+						</button>
+					</div>
+					<div class="flex justify-center items-center">
+						<a href="/" class="text-[#15cfc6] text-2xl"><i class="bi bi-house-up"></i> Inicio</a>
 					</div>
 				</fieldset>
 			</form>

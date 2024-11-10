@@ -13,10 +13,30 @@ function handleFormSubmit(event) {
 		},
 		body: JSON.stringify(formObject),
 	})
-		.then((response) => response.json())
+		.then((response) => {
+			return response.json().then((data) => {
+				if (!response.ok) {
+					const logErrMsg = document.getElementById("login-error-message");
+					logErrMsg.textContent = data.message;
+					logErrMsg.classList.remove("hidden");
+					setTimeout(() => {
+						logErrMsg.classList.toggle("hidden");
+					}, 3000);
+					throw new Error(data.message + response.statusText); // Para otros errores
+				}
+				return data;
+			});
+		})
 		.then((data) => {
-			if (data.redirect) {
+			if (data && data.redirect) {
 				if (window.location.pathname === "/") {
+					document.getElementById("profile").classList.toggle("hidden");
+					document.getElementById("profile").classList.toggle("block");
+
+					document.getElementById("line-1").classList.toggle("hidden");
+					document.getElementById("account").classList.toggle("hidden");
+					document.getElementById("account").classList.toggle("block");
+
 					document.getElementById("line-2").classList.toggle("hidden");
 					document.getElementById("loginForm").classList.toggle("hidden");
 
@@ -25,11 +45,9 @@ function handleFormSubmit(event) {
 
 					document.getElementById("session-status").textContent = data.username;
 					document.getElementById("line-3").classList.toggle("hidden");
+
 					document.getElementById("signup").classList.toggle("hidden");
 					document.getElementById("forgot-pwd").classList.toggle("hidden");
-
-					document.getElementById("profile").classList.toggle("hidden");
-					document.getElementById("profile").classList.toggle("block");
 
 					document.querySelector("loginForm").reset(); // Limpiar el formulario
 				} else {
@@ -37,5 +55,5 @@ function handleFormSubmit(event) {
 				}
 			}
 		})
-		.catch((error) => console.error("Error:", error));
+		.catch((error) => console.error(error));
 }

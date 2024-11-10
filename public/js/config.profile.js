@@ -1,25 +1,20 @@
 import { showDialog } from "./showdialog.message.js";
 
 /*---------------------------------------------------------------------
-	#USERS LOAD-PUT
+	#USERS LOAD-RU
 -----------------------------------------------------------------------*/
 
 async function loadUser() {
 	try {
 		const response = await fetch("/users/personal-data");
-
 		if (!response.ok) {
-			throw new Error("Error al cargar datos de usuario: " + response.statusText);
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
 		}
 		const data = await response.json();
-
-		if (data) {
-			fillUserForm(data);
-		} else {
-			console.error("Ha ocurrido un error al cargar datos de usuario: ");
-		}
+		if (data) fillUserForm(data);
 	} catch (error) {
-		console.error("Ha ocurrido un error: ", error);
+		console.error(error);
 	}
 }
 
@@ -27,30 +22,37 @@ function fillUserForm(userData) {
 	const { name, last_name, phone } = userData;
 	document.getElementById("name").value = name;
 	document.getElementById("last-name").value = last_name;
-	document.getElementById("phone-number").value = phone;
+	window.itiInstance.setNumber(phone);
+	//document.getElementById("phone-number").value = phone;
 }
 
 document.getElementById("form-profile").addEventListener("submit", async (event) => {
 	event.preventDefault();
 
 	const formData = new FormData(event.target);
-	try {
-		const data = await fetchData("/users/profile", {
-			method: "PUT",
-			body: JSON.stringify(Object.fromEntries(formData)),
-			headers: { "Content-Type": "application/json" },
-		});
+	const formObject = Object.fromEntries(formData);
+	formObject["phone-number"] = window.itiInstance.getNumber();
 
-		if (data) {
-			showDialog(data.success, data.message);
+	try {
+		const response = await fetch("/users/profile", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(formObject),
+		});
+		if (!response.ok) {
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
 		}
+		const data = await response.json();
+		if (data) showDialog(data.success, data.message);
 	} catch (error) {
-		console.error("Ha ocurrido un error:", error);
+		console.error(error);
+		showDialog(false, error.message);
 	}
 });
 
 /*-----------------------------------------------------------------------
-	#USER CHANGE-PASSWORD
+	#USER CHANGE-PASSWORD-U
 -------------------------------------------------------------------------*/
 
 document.getElementById("form-password").addEventListener("submit", async (event) => {
@@ -65,21 +67,25 @@ document.getElementById("form-password").addEventListener("submit", async (event
 
 	const formData = new FormData(event.target);
 	try {
-		const data = await fetchData(`/user/password`, {
+		const response = await fetch(`/user/password`, {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(Object.fromEntries(formData)),
 		});
-		if (data) {
-			showDialog(data.success, data.message);
+		if (!response.ok) {
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
 		}
+		const data = await response.json();
+		if (data) showDialog(data.success, data.message);
 	} catch (error) {
-		console.error("Ha ocurrido un error:", error);
+		console.error(error);
+		showDialog(false, error.message);
 	}
 });
 
 /*-------------------------------------------------------------------------------
-	#ADDRESSES LOAD-CRUD
+	#ADDRESSES LOAD-CRU
 -------------------------------------------------------------------------------*/
 
 let addressArray = [];
@@ -88,8 +94,12 @@ let initialDataLoad = false;
 
 async function loadAddress() {
 	try {
-		const data = await fetchData("/user/load-address");
-
+		const response = await fetch("/user/load-address");
+		if (!response.ok) {
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
+		}
+		const data = await response.json();
 		if (data) {
 			addressArray = data.map((obj) => ({
 				obj,
@@ -97,11 +107,9 @@ async function loadAddress() {
 			addAddressOption(addressArray);
 			if (!initialDataLoad) searchDefaultAddress(addressArray);
 			initialDataLoad = true;
-		} else {
-			console.error("Ha ocurrido un error al cargar las direcciones: ");
 		}
 	} catch (error) {
-		console.error("Ha ocurrido un error: ", error);
+		console.error(error);
 	}
 }
 
@@ -185,44 +193,44 @@ document.querySelector("#form-address").addEventListener("submit", async (event)
 
 async function addAddress(formObject) {
 	try {
-		const data = await fetchData("/user/add-address", {
+		const response = await fetch("/user/add-address", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(formObject),
 		});
-
+		if (!response.ok) {
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
+		}
+		const data = await response.json();
 		if (data) {
 			loadAddress();
 			showDialog(data.success, data.message);
 		}
 	} catch (error) {
-		console.error("Error: ", error);
+		console.error(error);
+		showDialog(false, error.message);
 	}
 }
 
 async function updateAddress(formObject) {
 	try {
-		const data = await fetchData("/user/update-address", {
+		const response = await fetch("/user/update-address", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(formObject),
 		});
-
+		if (!response.ok) {
+			const errData = await response.json();
+			throw new Error(errData.message + response.statusText);
+		}
+		const data = await response.json();
 		if (data) {
 			loadAddress();
 			showDialog(data.success, data.message);
 		}
 	} catch (error) {
-		console.error("Error: ", error);
+		console.error(error);
+		showDialog(false, error.message);
 	}
-}
-
-async function fetchData(url, options = {}) {
-	const response = await fetch(url, options);
-	if (!response.ok) {
-		const errorData = await response.json();
-		showDialog(errorData.success, errorData.message);
-		throw new Error("Error in request: " + response.statusText);
-	}
-	return response.json();
 }

@@ -1,7 +1,7 @@
 import express from "express";
-import contrllerSyncCart from "../controllers/controller.syncart.js";
+import controllerSyncCart from "../controllers/controller.syncart.js";
 
 const routerSyncCart = express.Router();
-routerSyncCart.post("/sync-cart", contrllerSyncCart);
+routerSyncCart.post("/sync-cart", controllerSyncCart);
 
 export default routerSyncCart;

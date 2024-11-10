@@ -1,3 +1,5 @@
+import { showDialog } from "./showdialog.message.js";
+
 document.querySelector("form").addEventListener("submit", handleFormSubmit);
 
 function handleFormSubmit(event) {
@@ -22,18 +24,18 @@ function handleFormSubmit(event) {
 		})
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error(`Error del servidor: ${response.status}`);
+					response.json().then((errData) => {
+						throw new Error(errData.message + response.statusText);
+					});
 				}
 				return response.json();
 			})
 			.then((data) => {
-				if (data.success) {
-					window.location.href = "/welcome.html";
-					console.log("La cuenta se ha creado con éxito.");
-				}
+				if (data) window.location.href = "/welcome.html";
 			})
-			.catch((e) => {
-				console.error("Ha ocurrido un error al crear la cuenta: ", e);
+			.catch((error) => {
+				console.error(error);
+				showDialog(false, error.message);
 			});
 	}
 }

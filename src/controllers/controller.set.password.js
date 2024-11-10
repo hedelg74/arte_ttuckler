@@ -24,11 +24,10 @@ const controllerSetPassword = async (req, res) => {
 		const hashedPassword = await bcrypt.hash(password, 10);
 
 		//Actualizar la contraseña en la base de datos
-		const updateQuery =
-			"UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiration = NULL WHERE reset_token = ?";
+		const updateQuery = "UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiration = NULL WHERE reset_token = ?";
 		await connection.query(updateQuery, [hashedPassword, token]);
 
-		res.render("./message.ejs", {
+		return res.render("./message.ejs", {
 			message: {
 				header: "Informacion",
 				body: "Tu contraseña ha sido restablecida con éxito.",

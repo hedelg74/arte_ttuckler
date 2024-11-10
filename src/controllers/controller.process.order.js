@@ -2,79 +2,54 @@
 import createConnection from "../../dbconnection/connection.js";
 import sendOrderConfirmationEmail from "./mailer.js";
 
-const processOrder = async (req, res) => {
+const processOrder = async (req, res, next) => {
+	const {
+		formObject: { address: addressId },
+		cartItems,
+	} = req.body;
+	const userId = req.session.userId;
+	const connection = await createConnection();
+	const created_at = new Date(Date.now());
+
+	const total = cartItems.reduce((accumulator, item) => {
+		return accumulator + item.quantity * item.price;
+	}, 0);
+
+	if (!userId) {
+		return res.status(401).send("No autorizado");
+	}
+
 	try {
-		const { formData, cartItems } = req.body;
+		const [customerInfo] = await connection.query("SELECT * FROM users WHERE id=?", [userId]);
+		const [sendingAddress] = await connection.query("SELECT * FROM address WHERE user_id=? AND id=?", [userId, Number(addressId)]);
 
-		// SQL query to insert customer information
-		const customerQuery = `
-      INSERT INTO customer (name, last_name, address, city, state, country, postal_code, email, phone)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+		// Insert order linked to the customer
+		const values = [userId, created_at, sendingAddress[0].id, total];
+		await connection.query("INSERT INTO orders (user_id, created_at, address_id, order_total) VALUES (?,?,?,?)", values);
 
-		const customerValues = [
-			formData.name,
-			formData["last-name"],
-			formData.address,
-			formData.city,
-			formData.state,
-			formData.country,
-			formData["postal-code"],
-			formData.email,
-			formData["phone-number"],
-		];
+		// Retrieve the last inserted order ID
+		const [order] = await connection.query("SELECT LAST_INSERT_ID() as order_id");
 
-		const connection = await createConnection();
+		if (order.length > 0) {
+			const orderId = order[0].order_id;
+			const orderItemsQuery = `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?,?,?,?)`;
 
-		// Insert customer
-		await connection.query(customerQuery, customerValues);
-
-		// Retrieve the last inserted customer ID
-		const [customerResult] = await connection.query("SELECT LAST_INSERT_ID() as customer_id");
-
-		if (customerResult.length > 0) {
-			const customerId = customerResult[0].customer_id;
-
-			// Insert order linked to the customer
-			await connection.query("INSERT INTO orders (customer_id) VALUES (?)", [customerId]);
-
-			// Retrieve the last inserted order ID
-			const [orderResult] = await connection.query("SELECT LAST_INSERT_ID() as order_id");
-
-			if (orderResult.length > 0) {
-				const orderId = orderResult[0].order_id;
-
-				// Insert each product in the order details
-				const orderDetailsQuery = `INSERT INTO order_detail (order_id, product_id, quantity, price) VALUES (?,?,?,?)`;
-
-				for (const item of cartItems) {
-					const orderDetailsValues = [orderId, item.id, item.quantity, item.price];
-					await connection.query(orderDetailsQuery, orderDetailsValues);
-				}
-
-				// Close the database connection
-				await connection.end();
-
-				// Send the order confirmation email
-				await sendOrderConfirmationEmail(formData, cartItems, orderId);
-
-				// Send a successful response to the frontend
-				res.status(200).json({
-					success: true,
-					message: "Order processed successfully",
-					data: req.body,
-				});
-			} else {
-				console.log("Order not found");
-				res.status(404).json({ success: false, message: "Order not found" });
+			for (const item of cartItems) {
+				const orderItemsValues = [orderId, item.id, item.quantity, item.price];
+				await connection.query(orderItemsQuery, orderItemsValues);
 			}
+
+			// Send the order confirmation email
+			await sendOrderConfirmationEmail(customerInfo, sendingAddress, cartItems, orderId);
+
+			res.status(200).json({ success: true, message: "Tu pedido se ha procesado con exito." });
 		} else {
-			console.log("Customer not found");
-			res.status(404).json({ success: false, message: "Customer not found" });
+			res.status(404).json({ success: false, message: "Orden no encontrada" });
 		}
 	} catch (error) {
-		console.error("Error processing order:", error);
-		res.status(500).json({ success: false, message: error.message });
+		next(error);
+	} finally {
+		await connection.end();
 	}
 };
 

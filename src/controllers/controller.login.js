@@ -8,23 +8,19 @@ import createConnection from "../../dbconnection/connection.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const controllerLogIn = {
-	logIn: async (req, res) => {
+const controllerLogin = {
+	login: async (req, res, next) => {
+		const { email, password } = req.body;
 		const connection = await createConnection();
+		const query = "SELECT * FROM users WHERE email = ?";
 		try {
-			const { email, password } = req.body;
-			const query = "SELECT * FROM users WHERE email = ?";
 			const [user] = await connection.query(query, [email]);
-
-			// Verificar que el usuario fue encontrado
 			if (user.length === 0) {
 				return res.status(401).json({ message: "Email o contrasena no validos." });
 			}
-
 			// Comparar la contraseña ingresada con el hash almacenado
 			if (await bcrypt.compare(password, user[0].password_hash)) {
-				// Contraseña correcta, puedes generar un token de sesión
-				const token = generateToken(user[0].id, user[0].username); // Generar un token para la sesión
+				const token = generateToken(user[0].id, user[0].username); // Generar un token, payload con user id y name
 
 				res.cookie("token", token, {
 					httpOnly: true, // No accesible desde JavaScript del lado del cliente
@@ -34,19 +30,15 @@ const controllerLogIn = {
 				});
 
 				req.session.userId = user[0].id;
-
 				const redirectTo = req.session.returnTo || "/";
 				delete req.session.returnTo;
 
-				console.log("Inicio de sesión exitoso, redirigiendo...");
 				return res.status(200).json({ redirect: redirectTo, username: user[0].username });
 			} else {
-				console.error("Creenciales no validas");
-				return res.status(401).json({ message: "Email o contrasena no validos." });
+				return res.status(401).json({ success: false, message: "Email o contrasena no validos." });
 			}
-		} catch (e) {
-			console.error("Error al iniciar sesión: ", e.message);
-			res.status(500).json({ success: false, message: e.message }); // Cambia el mensaje para no revelar detalles
+		} catch (error) {
+			next(error);
 		} finally {
 			await connection.end();
 		}
@@ -63,4 +55,4 @@ function generateToken(userId, userName) {
 	return token;
 }
 
-export default controllerLogIn;
+export default controllerLogin;

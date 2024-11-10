@@ -1,12 +1,15 @@
 function authenticateClientToken() {
+	const linkProfile = document.getElementById("profile");
+	const hrLineUno = document.getElementById("line-1");
+	const linkAccount = document.getElementById("account");
 	const formLogin = document.getElementById("loginForm");
 	const linkLogOut = document.getElementById("logout");
+
 	const spanSessionStatus = document.getElementById("session-status");
 	const hrLineDos = document.getElementById("line-2");
 	const hrLineTres = document.getElementById("line-3");
 	const forgotPwd = document.getElementById("forgot-pwd");
 	const signUp = document.getElementById("signup");
-	const linkProfile = document.getElementById("profile");
 
 	fetch("/auth", {
 		method: "GET",
@@ -16,6 +19,9 @@ function authenticateClientToken() {
 		.then((data) => {
 			if (data.success) {
 				spanSessionStatus.textContent = data.username || "Logout";
+				hrLineUno.classList.toggle("hidden");
+				linkAccount.classList.toggle("hidden");
+				linkAccount.classList.toggle("block");
 				hrLineDos.classList.toggle("hidden");
 				formLogin.classList.toggle("hidden");
 				hrLineTres.classList.toggle("hidden");
@@ -33,7 +39,7 @@ function authenticateClientToken() {
 			}
 		})
 		.catch((error) => {
-			console.error("Ha ocurrdio un error : ", error);
+			console.error(error);
 		});
 }
 

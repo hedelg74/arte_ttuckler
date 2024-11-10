@@ -21,9 +21,9 @@ async function createTransporter() {
 }
 
 // Function to send confirmation email
-const sendOrderConfirmationEmail = async (customerInfo, cartItems, orderId) => {
+const sendOrderConfirmationEmail = async (customerInfo, sendingAddress, cartItems, orderId) => {
 	const transporter = await createTransporter();
-	const recipientEmail = customerInfo.email;
+	const recipientEmail = customerInfo[0].email;
 	const emailSubject = `Arte-ttuckler - Confirmación de tu pedido #${orderId}`;
 
 	const now = new Date();
@@ -42,10 +42,11 @@ const sendOrderConfirmationEmail = async (customerInfo, cartItems, orderId) => {
   Método de pago: Transferencia bancaria, Simpe, Paypal.
   <br><br>
   <strong>Dirección de envío:</strong><br>
-  ${customerInfo.name + " " + customerInfo["last-name"]}<br>
-  ${customerInfo.address}<br>
-  ${customerInfo.city}, ${customerInfo["postal-code"]}, ${customerInfo.state}, ${customerInfo.country}<br>
-  Teléfono: ${customerInfo["phone-number"]}
+  ${customerInfo[0].name + " " + customerInfo[0].last_name}<br>
+  ${sendingAddress[0].address_line1}<br>
+  ${sendingAddress[0].address_line2}<br>
+  ${sendingAddress[0].city}, ${sendingAddress[0].postal_code}, ${sendingAddress[0].state}, ${sendingAddress[0].country}<br>
+  Teléfono: ${customerInfo[0].phone}
   <br><br>
   <strong>Productos pedidos:</strong>
   <table style="width: 80%; margin: 20px 0; font-size: 12px; font-family: Arial, sans-serif; border-collapse: collapse;">

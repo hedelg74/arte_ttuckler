@@ -1,14 +1,15 @@
 // config/connection.js
+import "dotenv/config";
 import mysql2 from "mysql2/promise";
-//require('dotenv').config();
+
 const createConnection = async () => {
 	try {
 		const connection = await mysql2.createConnection({
-			host: process.env.DB_HOST || "localhost",
-			user: process.env.DB_USER || "root",
-			password: process.env.DB_PASSWORD || "Hedel1974#",
-			database: process.env.DB_NAME || "arte_tucklerdb",
-			port: process.env.DB_PORT || 3306,
+			host: process.env.DB_HOST,
+			user: process.env.DB_USER,
+			password: process.env.DB_PASSWORD,
+			database: process.env.DB_NAME,
+			port: process.env.DB_PORT,
 			//connectionLimit: process.env.DB_CONNECTION_LIMIT || 10,
 			//queueLimit: process.env.DB_QUEUE_LIMIT || 0
 		});
@@ -22,21 +23,10 @@ const createConnection = async () => {
     }); */
 		console.log("Conectado a la base de datos");
 		return connection;
-	} catch (err) {
-		console.error("Error conectando a la base de datos:", err);
-		throw err; // Propagar el error para manejarlo más adelante
+	} catch (error) {
+		console.error(error);
+		throw new Error(error);
 	}
 };
 
 export default createConnection;
-
-/* connection.connect((err) => {
-  if (err) {
-    console.error('Error conectando a la base de datos:', err.stack);
-    return;
-  }
-  console.log('Conectado a la base de datos con ID:', connection.threadId);
-});
-
-export default connection;
- */

@@ -1,3 +1,7 @@
+import { showDialog } from "./showdialog.message.js";
+
+document.getElementById("logout").addEventListener("click", logOut);
+
 function logOut() {
 	fetch("/logout", {
 		method: "POST",
@@ -7,18 +11,29 @@ function logOut() {
 		},
 	})
 		.then((response) => {
-			if (response.ok) {
+			if (!response.ok) {
+				response.json().then((data) => {
+					throw new Error(data.message + response.statusText);
+				});
+			} else {
+				document.getElementById("profile").classList.toggle("hidden");
+				document.getElementById("line-1").classList.toggle("hidden");
+				document.getElementById("account").classList.toggle("hidden");
+
 				document.getElementById("line-2").classList.toggle("hidden");
 				document.getElementById("loginForm").classList.toggle("hidden");
 				document.getElementById("logout").classList.toggle("hidden");
 				document.getElementById("session-status").textContent = "Login";
 				document.getElementById("line-3").classList.toggle("hidden");
-			} else {
-				// Maneja cualquier error
-				console.error("Logout fallido");
+
+				document.getElementById("signup").classList.toggle("hidden");
+				document.getElementById("forgot-pwd").classList.toggle("hidden");
+
+				console.log("Logout exitoso.");
 			}
 		})
 		.catch((error) => {
-			console.error("Error en la solicitud de logout:", error);
+			console.error(error);
+			showDialog(false, error.message);
 		});
 }

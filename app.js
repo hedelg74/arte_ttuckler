@@ -8,14 +8,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { fileURLToPath } from "url";
 
-import authenticateToken from "./src/middlewares/authenticate.token.js";
 import routerAddress from "./src/routes/route.address.js";
 import routerAuth from "./src/routes/route.auth.js";
 import routerConfigAccount from "./src/routes/route.config.account.js";
 import routerEmptyCartPage from "./src/routes/route.emptycart.page.js";
 import routerForgotPassword from "./src/routes/route.forgot.password.js";
 import routerHomePage from "./src/routes/route.home.page.js";
-import routerLogIn from "./src/routes/route.login.js";
+import routerLogin from "./src/routes/route.login.js";
 import routerLogOut from "./src/routes/route.logout.js";
 import routerOrderPage from "./src/routes/route.order.page.js";
 import routerProcessOrder from "./src/routes/route.process.order.js";
@@ -26,7 +25,6 @@ import routerSetPassword from "./src/routes/route.set.password.js";
 import routerSignUp from "./src/routes/route.signup.js";
 import routerSyncCart from "./src/routes/route.syncart.js";
 import routerUser from "./src/routes/route.user.js";
-import routerLoginPage from "./src/routes/router.login.page.js";
 //import routerCountry from './src/routes/route.countries.js';
 
 const app = express();
@@ -54,22 +52,9 @@ app.use(express.urlencoded({ extended: true })); // Middleware para manejar dato
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // Servir los archivos estáticos (intl-tel-input)
 
-app.use(authenticateToken);
-
-/* const paginasRestringidas = ["/order.html", "/profile.html", "/account.html", "/shopping-cart.html"];
-
-app.use((req, res, next) => {
-	console.log("hola 1");
-	if (paginasRestringidas.includes(req.originalUrl)) {
-		return res.status(403).send("Acceso denegado");
-	}
-	next();
-});
- */
-
 app.use(routerSyncCart);
 app.use(routerAuth);
-app.use(routerLogIn);
+app.use(routerLogin);
 app.use(routerSignUp);
 app.use(routerLogOut);
 app.use(routerForgotPassword);
@@ -83,21 +68,35 @@ app.use(routeProducts);
 app.use(routerProcessOrder);
 
 app.use(routerHomePage);
-app.use(routerLoginPage);
 app.use(routerEmptyCartPage);
 app.use(routerOrderPage);
 app.use(routerProfilePage);
 
-/* ------------------------------------------------------
-    #MANEJO DE CENTRALIZADO  DE ERRORES
-	--------------------------------------------------------*/
-/* app.use((err, req, res, next) => {
-	res.status(500).send({ error: err.message });
-	}); */
-
-app.use((req, res) => {
-	res.sendFile(path.join(__dirname, "./public/404.html")); //Servimmos page 404.html
+// Middleware para manejo de rutas no encontradas (404)
+app.use((req, res, next) => {
+	const error = new Error("Ruta no encontrada");
+	error.status = 404;
+	next(error); // Pasa el error al siguiente middleware
 });
+
+// Middleware centralizado para manejo de errores
+app.use((error, req, res, next) => {
+	const status = error.status || 500;
+	const message = error.message || "Algo salió mal en el servidor";
+
+	console.error(error);
+	// Si el error es 404, muestra la página personalizada 404.html
+	if (status === 404) {
+		res.status(404).sendFile(path.join(__dirname, "./public/404.html")); // Ruta hacia tu archivo 404.html
+	} else {
+		// Si no es un error 404, devuelve un mensaje en formato JSON
+		res.status(status).json({ success: false, message: message });
+	}
+});
+
+/*app.use((req, res) => {
+	res.sendFile(path.join(__dirname, "./public/404.html")); //Servimmos page 404.html
+});*/
 
 app.listen(PORT, "0.0.0.0", () => {
 	console.log(`Servidor escuchando en http://localhost:${PORT}`);

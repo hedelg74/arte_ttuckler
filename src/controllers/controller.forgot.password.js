@@ -16,32 +16,31 @@ const controllerForgotPasssword = async (req, res) => {
 			const query = "UPDATE users SET reset_token = ?, reset_token_expiration = ? WHERE email = ?";
 			await connection.query(query, [token, expirationTime, userEmail]);
 			const name = user[0].name + " " + user[0].last_name;
-			sendPasswordResetEmail(
-				name,
-				userEmail,
-				`https://9fda-190-113-102-94.ngrok-free.app/reset-password?token=${token}`,
-			);
-			res.render("./message.ejs", {
+			await sendPasswordResetEmail(name, userEmail, `https://9fda-190-113-102-94.ngrok-free.app/reset-password?token=${token}`);
+
+			return res.render("./message.ejs", {
 				message: {
 					header: "Informacion",
-					body: "Se ha enviado un correo de recuperacion",
-					footer: "",
+					body: "Se ha enviado un correo de recuperacion a: ",
+					email: userEmail,
+					link: "/",
+					page: "Inicio",
 				},
 			});
 		} else {
-			throw new Error(
-				res.render("./message.ejs", {
-					message: {
-						header: "Informacion",
-						body: "Ha ocurrido un error al enviar correo de recuperacion de contrasena.",
-						footer: "",
-					},
-				}),
-			);
+			throw new Error("Error: Al recuperar datos de usuario.");
 		}
 	} catch (e) {
 		console.log("Ha ocurrido un error: ", e);
-		res.status(500).json({ success: false, message: e.message });
+		return res.render("./message.ejs", {
+			message: {
+				header: "Informacion",
+				body: "Ha ocurrido un error al enviar correo de recuperacion de contrasena.",
+				email: "",
+				link: "/",
+				page: "Inicio",
+			},
+		});
 	} finally {
 		await connection.end();
 	}
