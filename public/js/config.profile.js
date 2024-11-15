@@ -183,10 +183,36 @@ document.querySelector("#form-address").addEventListener("submit", async (event)
 	const formObject = Object.fromEntries(formData);
 	switch (event.submitter.id) {
 		case "add":
-			await addAddress(formObject);
+			if (event.submitter.textContent === "Guardar") {
+				document.querySelector("#form-address").removeAttribute("novalidate");
+				const form = document.querySelector("#form-address");
+
+				// Si la validación pasa, continúa con el proceso
+				if (form.checkValidity()) {
+					event.submitter.textContent = "Agregar";
+					document.getElementById("update").textContent = "Actualizar";
+					await addAddress(formObject);
+				} else {
+					form.reportValidity(); // Esto dispara la validación visualmente y muestra los errores
+				}
+			} else {
+				event.submitter.textContent = "Guardar";
+				document.getElementById("update").textContent = "Deshacer";
+				document.querySelector("#form-address").setAttribute("novalidate", true);
+				document.querySelector("#form-address").reset();
+			}
 			break;
 		case "update":
-			await updateAddress(formObject);
+			if (event.submitter.textContent === "Actualizar") {
+				await updateAddress(formObject);
+			} else {
+				event.submitter.textContent = "Actualizar";
+				document.getElementById("add").textContent = "Agregar";
+				initialDataLoad = false;
+				await loadAddress();
+				initialDataLoad = true;
+				document.querySelector("#form-address").removeAttribute("novalidate");
+			}
 			break;
 	}
 });
@@ -199,8 +225,8 @@ async function addAddress(formObject) {
 			body: JSON.stringify(formObject),
 		});
 		if (!response.ok) {
-			const errData = await response.json();
-			throw new Error(errData.message + response.statusText);
+			const data = await response.json();
+			throw new Error(data.message + response.statusText);
 		}
 		const data = await response.json();
 		if (data) {
@@ -221,8 +247,8 @@ async function updateAddress(formObject) {
 			body: JSON.stringify(formObject),
 		});
 		if (!response.ok) {
-			const errData = await response.json();
-			throw new Error(errData.message + response.statusText);
+			const data = await response.json();
+			throw new Error(data.message + response.statusText);
 		}
 		const data = await response.json();
 		if (data) {

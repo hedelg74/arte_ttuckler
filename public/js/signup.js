@@ -9,7 +9,7 @@ function handleFormSubmit(event) {
 	const confirmPassword = document.getElementById("confirm-password").value;
 
 	if (password !== confirmPassword) {
-		alert("Las contraseñas no coinciden!");
+		showDialog(false, "Las contraseñas no coinciden!");
 		return false;
 	} else {
 		const formData = new FormData(event.target); // Aquí el cambio
@@ -23,12 +23,12 @@ function handleFormSubmit(event) {
 			body: JSON.stringify(formObject),
 		})
 			.then((response) => {
-				if (!response.ok) {
-					response.json().then((errData) => {
-						throw new Error(errData.message + response.statusText);
-					});
-				}
-				return response.json();
+				return response.json().then((data) => {
+					if (!response.ok) {
+						throw new Error(data.message + response.statusText);
+					}
+					return data;
+				});
 			})
 			.then((data) => {
 				if (data) window.location.href = "/welcome.html";

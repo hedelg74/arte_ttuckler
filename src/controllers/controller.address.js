@@ -66,7 +66,7 @@ const controllerAddress = {
 				if (isDefault) {
 					await connection.query("UPDATE address SET is_default=NULL WHERE user_id=?", [userId]);
 				}
-
+				console.log("actualizadno");
 				const query = "UPDATE address SET type=?, address_line1=?, address_line2=?, city=?, state=?, postal_code=?, country=?, is_default=? WHERE id=? AND user_id=?";
 				const datos = [type, addressLine1, addressLine2, city, state, postalCode, country, isDefault, Number(addressId), userId];
 

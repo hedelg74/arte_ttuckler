@@ -5,65 +5,17 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Éxito</title>
-		<style>
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
-
-			body {
-				font-family: Arial, sans-serif;
-				background-color: #0e454e;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-			}
-
-			.container {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				background-color: #252a33;
-				padding: 20px;
-				border-radius: 10px;
-				width: 400px;
-				box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-			}
-
-			h1 {
-				color: #fff;
-				text-align: center;
-				margin-bottom: 20px;
-			}
-
-			p {
-				color: #fff;
-				text-align: center;
-				margin-top: 15px;
-			}
-
-			a {
-				color: #1e90ff;
-				text-decoration: none;
-			}
-
-			a:hover {
-				text-decoration: underline;
-			}
-		</style>
+		<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
+		<link href="./css/output.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/css/intlTelInput.css" />
+		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
 	</head>
-	<body>
-		<div class="container">
-			<h1><%=message.header%></h1>
-
-			<p><%= message.body %></p>
-			<br />
-			<p><%=message.email%></p>
-			<br /><br />
-			<a href="<%=message.link %>"><%=message.page%></a>
+	<body class="flex items-center justify-center h-screen bg-teal-800">
+		<div class="flex flex-col items-center justify-center bg-gray-800 p-6 rounded-lg w-80 shadow-md">
+			<h1 class="text-white text-2xl text-center mb-6"><%= message.header %></h1>
+			<p class="text-white text-center mt-4"><%= message.body %></p>
+			<p class="text-white text-center mt-4"><%= message.email %></p>
+			<a href="<%= message.link %>" class="text-blue-400 mt-6 hover:underline"><%= message.page %></a>
 		</div>
 	</body>
 </html>

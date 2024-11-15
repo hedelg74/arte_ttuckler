@@ -1,5 +1,6 @@
 export function showDialog(success, message) {
 	const myDialog = document.createElement("dialog");
+	myDialog.classList.add("flex", "justify-center", "items-center", "gap-4", "w-[400px]", "p-6", "bg-white", "border", "rounded-lg", "shadow-lg");
 
 	const myMessage = document.createElement("p");
 	myMessage.classList.add("text-lg", "text-center");
@@ -11,18 +12,17 @@ export function showDialog(success, message) {
 	const iSuccess = document.createElement("i");
 	iSuccess.classList.add("bi", "bi-check-circle", "text-green-500", "text-4xl");
 
-	if (!success) {
-		iSuccess.classList.toggle("hidden");
+	if (success) {
+		iError.classList.add("hidden");
 	} else {
-		iError.classList.toggle("hidden");
+		iSuccess.classList.add("hidden");
 	}
 
 	myDialog.appendChild(iError);
 	myDialog.appendChild(iSuccess);
 	myDialog.appendChild(myMessage);
-	document.body.appendChild(myDialog);
 
-	myDialog.classList.add("flex", "justify-center", "items-center", "w-[500px]", "h-auto", "gap-x-5", "rounded", "p-10", "mx-auto", "w-auto");
+	document.body.appendChild(myDialog);
 
 	myDialog.showModal();
 
@@ -30,5 +30,4 @@ export function showDialog(success, message) {
 		myDialog.close();
 		document.body.removeChild(myDialog);
 	}, 3000);
-	return message;
 }

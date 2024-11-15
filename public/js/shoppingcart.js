@@ -6,7 +6,7 @@ const currentPath = window.location.pathname;
 const cart = document.getElementById("cart"); //div cart
 const cartList = document.querySelector("#cart-list tbody"); // table and body of the table
 
-const clearCartButton = document.querySelector("#empty-cart");
+const clearCartButton = document.querySelector("#openModal");
 
 const totalElement = document.getElementById("total");
 const modalBackground = document.getElementById("modalBackground");
@@ -263,13 +263,14 @@ function setCartNitems(nItems) {
 	cartItemsNode.innerText = nItems;
 }
 
+document.getElementById("openModal").addEventListener("click", openModal);
+document.getElementById("confirmAction").addEventListener("click", confirmAction);
+document.getElementById("closeModal").addEventListener("click", closeModal);
+
 function openModal() {
 	modalBackground.classList.remove("hidden");
 	myModal.classList.remove("hidden");
 }
-
-document.getElementById("confirmAction").addEventListener("click", confirmAction);
-document.getElementById("closeModal").addEventListener("click", closeModal);
 
 function closeModal() {
 	modalBackground.classList.add("hidden");

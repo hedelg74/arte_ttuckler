@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import createConnection from "../../dbconnection/connection.js";
 
-const controllerSetPassword = async (req, res) => {
+const controllerSetPassword = async (req, res, next) => {
 	const { token, password } = req.body;
 
 	const connection = await createConnection();
@@ -31,13 +31,12 @@ const controllerSetPassword = async (req, res) => {
 			message: {
 				header: "Informacion",
 				body: "Tu contraseña ha sido restablecida con éxito.",
-				link: "/login",
+				link: "/login-page",
 				page: "Iniciar session",
 			},
 		});
 	} catch (error) {
-		console.error("Ha ocurrido un error:", error);
-		res.status(500).json({ success: true, message: error.message });
+		next(error);
 	} finally {
 		await connection.end();
 	}

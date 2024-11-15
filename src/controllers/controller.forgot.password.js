@@ -16,7 +16,7 @@ const controllerForgotPasssword = async (req, res) => {
 			const query = "UPDATE users SET reset_token = ?, reset_token_expiration = ? WHERE email = ?";
 			await connection.query(query, [token, expirationTime, userEmail]);
 			const name = user[0].name + " " + user[0].last_name;
-			await sendPasswordResetEmail(name, userEmail, `https://9fda-190-113-102-94.ngrok-free.app/reset-password?token=${token}`);
+			await sendPasswordResetEmail(name, userEmail, `https://0082-190-113-102-47.ngrok-free.app/reset-password?token=${token}`);
 
 			return res.render("./message.ejs", {
 				message: {

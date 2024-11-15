@@ -13,7 +13,7 @@
 		<div id="cart" class="rounded-lg flex flex-col justify-start items-center p-6 w-4/5 max-w-4xl mt-6 bg-[#1e2a33] shadow-lg">
 			<h1 class="text-[#daa520] text-center mb-6 text-2xl font-bold w-full rounded py-3"><i class="bi bi-cart4 text-[#15cfc6]"></i> Tu carrito de compras:</h1>
 
-			<div class="w-full mb-5">
+			<div class="w-full mb-5 border border-[#728cb0] rounded p-2">
 				<table id="cart-list" class="w-full text-[#728cb0]">
 					<thead class="border-b border-[#728cb0]">
 						<tr class="text-sm">
@@ -43,11 +43,7 @@
 			</div>
 			<!-- Botones de acción -->
 			<div class="mt-5 mb-5 flex justify-between w-4/5 max-w-4xl gap-3 max-sm:flex-col items-center">
-				<a
-					href="#"
-					onclick="openModal()"
-					id="empty-cart"
-					class="rounded text-center w-52 p-2 text-sm bg-red-600 text-white font-bold border border-white hover:border-red-600 hover:bg-white hover:text-red-600"
+				<a id="openModal" href="#" class="rounded text-center w-52 p-2 text-sm bg-red-600 text-white font-bold border border-white hover:border-red-600 hover:bg-white hover:text-red-600"
 					>Vaciar Carrito</a
 				>
 				<a href="/order" id="see-order" class="rounded text-center w-52 p-2 text-sm bg-blue-700 text-white font-bold border border-white hover:border-blue-700 hover:bg-white hover:text-blue-700"
@@ -73,8 +69,8 @@
 			<div class="bg-white p-6 rounded shadow-lg flex flex-col justify-center">
 				<h2 class="text-xl mb-4">¿Estás seguro de que deseas vaciar tu carrito de compras?</h2>
 				<div class="flex justify-around items-center">
-					<button onclick="confirmAction()" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Sí</button>
-					<button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">No</button>
+					<button id="confirmAction" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Sí</button>
+					<button id="closeModal" class="bg-red-500 text-white px-4 py-2 rounded">No</button>
 				</div>
 			</div>
 		</div>
