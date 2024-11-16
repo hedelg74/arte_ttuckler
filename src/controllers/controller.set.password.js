@@ -15,7 +15,7 @@ const controllerSetPassword = async (req, res, next) => {
 					header: "Informacion",
 					body: "El enlace de recuperación es inválido o ha expirado",
 					link: "/",
-					page: "Inicio",
+					page: " <i class='bi bi-house-up'></i> Inicio",
 				},
 			});
 		}
@@ -32,7 +32,7 @@ const controllerSetPassword = async (req, res, next) => {
 				header: "Informacion",
 				body: "Tu contraseña ha sido restablecida con éxito.",
 				link: "/login-page",
-				page: "Iniciar session",
+				page: "<i class='bi bi-person text-[#15cfc6]'></i>Iniciar Sesion",
 			},
 		});
 	} catch (error) {
