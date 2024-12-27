@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Asministración</title>
+		<link rel="icon" href="./images/favicon.png" type="image/x-icon" />
+		<link rel="stylesheet" href="./css/output.css" />
+		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="/css/intlTelInput.css" />
+		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
+	</head>
+	<body class="">
+		<header><%- include('./partials/menu.admin.panel.ejs') %></header>
+		<div id="data-list" class="mt-32 mb-32 mx-2"></div>
+
+		<dialog id="edit-dialog" >
+			<div class="m-4 flex flex-col">
+
+
+			<h2>Editar producto</h2>
+			<div class="flex m-2">
+				<img class="border bg-gray-400 w-32 h-32 rounded" src="" alt="Imagen" />
+				<output id="product-id" class="font-extrabold text-5xl">001</output>
+			</div>
+			<form id="edit-form" class="flex flex-col gap-y-2">
+
+				<input type="file" id="filename" />
+				<p id="img_path"></p>
+				<label for="name">Nombre</label>
+				<input type="text" id="name" name="name" class="border" required />
+				<label for="description">Descripción</label>
+				<input id="description" name="description" class="border" required></input>
+				<label for="stock">Stock</label>
+				<output type="number" id="stock" name="stock" class="border">145</output>
+				<label for="price">Precio</label>
+				<output type="number" id="price" name="price" class="border">12.00</output>
+				<label for="category" class="text-[#728cb0]">Categoria </label>
+				<select id="category" name="category" class="w-[200px] rounded text-black">
+					<option value="" disabled selected class="text-gray-400">-- Selecciona Categoria --</option>
+					<!-- categories here -->
+				</select>
+				<label for="sub_category" class="text-[#728cb0]">Sub Categorias: </label>
+				<select id="sub_category" name="sub_category" class="w-[200px] rounded text-black">
+					<option value="" disabled selected class="text-gray-400">-- Selecciona SubCateria --</option>
+					<!-- sub categories here -->
+				</select>
+				<label for="status" class="text-[#728cb0]">Estatus: </label>
+				<select id="status" name="status" class="w-[200px] rounded text-black">
+					<option value="" disabled selected class="text-gray-400">-- Selecciona Estatus --</option>
+					<option value="1"  class="">Activo</option>
+					<option value="0"  class="">Inactivo</option>
+					<!-- estatus here -->
+				</select>
+				<label for="create_at">Fecha creacion</label>
+				<output type="text" id="create_at" name="create_at"> </output>
+				<div>
+
+					<button id="save">Guardar</button>
+					<button type="button" id="cancel" onclick="editDialog.close()">Cancelar</button>
+				</div>
+			</form>
+			</div>
+		</dialog>
+
+		<dialog id="delete-dialog">
+			<h2>Eliminar producto</h2>
+			<p>Esta seguro que desea eliminar este producto?</p>
+			<button id="delete">Eliminar</button>
+			<button id="cancel">Cancelar</button>
+		</dialog>
+
+		<script type="module">
+			import { showDialog } from "./js/showdialog.message.js";
+			const dataList = document.getElementById("data-list");
+			async function loadData() {
+				try {
+					const response = await fetch("/mant-load-product");
+					if (!response.ok) {
+						const errData = await response.text();
+						throw new Error(errData.message + response.statusText);
+					}
+					const data = await response.text();
+
+					dataList.innerHTML = data;
+					handlePanelActions();
+				} catch (error) {
+					console.error(error);
+					showDialog(false, error.message);
+				}
+			}
+
+			document.addEventListener("DOMContentLoaded", loadData);
+
+			function handlePanelActions() {
+				const lista = document.getElementById("lista");
+				const items = Array.from(lista.children);
+				let indexSeleccionado = 0;
+
+				// Establecer tabindex inicial
+				items.forEach((item, index) => {
+					item.setAttribute("tabindex", index === indexSeleccionado ? "0" : "-1");
+				});
+				items[indexSeleccionado].focus();
+				// Agregar navegación con flechas
+				document.addEventListener("keydown", (e) => {
+					if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+						e.preventDefault(); // Prevenir el desplazamiento de la página
+						const totalItems = items.length;
+
+						if (e.key === "ArrowDown") {
+							indexSeleccionado = (indexSeleccionado + 1) % totalItems; // Ir al siguiente
+						} else if (e.key === "ArrowUp") {
+							indexSeleccionado = (indexSeleccionado - 1 + totalItems) % totalItems; // Ir al anterior
+						}
+
+						updateFocus(indexSeleccionado);
+					}
+				});
+
+				// Crear un evento simulado para "ArrowUp"
+				const eventoArrowUp = new KeyboardEvent("keydown", {
+					key: "ArrowUp", // Tecla simulada
+					code: "ArrowUp",
+					bubbles: true, // Permitir que burbujee en el DOM
+					cancelable: true, // Hacerlo cancelable
+				});
+				const eventoArrowDown = new KeyboardEvent("keydown", {
+					key: "ArrowDown",
+					code: "ArrowDown",
+					bubbles: true,
+					cancelable: true,
+				});
+
+				items.forEach((item, index) => {
+					item.addEventListener("click", (e) => {
+						updateFocus(index);
+					});
+				});
+
+				function updateFocus(index) {
+					// Eliminar tabindex del elemento actual
+					items.forEach((item, i) => item.setAttribute("tabindex", i === index ? "0" : "-1"));
+
+					// Enfocar el nuevo elemento
+					lista.children[index].focus();
+					console.log(lista.children[index]);
+
+					indexSeleccionado = index;
+				}
+				lista.addEventListener("click", functionSelector);
+
+				function editItem(e) {
+					const itemId = e.target.getAttribute("data-id");
+					const editDialog = document.getElementById("edit-dialog");
+					editDialog.showModal();
+				}
+
+				function deleteItem(e) {
+					const itemId = e.target.getAttribute("data-id");
+
+					if (indexSeleccionado > 0) {
+						document.dispatchEvent(eventoArrowUp);
+					} else {
+						document.dispatchEvent(eventoArrowDown);
+					}
+					e.target.parentElement.parentElement.remove();
+				}
+
+				function functionSelector(e) {
+					if (e.target.classList.contains("delete")) {
+						deleteItem(e);
+					} else if (e.target.classList.contains("edit")) {
+						editItem(e);
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

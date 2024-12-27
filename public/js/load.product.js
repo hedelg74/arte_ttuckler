@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-async function loadProducts(apiUrl, containerId) {
+export async function loadProducts(apiUrl, containerId) {
 	try {
 		const response = await fetch(apiUrl);
 

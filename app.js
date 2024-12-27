@@ -9,6 +9,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 
 import routerAddress from "./src/routes/route.address.js";
+import routeAdminPanelPage from "./src/routes/route.admin.panel.page.js";
 import routerAuth from "./src/routes/route.auth.js";
 import routerConfigAccount from "./src/routes/route.config.account.js";
 import routerEmptyCartPage from "./src/routes/route.emptycart.page.js";
@@ -25,6 +26,9 @@ import routerSetPassword from "./src/routes/route.set.password.js";
 import routerSignUp from "./src/routes/route.signup.js";
 import routerSyncCart from "./src/routes/route.syncart.js";
 import routerUser from "./src/routes/route.user.js";
+import routerMainMenu from "./src/routes/router.mainmenu.js";
+import routerMantProducts from "./src/routes/router.mant.productos.js";
+
 //import routerCountry from './src/routes/route.countries.js';
 
 const app = express();
@@ -52,6 +56,7 @@ app.use(express.urlencoded({ extended: true })); // Middleware para manejar dato
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // Servir los archivos estáticos (intl-tel-input)
 
+app.use(routerMainMenu);
 app.use(routerSyncCart);
 app.use(routerAuth);
 app.use(routerLogin);
@@ -66,11 +71,12 @@ app.use(routerConfigAccount);
 
 app.use(routeProducts);
 app.use(routerProcessOrder);
-
+app.use(routerMantProducts);
 app.use(routerHomePage);
 app.use(routerEmptyCartPage);
 app.use(routerOrderPage);
 app.use(routerProfilePage);
+app.use(routeAdminPanelPage);
 
 // Middleware para manejo de rutas no encontradas (404)
 app.use((req, res, next) => {

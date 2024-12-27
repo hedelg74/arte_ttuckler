@@ -16,10 +16,11 @@ const controllerAuth = (req, res, next) => {
 			}
 
 			req.user = decoded;
+			console.log(req.user);
 			req.session.userId = req.user.id;
 			console.log(req.session.userId);
 
-			return res.status(200).json({ success: true, message: "(Client-auth) token válido.", username: req.user.username });
+			return res.status(200).json({ success: true, message: "(Client-auth) token válido.", username: req.user.userName, role: req.user.userRole });
 		});
 	} catch (error) {
 		next(error);

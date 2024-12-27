@@ -12,15 +12,15 @@ const controllerLogin = {
 	login: async (req, res, next) => {
 		const { email, password } = req.body;
 		const connection = await createConnection();
-		const query = "SELECT * FROM users WHERE email = ?";
+		const query = "SELECT * FROM users WHERE email = ? AND is_active = 1";
 		try {
 			const [user] = await connection.query(query, [email]);
 			if (user.length === 0) {
-				return res.status(401).json({ message: "Email o contrasena no validos." });
+				return res.status(401).json({ message: "Email o contrasena no validos o no está activado." });
 			}
 			// Comparar la contraseña ingresada con el hash almacenado
 			if (await bcrypt.compare(password, user[0].password_hash)) {
-				const token = generateToken(user[0].id, user[0].username); // Generar un token, payload con user id y name
+				const token = generateToken(user[0].id, user[0].username, user[0].role); // Generar un token, payload con user id y name
 
 				res.cookie("token", token, {
 					httpOnly: true, // No accesible desde JavaScript del lado del cliente
@@ -33,7 +33,7 @@ const controllerLogin = {
 				const redirectTo = req.session.returnTo || "/";
 				delete req.session.returnTo;
 
-				return res.status(200).json({ redirect: redirectTo, username: user[0].username });
+				return res.status(200).json({ redirect: redirectTo, username: user[0].username, role: user[0].role });
 			} else {
 				return res.status(401).json({ success: false, message: "Email o contrasena no validos." });
 			}
@@ -48,8 +48,8 @@ const controllerLogin = {
 	},
 };
 
-function generateToken(userId, userName) {
-	const token = jwt.sign({ id: userId, username: userName }, process.env.JWT_SECRET_KEY, {
+function generateToken(userId, userName, userRole) {
+	const token = jwt.sign({ id: userId, userName: userName, userRole: userRole }, process.env.JWT_SECRET_KEY, {
 		expiresIn: "1h",
 	});
 	return token;
