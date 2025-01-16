@@ -15,6 +15,7 @@ window.addEventListener("menuLoaded", () => {
 	divCartContainer.addEventListener("click", () => {
 		if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
 			ulSubMenuCart.classList.toggle("hidden");
+			
 		}
 	});
 
@@ -23,7 +24,9 @@ window.addEventListener("menuLoaded", () => {
 	});
 
 	divUser.addEventListener("click", (e) => {
-		ulDropDown.classList.toggle("hidden");
+			ulDropDown.classList.toggle("hidden");
+			
+		
 	});
 
 	document.addEventListener("click", (e) => {
@@ -142,7 +145,7 @@ window.addEventListener("menuLoaded", () => {
 			if (targetElement) {
 				const navHeight = document.querySelector("nav").offsetHeight; // Altura de la barra de navegación
 				const targetPosition = targetElement.getBoundingClientRect().top;
-				+window.pageYOffset - navHeight;
+				//window.pageYOffset - navHeight;
 
 				// Desplazamiento manual ajustado
 				window.scrollTo({

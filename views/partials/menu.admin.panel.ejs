@@ -1,24 +1,53 @@
-<div class="flex justify-between max-sm:flex max-sm:items-baseline">
-	<input type="checkbox" id="input-check" class="check" />
-	<label for="input-check" class="hamb"><i class="bi bi-list"></i><i class="bi bi-x-lg"></i>Menu</label>
-	<div class="logo-container max-sm:flex-col">
-		<img src="./images/favicon.png" alt="logo" class="logo" />
-		<p>Arte-TTuckler</p>
+<div class="flex justify-evenly max-sm:flex max-sm:items-baseline">
+	<input type="checkbox" id="input-check" class="check hidden" />
+	<label for="input-check" class="hamb hidden"><i class="bi bi-list"></i><i class="bi bi-x-lg"></i>Menu</label>
+	
+	<div class="logo-container flex w-52 ml-2 items-center space-x-2 max-sm:flex-col">
+		<img src="./images/favicon.png" alt="logo" class="logo h-16 w-16 rounded-full" />
+		<p class="font-bold">Arte-TTuckler</p>
 	</div>
 
-	<nav class="navbar">
-		<ul class="menu">
+	<nav class="navbar w-full">
+		<ul class="menu w-full flex justify-around  h-full items-center">
+			<li class="menu-item">
+				<a href="/mant-products"><i class="bi bi-dropbox text-[#15cfc6]"></i> Productos</i></a>
+			</li>
 			<li class="menu-item submenu-one">
-				<a href="/mant-products"><i class="bi bi-dropbox text-[#15cfc6]"></i> Productos<i class="bi bi-chevron-right"></i></a>
+				<a href="/mant-category"><i class="bi bi-folder text-[#15cfc6]"></i>
+					Categorias</i></a>
+			</li>
+			<li class="menu-item">
+				<a href="/mant-subcategory"><i class="bi bi-tag text-[#15cfc6]"></i> SubCategorias</i></a>
+			</li>
+			<li class="menu-item submenu relative ">
+				<a href="#"><i class="bi bi-tag text-[#15cfc6]"></i> Movimientos <i class="bi bi-chevron-right"></i></a>
+				<ul class="absolute left-0 top-0  p-2 hidden">
+					<li class="menu-item submenu-one">
+						<a href="/stock-in"> Entradas</a>
+					</li>
+					<li class="menu-item submenu-one">
+						<a href="/stock-out">Salidas</a>
+					</li>
+				</ul>
 			</li>
 
 			<li class="menu-item">
-				<a href="/mant-users"><i class="bi bi-envelope text-[#15cfc6]"></i> Usuarios</a>
+				<a href="/mant-users"><i class="bi bi-people text-[#15cfc6]"></i> Usuarios</a>
 			</li>
 			<li class="menu-item">
 				<a href="/reports"><i class="bi bi-card-list text-[#15cfc6]"></i> Reportes</a>
 			</li>
+			<li class="menu-item">
+				<a href="index.html"><i class="bi bi-box-arrow-right text-3xl text-[#15cfc6]"></i></a>
+			</li>
 		</ul>
 	</nav>
-	<div id="dinamic-fragment"></div>
+	
 </div>
+
+
+<script>
+	const subMenu = document.querySelector('.submenu');
+	const menu = document.querySelector('.submenu ul');
+	subMenu.addEventListener('click', function() { menu.classList.toggle('hidden'); });
+</script>

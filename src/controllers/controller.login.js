@@ -31,6 +31,7 @@ const controllerLogin = {
 
 				req.session.userId = user[0].id;
 				const redirectTo = req.session.returnTo || "/";
+				console.log("Redirecting to: ", redirectTo);
 				delete req.session.returnTo;
 
 				return res.status(200).json({ redirect: redirectTo, username: user[0].username, role: user[0].role });

@@ -27,7 +27,10 @@ import routerSignUp from "./src/routes/route.signup.js";
 import routerSyncCart from "./src/routes/route.syncart.js";
 import routerUser from "./src/routes/route.user.js";
 import routerMainMenu from "./src/routes/router.mainmenu.js";
-import routerMantProducts from "./src/routes/router.mant.productos.js";
+import routerMantProducts from "./src/routes/router.mant.products.js";
+import routerMantCategory from "./src/routes/router.mant.category.js";
+import routerMantSubCategory from "./src/routes/router.mant.subcategory.js";
+//import multer from 'multer';
 
 //import routerCountry from './src/routes/route.countries.js';
 
@@ -38,7 +41,14 @@ const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(cookieParser());
-app.use(express.json());
+
+import bodyParser from 'body-parser';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: true })); // Middleware para manejar datos enviados por formularios
 
 app.use(
 	session({
@@ -51,11 +61,10 @@ app.use(
 
 app.set("view engine", "ejs"); // Configurar EJS como motor de plantillas
 app.set("views", path.join(__dirname, "views")); // Configurar la carpeta donde estarán las vistas (por defecto es ./views)
-app.use(express.urlencoded({ extended: true })); // Middleware para manejar datos enviados por formularios
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // Servir los archivos estáticos (intl-tel-input)
-
+app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // , Servir los archivos estáticos (intl-tel-input)
+app.use(express.static(path.join(__dirname, "node_modules//html5-qrcode")));
 app.use(routerMainMenu);
 app.use(routerSyncCart);
 app.use(routerAuth);
@@ -72,6 +81,8 @@ app.use(routerConfigAccount);
 app.use(routeProducts);
 app.use(routerProcessOrder);
 app.use(routerMantProducts);
+app.use(routerMantCategory);
+app.use(routerMantSubCategory);
 app.use(routerHomePage);
 app.use(routerEmptyCartPage);
 app.use(routerOrderPage);

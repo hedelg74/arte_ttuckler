@@ -1,8 +1,8 @@
 import { showDialog } from "./showdialog.message.js";
 
-function loadMainMenu() {
+async function loadMainMenu() {
 	return fetch("/main-menu", { method: "GET" })
-		.then((response) => {
+		.then(async (response) => {
 			if (!response.ok) {
 				return response.json().then((data) => {
 					throw new Error(`${data.message} ${response.statusText}`);
@@ -21,4 +21,11 @@ function loadMainMenu() {
 		});
 }
 
-loadMainMenu();
+async function loadMenuAndScript() {
+  await loadMainMenu(); // Carga el menú
+  const script = document.createElement('script');
+  script.src = './js/login.js';
+  document.body.appendChild(script);
+}
+
+loadMenuAndScript();

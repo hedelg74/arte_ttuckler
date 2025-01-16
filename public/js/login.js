@@ -1,7 +1,7 @@
-window.addEventListener("menuLoaded", () => {
+
 	document.querySelector("#loginForm").addEventListener("submit", handleFormSubmit);
 
-	function handleFormSubmit(event) {
+	async function handleFormSubmit(event) {
 		event.preventDefault();
 
 		const formData = new FormData(event.target);
@@ -14,9 +14,9 @@ window.addEventListener("menuLoaded", () => {
 			},
 			body: JSON.stringify(formObject),
 		})
-			.then((response) => {
-				return response.json().then((data) => {
-					if (!response.ok) {
+			.then(async(response) => {
+				if (!response.ok) {
+					return response.json().then((data) => {
 						const logErrMsg = document.getElementById("login-error-message");
 						logErrMsg.textContent = data.message;
 						logErrMsg.classList.remove("hidden");
@@ -24,11 +24,12 @@ window.addEventListener("menuLoaded", () => {
 							logErrMsg.classList.toggle("hidden");
 						}, 3000);
 						throw new Error(data.message + response.statusText); // Para otros errores
-					}
-					return data;
-				});
+					});
+				}
+				return response.json();
 			})
 			.then((data) => {
+				
 				if (data && data.redirect) {
 					if (window.location.pathname === "/") {
 						document.getElementById("profile").classList.toggle("hidden");
@@ -62,4 +63,4 @@ window.addEventListener("menuLoaded", () => {
 			})
 			.catch((error) => console.error(error));
 	}
-});
+

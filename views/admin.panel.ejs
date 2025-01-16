@@ -3,63 +3,161 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Asministración</title>
+		<title>Administración</title>
 		<link rel="icon" href="./images/favicon.png" type="image/x-icon" />
 		<link rel="stylesheet" href="./css/output.css" />
-		<link rel="stylesheet" href="./css/style.css" />
+	
 		<link rel="stylesheet" href="/css/intlTelInput.css" />
 		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
+		<script src="/html5-qrcode.min.js"></script>
 	</head>
-	<body class="">
-		<header><%- include('./partials/menu.admin.panel.ejs') %></header>
-		<div id="data-list" class="mt-32 mb-32 mx-2"></div>
+	<body class="relative">
+		
+		
+		<header class="bg-[#252a33] text-[#daa520] fixed top-0 p-2 w-full z-50"><%- include('./partials/menu.admin.panel.ejs') %></header>
+		
 
-		<dialog id="edit-dialog" >
-			<div class="m-4 flex flex-col">
+		<div id="data-list-products" class="mt-32 mb-32 mx-2"></div>
 
 
-			<h2>Editar producto</h2>
-			<div class="flex m-2">
-				<img class="border bg-gray-400 w-32 h-32 rounded" src="" alt="Imagen" />
-				<output id="product-id" class="font-extrabold text-5xl">001</output>
-			</div>
-			<form id="edit-form" class="flex flex-col gap-y-2">
-
-				<input type="file" id="filename" />
-				<p id="img_path"></p>
-				<label for="name">Nombre</label>
-				<input type="text" id="name" name="name" class="border" required />
-				<label for="description">Descripción</label>
-				<input id="description" name="description" class="border" required></input>
-				<label for="stock">Stock</label>
-				<output type="number" id="stock" name="stock" class="border">145</output>
-				<label for="price">Precio</label>
-				<output type="number" id="price" name="price" class="border">12.00</output>
-				<label for="category" class="text-[#728cb0]">Categoria </label>
-				<select id="category" name="category" class="w-[200px] rounded text-black">
-					<option value="" disabled selected class="text-gray-400">-- Selecciona Categoria --</option>
-					<!-- categories here -->
-				</select>
-				<label for="sub_category" class="text-[#728cb0]">Sub Categorias: </label>
-				<select id="sub_category" name="sub_category" class="w-[200px] rounded text-black">
-					<option value="" disabled selected class="text-gray-400">-- Selecciona SubCateria --</option>
-					<!-- sub categories here -->
-				</select>
-				<label for="status" class="text-[#728cb0]">Estatus: </label>
-				<select id="status" name="status" class="w-[200px] rounded text-black">
-					<option value="" disabled selected class="text-gray-400">-- Selecciona Estatus --</option>
-					<option value="1"  class="">Activo</option>
-					<option value="0"  class="">Inactivo</option>
-					<!-- estatus here -->
-				</select>
-				<label for="create_at">Fecha creacion</label>
-				<output type="text" id="create_at" name="create_at"> </output>
-				<div>
-
-					<button id="save">Guardar</button>
-					<button type="button" id="cancel" onclick="editDialog.close()">Cancelar</button>
+		
+		
+				
+		<dialog id="edit-dialog" class="fixed m-auto p-5 shadow-lg z-50" >
+			
+			<div class="m-4 p-4 flex flex-col">
+				<h1 class="text-3xl font-bold">Editar producto</h2>
+				<div class="flex m-2 items-center">
+					<img id="product-img" class="border bg-gray-400 w-32 h-32 rounded" src="" alt="Imagen" />
+					<output id="product-id" class="font-extrabold text-5xl text-left pl-5"></output>
 				</div>
-			</form>
+				<form id="edit-form" class="flex flex-col gap-y-2">
+					<label for="img_path">Directorio:</label>
+					<input type="text" id="img_path" name="img_path" class="border" required />
+					<input type="file" id="filename" name="file" required />
+					
+					<label for="name" class="font-bold">Nombre</label>
+					<input type="text" id="name" name="name" class="border" required />
+					<label for="description" class="font-bold">Descripción</label>
+					<input id="description" name="description" class="border" required></input>
+					<label for="stock" class="font-bold">Stock</label>	
+					<output type="number" id="stock" name="stock" class="border">145</output>
+					<label for="price" class="font-bold">Precio</label>
+					<input type="number" id="price" name="price" class="border"></input>
+					<label for="category" class="font-bold" >Categoria </label>
+					<select id="category" name="category" class="w-[200px] rounded text-black border">
+						<option value="" disabled selected class="text-gray-400">-- Selecciona Categoria --</option>
+						<!-- categories here -->
+					</select>
+					<label for="sub_category" class="font-bold">Sub Categorias: </label>
+					<select id="sub_category" name="sub_category" class="w-[200px] rounded text-black border">
+						<option value="" disabled selected class="text-gray-400">-- Selecciona SubCategoria --</option>
+						<!-- sub categories here -->
+					</select>
+					<label for="status" class="font-bold">Estatus: </label>
+					<select id="status" name="status" class="w-[200px] rounded text-black border">
+						<option value="" disabled selected class="text-gray-400">-- Selecciona Estatus --</option>
+						<option value="1"  class="">Activo</option>
+						<option value="0"  class="">Inactivo</option>
+						<!-- estatus here -->
+					</select>
+					<label for="create_at" class="font-bold">Fecha creacion</label>
+					<output type="text" id="create_at" name="create_at" class="border"></output>
+					<div class="flex justify-between mt-3">
+						<button id="save" class="rounded text-center w-48 p-2 text-sm bg-blue-700 text-white font-bold border border-white hover:border-blue-700 hover:bg-white hover:text-blue-700">Guardar</button>
+						<button type="button" id="cancel" class="rounded text-center w-48 p-2 text-sm bg-blue-700 text-white font-bold border border-white hover:border-blue-700 hover:bg-white hover:text-blue-700">Cancelar</button>
+					</div>
+				</form>
+			</div>
+		
+		</dialog>
+		
+
+		<dialog id="add-dialog" class="fixed m-auto p-5 shadow-lg z-50" >
+			
+			<div class="m-4 p-4 flex flex-col">
+				<h1 class="text-3xl font-bold">Agregar producto</h2>
+				<div class="flex m-2 items-center">
+					<img id="product-img" class="border w-32 h-32 rounded" src="" alt="Imagen" />
+				</div>
+				<form id="add-form" class="flex flex-col gap-y-2" enctype="multipart/form-data">
+					
+					<input type="file" id="filename" name="file" accept="image/*" required/>
+					
+					<label for="name" class="font-bold">Nombre</label>
+					<input type="text" id="name" name="name" class="border" required />
+					<label for="description" class="font-bold">Descripción</label>
+					<input id="description" name="description" class="border" required></input>
+					<label for="category" class="font-bold" >Categoria </label>
+					<select id="category" name="category" class="w-[200px] rounded text-black border" required>
+						<option value="" disabled selected class="text-gray-400">-- Selecciona Categoria --</option>
+						<!-- categories here -->
+					</select>
+					<label for="sub_category" class="font-bold">Sub Categorias: </label>
+					<select id="sub_category" name="sub_category" class="w-[200px] rounded text-black border" required>
+						<option value="" disabled selected class="text-gray-400">-- Selecciona SubCategoria --</option>
+						<!-- sub categories here -->
+					</select>
+					<label for="status" class="font-bold">Estatus: </label>
+					<select id="status" name="status" class="w-[200px] rounded text-black border" required>
+						<option value="" disabled selected class="text-gray-400">-- Selecciona Estatus --</option>
+						<option value="1"  class="">Activo</option>
+						<option value="0"  class="">Inactivo</option>
+						<!-- estatus here -->
+					</select>
+					<div class="flex justify-between mt-3">
+						<button type="submit" id="save" class="rounded text-center w-48 p-2 text-sm bg-blue-700 text-white font-bold border border-white hover:border-blue-700 hover:bg-white hover:text-blue-700">Guardar</button>
+						<button type="button" id="cancel" class="rounded text-center w-48 p-2 text-sm bg-blue-700 text-white font-bold border border-white hover:border-blue-700 hover:bg-white hover:text-blue-700">Cancelar</button>
+					</div>
+				</form>
+			</div>
+		
+		</dialog>
+
+		<dialog id="scan-dialog" class="fixed m-auto p-5 shadow-lg z-50">
+			<div class="flex flex-col items-center">
+			<button id="close-scan-dialog" class="bg-red-500 text-white rounded hover:bg-red-600 p-2 m-2">Cerrar</button>
+			<div id="reader" class="w-[500px] h-[500px] border">
+				<button id="print-QR" class="border">Print QR</button>
+			</div>
+			<div id="result" class="w-[500px] h-auto border flex flex-col p-5">
+				<div class="flex justify-center">
+
+				<img id="img_product" src="" alt="image" class="rounded w-[200px] h-[200px]" >
+				</div>
+				<label for="product_id" class="font-bold">Id:</label>
+				<output id="product_id" class="border"></output>
+
+				<label for="product_name" class="font-bold">Nombre:</label>
+				<output id="product_name" class="border"></output>
+
+				<label for="product_description" class="font-bold">Descripcion:</label>
+				<output id="product_description" class="border"></output>
+
+				<label for="product_price" class="font-bold">Precio</label>
+				<output id="product_price" class="border"></output>
+
+				<label for="product_stock" class="font-bold">Stock:</label>
+				<output id="product_stock" class="border"></output>
+
+				<label for="product_category" class="font-bold">Categoria:</label>
+				<output id="product_category" class="border"></output>
+
+				<label for="product_subcategory" class="font-bold">SubCategoria:</label>
+				<output id="product_subcategory" class="border"></output>
+
+				<label for="product_created_at" class="font-bold">Fecha creacion:</label>
+				<output id="product_created_at" class="border"></output>
+
+				<label for="product_status" class="font-bold">Estatus:</label>
+				<output id="product_status" class="border"></output>
+				
+				<label for="product_qr_code" class="font-bold">Codigo QR:</label>
+				<output id="product_qr_code" class="border"></output>
+
+				<label for="product_description" class="font-bold">Imagen dir:</label>
+				<output id="product_img_path" class="border"></output>
+			</div>
 			</div>
 		</dialog>
 
@@ -72,10 +170,11 @@
 
 		<script type="module">
 			import { showDialog } from "./js/showdialog.message.js";
-			const dataList = document.getElementById("data-list");
+
+			const dataList = document.getElementById("data-list-products");
 			async function loadData() {
 				try {
-					const response = await fetch("/mant-load-product");
+					const response = await fetch("/mant-load-products");
 					if (!response.ok) {
 						const errData = await response.text();
 						throw new Error(errData.message + response.statusText);
@@ -94,7 +193,7 @@
 
 			function handlePanelActions() {
 				const lista = document.getElementById("lista");
-				const items = Array.from(lista.children);
+				let items = Array.from(lista.children);
 				let indexSeleccionado = 0;
 
 				// Establecer tabindex inicial
@@ -106,15 +205,24 @@
 				document.addEventListener("keydown", (e) => {
 					if (e.key === "ArrowDown" || e.key === "ArrowUp") {
 						e.preventDefault(); // Prevenir el desplazamiento de la página
+						
 						const totalItems = items.length;
-
+						
 						if (e.key === "ArrowDown") {
 							indexSeleccionado = (indexSeleccionado + 1) % totalItems; // Ir al siguiente
 						} else if (e.key === "ArrowUp") {
 							indexSeleccionado = (indexSeleccionado - 1 + totalItems) % totalItems; // Ir al anterior
 						}
-
+						
 						updateFocus(indexSeleccionado);
+
+						const focusedElement = document.activeElement; 
+						// Desplazar la página para mantener el elemento enfocado visible
+						const offset = 500; 
+						// Ajusta este valor según la altura del elemento fijo 
+						if (focusedElement && focusedElement.tagName === 'LI') { 
+							window.scrollTo({ top:window.pageYOffset + focusedElement.getBoundingClientRect().top  - offset, behavior: 'smooth' }); 
+						}
 					}
 				});
 
@@ -132,11 +240,14 @@
 					cancelable: true,
 				});
 
-				items.forEach((item, index) => {
-					item.addEventListener("click", (e) => {
+				function addLiEventClick(items){
+					items.forEach((item, index) => {
+						item.addEventListener("click", (e) => {
 						updateFocus(index);
 					});
 				});
+				}
+				addLiEventClick(items);
 
 				function updateFocus(index) {
 					// Eliminar tabindex del elemento actual
@@ -144,20 +255,26 @@
 
 					// Enfocar el nuevo elemento
 					lista.children[index].focus();
-					console.log(lista.children[index]);
+					
 
 					indexSeleccionado = index;
 				}
 				lista.addEventListener("click", functionSelector);
 
-				function editItem(e) {
+				async function editItem(e) {
 					const itemId = e.target.getAttribute("data-id");
 					const editDialog = document.getElementById("edit-dialog");
+					await loadCategories("edit-dialog");
+					await loadSubCategories("edit-dialog");
+					await editProduct(itemId);
 					editDialog.showModal();
 				}
 
 				function deleteItem(e) {
 					const itemId = e.target.getAttribute("data-id");
+
+
+					deleteProduct(itemId);
 
 					if (indexSeleccionado > 0) {
 						document.dispatchEvent(eventoArrowUp);
@@ -174,7 +291,352 @@
 						editItem(e);
 					}
 				}
-			}
+				document.querySelector('#edit-dialog #cancel').addEventListener('click', closeEditDialog);
+				function closeEditDialog() {
+						const editDialog = document.getElementById('edit-dialog');
+						editDialog.close();
+					}
+
+				function editProduct(params) {
+					fetch("/mant-edit-product", {
+						method: 'POST',
+						body: JSON.stringify({ id: params }),
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
+						.then((response) => {
+							if (!response.ok) {
+								throw new Error('Error al editar producto');
+							}
+							return response.json();
+						})
+						.then((data) => {
+						
+							const form = document.getElementById('edit-form');
+							const productId = document.getElementById('product-id');
+							form.elements['img_path'].value = data.data[0].image_path;
+							form.elements['name'].value = data.data[0].name;
+							form.elements['description'].value = data.data[0].description|| "Sin descripcion";
+							form.elements['stock'].value = data.data[0].stock;
+							form.elements['price'].value = data.data[0].price;
+							form.elements['category'].value = data.data[0].id_category;
+							form.elements['sub_category'].value = data.data[0].id_sub_category;
+							form.elements['status'].value = data.data[0].product_status;
+							console.log(data.data[0].create_at);
+							form.elements['create_at'].textContent =new Date( data.data[0].created_at).toLocaleString("es-ES",{timeZone:"America/Mexico_City"});
+							productId.textContent = data.data[0].id;
+							//const imgPath = document.getElementById('img_path');
+							//imgPath.innerHTML = data.data[0].image_path;
+							const img = document.getElementById('product-img');
+							img.src = data.data[0].image_path;
+						})
+						.catch((error) => {
+							console.error(error);
+							showDialog(false, error.message);
+						});
+
+				}
+				
+				async function loadCategories(dialog) {
+                    try {
+                        const response = await fetch('/mant-load-category');
+                        if (!response.ok) {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                        const categories = await response.json();
+						if(categories){
+							const selectCategory =document.querySelector(`#${dialog} #category`);
+							removeOptions(selectCategory);
+							categories.data.forEach(item=>{
+								const newCategory=document.createElement("option");
+								newCategory.value=item.id;
+								
+								newCategory.textContent=item.name;
+								selectCategory.appendChild(newCategory);
+							});
+							
+
+						}
+						
+                    } catch (error) {
+                        console.error(error);
+						showDialog(error.message);
+                    }
+                }
+				async function loadSubCategories(dialog) {
+                    try {
+                        const response = await fetch('/mant-load-subcategory');
+                        if (!response.ok) {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                        const categories = await response.json();
+						if(categories){
+							const selectSubCategory =document.querySelector(`#${dialog} #sub_category`);
+							removeOptions(selectSubCategory);
+							categories.data.forEach(item=>{
+								const newSubCategory=document.createElement("option");
+								newSubCategory.value=item.id;
+								
+								newSubCategory.textContent=item.name;
+								selectSubCategory.appendChild(newSubCategory);
+							});
+							
+
+						}
+						
+                    } catch (error) {
+                        console.error(error);
+						showDialog(error.message);
+                    }
+                }
+				function removeOptions(selectElement) {
+					const options = selectElement.options;
+
+					for (let i = options.length - 1; i > 0; i--) {
+						selectElement.remove(i);
+					}
+				}
+
+
+				document.querySelector("#edit-form").addEventListener("submit", (event) => {
+					event.preventDefault();
+					const productId =Number( document.getElementById("product-id").textContent);
+					const formData = new FormData(event.target);
+					const formObject = Object.fromEntries(formData);
+					formObject.id=productId;
+					updateProduct(formObject);
+					
+				});
+
+				async function updateProduct(formObject) {
+					try {
+						const response = await fetch("/mant-update-product", {
+							method: "PUT",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify(formObject),
+						});
+						if (!response.ok) {
+							const data = await response.json();
+							throw new Error(data.message + response.statusText);
+						}
+						const data = await response.json();
+						if (data) {
+							//loadAddress();
+							showDialog(data.success, data.message);
+						}
+					} catch (error) {
+						console.error(error);
+						showDialog(false, error.message);
+					}
+				};
+
+				document.getElementById('add-product').addEventListener('click', showAddDialog);
+				async function showAddDialog(){
+					await loadCategories("add-dialog");
+					await loadSubCategories("add-dialog");
+					const addDialog = document.getElementById('add-dialog');
+					addDialog.showModal();
+				};
+
+				document.querySelector('#add-dialog #cancel').addEventListener('click', closeAddDialog);
+				function closeAddDialog() {
+						const addDialog = document.getElementById('add-dialog');
+						addDialog.close();
+						setTimeout(() => { 
+							if (typeof indexSeleccionado !== 'undefined') {  
+								lista.children[indexSeleccionado].focus(); 
+							} 
+						}, 3010);
+						
+						
+				};
+
+				document.querySelector("#add-form").addEventListener("submit", (event) => {
+					event.preventDefault();
+					const formData = new FormData(event.target);
+					const selectCategory = document.getElementById("add-form").querySelector("#category");
+					const category = selectCategory.options[selectCategory.selectedIndex].textContent;
+					const selectSubCategory = document.getElementById("add-form").querySelector("#sub_category");
+					const subCategory = selectSubCategory.options[selectSubCategory.selectedIndex].textContent;
+					const inputFile = document.getElementById("add-form").querySelector("#filename");
+					const file = inputFile.files[0];
+					
+					const customPath = (`/images/${category}/${subCategory}`).toLowerCase();
+					const url = `/mant-add-product?img_path=${encodeURIComponent(customPath)}`;
+
+					addProduct(url, formData);
+					});
+
+				async function addProduct(url, formData) {
+					try {
+						const response = await fetch(url, {
+						method: "POST",
+						body: formData,
+						});
+						if (!response.ok) {
+							const data = await response.json();
+							throw new Error(data.message + response.statusText);
+						}
+						const data = await response.json();
+						if (data) {
+
+							showDialog(data.success, data.message);
+							document.querySelector("#add-form").reset();
+							insertIntoProductList(data.data);
+							closeAddDialog();
+						}
+					} catch (error) {
+						console.error(error);
+						showDialog(false, error.message);
+					}
+				}
+
+				document.getElementById("add-form").querySelector("#filename").addEventListener("change", (event) => {
+					const file = event.target.files[0];
+					const imgPreview = document.getElementById("add-dialog").querySelector("#product-img");
+					if (file) {
+						const fileURL = URL.createObjectURL(file);
+						imgPreview.src = fileURL;
+					} else {
+      					imgPreview.src = ""; 
+     
+					}					
+				});
+
+				function insertIntoProductList(data) {
+					
+					
+					//lista.classList.add("mx-5", "mt-2", "text-white");
+					const item = document.createElement("li");
+					item.classList.add("grid","grid", "grid-cols-8","p-1", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2d");
+					item.innerHTML = `<div><img src="${data[5]}" alt="image" class="h-16 w-16 rounded"></div>
+					`+`<div>${data[7]}</div>
+					`+`<div>${data[0]}</div>
+					`+`<div>${data[1]}</div>
+					`+`<div class="text-right">0</div>
+					`+`<div class="text-right">$0.00</div>
+					`+`<button><i data-id=${data[6]} class="bi bi-pencil hover:text-green-500 edit"></i></button>
+					`+`<button><i data-id=${data[6]} class="bi bi-trash hover:text-red-500 delete"></i></button>`;
+					lista.appendChild(item);
+					const newIndex = lista.children.length - 1;
+					item.setAttribute("tabindex", "-1");
+					items = Array.from(lista.children);
+					addLiEventClick(items);
+					//lista.children[newIndex].focus();
+					indexSeleccionado = newIndex;
+				}
+				
+				document.getElementById("scan-qrcode").addEventListener("click", showScanDialog);
+				function showScanDialog() {
+					const scanDialog = document.getElementById("scan-dialog");
+					scanDialog.showModal();
+					startScanner();
+				}
+
+				document.getElementById("close-scan-dialog").addEventListener("click", closeScanDialog);
+				function closeScanDialog() {
+					const scanDialog = document.getElementById("scan-dialog");
+					const criteria = document.getElementById("result").querySelector("#product_id").textContent;
+					scanDialog.close();
+					findItemList("id",criteria);
+					
+				}
+
+				function onScanSuccess(qrCode) {
+					
+					fetch('mant-qr-code', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ qrCode: qrCode })
+					})
+					.then(response => response.json())
+					.then(data => {
+						const resultDiv = document.getElementById('result');
+						//resultDiv.innerHTML = JSON.stringify(data, null, 2);
+						const divOutputChildren=resultDiv.getElementsByTagName("output");
+						const imgProduct=document.getElementById("img_product");
+						imgProduct.src=data.data[0].image_path;
+						divOutputChildren[0].textContent=data.data[0].id;
+						divOutputChildren[1].textContent=data.data[0].name;
+						divOutputChildren[2].textContent=data.data[0].description;
+						divOutputChildren[3].textContent=data.data[0].price;
+						divOutputChildren[4].textContent=data.data[0].stock;
+						divOutputChildren[5].textContent=data.data[0].category || data.data[0].id_category;
+						divOutputChildren[6].textContent=data.data[0].sub_category || data.data[0].id_sub_category;
+						divOutputChildren[7].textContent=data.data[0].created_at;
+						const status= data.data[0].product_status === 1 ?  "Activo" : "Inactivo";
+						divOutputChildren[8].textContent=status;
+						divOutputChildren[9].textContent=data.data[0].qr_code;
+						divOutputChildren[10].textContent=data.data[0].image_path;
+						
+						
+					})
+					.catch(error => console.error('Error:', error));
+				}
+
+				function startScanner() {
+					var html5QrcodeScanner = new Html5QrcodeScanner(
+						"reader", { fps: 10, qrbox:{width: 250, height: 250}}, false);
+					html5QrcodeScanner.render(onScanSuccess);
+				}
+
+				function findItemList(field, criteria){
+					const itemSearchdTarget=document.querySelectorAll(`#lista .item .${field}`)
+					itemSearchdTarget.forEach((item, index)=>{
+						if (item.textContent.includes(`${criteria}`)){
+							indexSeleccionado=index;
+						};
+						updateFocus(indexSeleccionado)
+					});
+				};
+
+				document.getElementById('search-input').addEventListener('input', function() {
+					const query = this.value.toLowerCase();
+					const searchType = document.getElementById('search-type').value;
+					
+					
+					document.querySelectorAll(`.item .${searchType}`).forEach((item, index) => {
+						const valueToSearch = item.textContent.toLowerCase();
+						item.parentElement.style.display = valueToSearch.includes(query) ? '' : 'none';
+						if (valueToSearch === query) {
+							item.parentElement.classList.add('bg-blue-500');
+							item.parentElement.classList.add('text-white');
+						}else{
+							item.parentElement.classList.remove('bg-blue-500');
+							item.parentElement.classList.remove('text-white');
+						}
+					});
+				});
+
+				async function deleteProduct(id) {
+					try {
+						const response = await fetch("/mant-delete-product", {
+							method: "DELETE",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ id: id }),
+						});
+						if (!response.ok) {
+							const data = await response.json();
+							throw new Error(data.message + response.statusText);
+						}
+						const data = await response.json();
+						if (data) {
+							showDialog(data.success, data.message);
+						}
+					} catch (error) {
+						console.error(error);
+						showDialog(false, error.message);
+					}
+				}
+
+				 
+							
+			};
 		</script>
+			
 	</body>
 </html>
+		
