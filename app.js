@@ -30,9 +30,8 @@ import routerMainMenu from "./src/routes/router.mainmenu.js";
 import routerMantProducts from "./src/routes/router.mant.products.js";
 import routerMantCategory from "./src/routes/router.mant.category.js";
 import routerMantSubCategory from "./src/routes/router.mant.subcategory.js";
-//import multer from 'multer';
-
-//import routerCountry from './src/routes/route.countries.js';
+import routerMantStockIn from "./src/routes/router.mant.stockin.js";
+//import routerMantStockOut from "./src/routes/router.mant.stockout.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -83,6 +82,8 @@ app.use(routerProcessOrder);
 app.use(routerMantProducts);
 app.use(routerMantCategory);
 app.use(routerMantSubCategory);
+app.use(routerMantStockIn);
+//app.use(routerMantStockOut);
 app.use(routerHomePage);
 app.use(routerEmptyCartPage);
 app.use(routerOrderPage);

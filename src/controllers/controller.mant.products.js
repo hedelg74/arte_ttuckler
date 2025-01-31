@@ -15,8 +15,24 @@ const projectRoot = path.resolve(__dirname, '../../');
 const controllerMantProducts = {
 	loadProduct: async (req, res, next) => {
 		const connection = await createConnection();
-		//const userId = req.session.userId;
+		try {
+			const query = "SELECT * FROM product";
 
+			const [data] = await connection.query(query);
+			if (data.length > 0) {
+				res.status(200).json({ success: true, data });
+			} else {
+				res.status(404).json({ success: false, message: "No hay productos para mostrar" });
+			}
+		} catch (error) {
+			next(error);
+		} finally {
+			await connection.end();
+		}
+	},
+	
+	loadProductList: async (req, res, next) => {
+		const connection = await createConnection();
 		try {
 			const query = "SELECT * FROM product";
 
@@ -105,7 +121,6 @@ const controllerMantProducts = {
 	addProduct: async (req, res, next) => {
 		const img_path = req.query.img_path + '/' + req.files.file[0].filename;
 		const { name, description, category, sub_category, status } = req.body;
-		console.log(req.body);
 		
 		const connection = await createConnection();
 		// Generar un UUID para el código QR 
@@ -165,17 +180,13 @@ const controllerMantProducts = {
 		}
 
 		try{
-
 			const products = await connection.query("SELECT * FROM product");
 			products[0].forEach(async (product) => {
 				const qrCode = uuidv4();
 				await connection.query("UPDATE product SET qr_code=? WHERE id=?", [qrCode, product.id]);
-				
 			});
 			
-
 			res.status(200).json({ success: true, message: "Qr generados." });
-			
 		} catch (error) {
 			next(error);
 		} finally {

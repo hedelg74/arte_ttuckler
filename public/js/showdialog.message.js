@@ -1,6 +1,6 @@
 export function showDialog(success, message) {
 	const myDialog = document.createElement("dialog");
-	myDialog.classList.add("fixed", "top-1/2", "left-1/2", "-translate-x-1/2", "-translate-y-1/2", "flex", "justify-center", "items-center", "gap-4", "w-[400px]", "p-6", "bg-white", "border", "rounded-lg", "shadow-lg", "z-50");
+	myDialog.classList.add("fixed", "m-auto", "flex", "justify-center", "items-center", "gap-4", "w-[400px]", "p-6", "bg-white", "border", "rounded-lg", "shadow-lg", "z-50");
 	
 	const myMessage = document.createElement("p");
 	myMessage.classList.add("text-lg", "text-center");
