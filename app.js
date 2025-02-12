@@ -31,7 +31,7 @@ import routerMantProducts from "./src/routes/router.mant.products.js";
 import routerMantCategory from "./src/routes/router.mant.category.js";
 import routerMantSubCategory from "./src/routes/router.mant.subcategory.js";
 import routerMantStockIn from "./src/routes/router.mant.stockin.js";
-//import routerMantStockOut from "./src/routes/router.mant.stockout.js";
+import routerMantStockOut from "./src/routes/router.mant.stockout.js"
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -63,7 +63,9 @@ app.set("views", path.join(__dirname, "views")); // Configurar la carpeta donde 
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "node_modules/intl-tel-input/build"))); // , Servir los archivos estáticos (intl-tel-input)
-app.use(express.static(path.join(__dirname, "node_modules//html5-qrcode")));
+app.use(express.static(path.join(__dirname, "node_modules/html5-qrcode")));
+
+
 app.use(routerMainMenu);
 app.use(routerSyncCart);
 app.use(routerAuth);
@@ -83,12 +85,19 @@ app.use(routerMantProducts);
 app.use(routerMantCategory);
 app.use(routerMantSubCategory);
 app.use(routerMantStockIn);
-//app.use(routerMantStockOut);
+app.use(routerMantStockOut);
 app.use(routerHomePage);
 app.use(routerEmptyCartPage);
 app.use(routerOrderPage);
 app.use(routerProfilePage);
 app.use(routeAdminPanelPage);
+
+
+app._router.stack.forEach((r) => {
+  if (r.route) {
+    console.log(r.route.path);
+  }
+});
 
 // Middleware para manejo de rutas no encontradas (404)
 app.use((req, res, next) => {

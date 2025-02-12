@@ -25,10 +25,8 @@ import { showDialog } from "./showdialog.message.js";
 				let items = Array.from(lista.children);
 				let indexSeleccionado = 0;
 
-				// Establecer tabindex inicial
-				items.forEach((item, index) => {
-					item.setAttribute("tabindex", index === indexSeleccionado ? "0" : "-1");
-				});
+		
+			
 				items[indexSeleccionado].focus();
 				// Agregar navegación con flechas
 				document.addEventListener("keydown", (e) => {
@@ -80,8 +78,6 @@ import { showDialog } from "./showdialog.message.js";
 				addLiEventClick(items);
 
 				function updateFocus(index) {
-					// Eliminar tabindex del elemento actual
-					items.forEach((item, i) => item.setAttribute("tabindex", i === index ? "0" : "-1"));
 
 					// Enfocar el nuevo elemento
 					lista.children[index].focus();
@@ -95,8 +91,59 @@ import { showDialog } from "./showdialog.message.js";
 						deleteItem(e);
 					} else if (e.target.classList.contains("edit")) {
 						editItem(e);
+					} else { 
+						if (e.target.classList.contains("print")) {
+							printQRCode();
+						}
 					}
 				}
+
+				
+        
+				function printQRCode() {
+					const qrCodeText = document.getElementById('hiddenQR').value;
+					QRCode.toDataURL(qrCodeText, { errorCorrectionLevel: 'H' }, function (err, url) {
+						if (err) {
+							console.error(err);
+							return;
+						}
+				
+									// Calcula el centro de la pantalla
+					const width = 400;
+					const height = 400;
+					const left = (window.innerWidth / 2) - (width / 2);
+					const top = (window.innerHeight / 2) - (height / 2);
+
+					// Abre una nueva ventana centrada
+					const win = window.open('', '_blank', `width=${width},height=${height},left=${left},top=${top}`);
+						win.document.write(`
+						<!DOCTYPE html>
+						 <head>
+							<meta charset="UTF-8">
+							<meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<title>Código QR</title>
+							<link href="./css/output.css" rel="stylesheet" />
+						</head>
+							<body class="m-auto h-screen flex justify-center items-center bg-white">
+								<div class="text-center p-4">
+									<h1 class="text-2xl font-bold mb-4">Código QR</h1>
+									<img src="${url}" alt="QR Code" class="w-72 h-72 mb-4">
+									<br>
+									<button onclick="window.print();" class="bg-blue-500 text-white py-2 px-4 text-lg rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+										Imprimir
+									</button>
+								</div>
+							</body>
+						</html>
+					`);
+					
+					// Cierra el flujo de escritura en el documento
+					win.document.close();
+				});
+				}
+
+        
+
 
 				function deleteItem(e) {
 					const itemId = e.target.getAttribute("data-id");
@@ -150,7 +197,7 @@ import { showDialog } from "./showdialog.message.js";
 							form.elements['category'].value = data.data[0].id_category;
 							form.elements['sub_category'].value = data.data[0].id_sub_category;
 							form.elements['status'].value = data.data[0].product_status;
-							console.log(data.data[0].create_at);
+						
 							form.elements['create_at'].textContent =new Date( data.data[0].created_at).toLocaleString("es-ES",{timeZone:"America/Mexico_City"});
 							productId.textContent = data.data[0].id;
 						
@@ -248,8 +295,17 @@ import { showDialog } from "./showdialog.message.js";
 						}
 						const data = await response.json();
 						if (data) {
-							//loadAddress();
+						
 							showDialog(data.success, data.message);
+							const editDialog = document.getElementById("edit-dialog");
+							updateProductList(data.data);
+							editDialog.close();
+							setTimeout(() => { 
+							if (typeof indexSeleccionado !== 'undefined') {  
+								lista.children[indexSeleccionado].focus(); 
+							} 
+						}, 3010);
+
 						}
 					} catch (error) {
 						console.error(error);
@@ -327,18 +383,23 @@ import { showDialog } from "./showdialog.message.js";
 				});
 
 				function insertIntoProductList(data) {
+				
 					
-					//lista.classList.add("mx-5", "mt-2", "text-white");
 					const item = document.createElement("li");
-					item.classList.add("grid","grid", "grid-cols-8","p-1", "focus:text-white","focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2d");
+					item.classList.add("item", "grid","items-center", "grid-cols-10", "p-1", "focus:text-white", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2", "w-full");
+					item.setAttribute("data-id", `${data[7]}`)
+					item.setAttribute("tabindex","0")
 					item.innerHTML = `<div><img src="${data[5]}" alt="image" class="h-16 w-16 rounded"></div>
-					`+`<div>${data[7]}</div>
-					`+`<div>${data[0]}</div>
-					`+`<div>${data[1]}</div>
+					`+`<div class="id">${data[7]}</div>
+					`+`<div class="name">${data[0]}</div>
+					`+`<div class="description">${data[1]}</div>
 					`+`<div class="text-right">0</div>
 					`+`<div class="text-right">$0.00</div>
+					`+`<div class="status text-right">${data[4]===1 ? "Activo" : "Inactivo"}</div>
 					`+`<button><i data-id=${data[6]} class="bi bi-pencil hover:text-green-500 edit"></i></button>
-					`+`<button><i data-id=${data[6]} class="bi bi-trash hover:text-red-500 delete"></i></button>`;
+					`+ `<button><i data-id=${data[6]} class="bi bi-trash hover:text-red-500 delete"></i></button>
+					`+ `<i data-id=${data[6]} class="bi bi-printer hover:text-red-500 print">QR</i>
+					<input type="hidden" id="hiddenQR" value=${data[6]} hidden>`;
 					lista.appendChild(item);
 					const newIndex = lista.children.length - 1;
 					item.setAttribute("tabindex", "-1");
@@ -347,6 +408,20 @@ import { showDialog } from "./showdialog.message.js";
 					//lista.children[newIndex].focus();
 					indexSeleccionado = newIndex;
 				}
+
+				function updateProductList(data) {
+                  
+                    
+                    const item = document.querySelector(`#lista li[data-id="${data[7]}"`);
+               
+                    item.children[2].textContent = data[0];
+                    item.children[3].textContent = data[1];
+					item.children[6].textContent = data[5] === 1 ? "Activo" : "Inactivo";
+					updateFocus(indexSeleccionado);
+					console.log(indexSeleccionado);
+                    
+                }
+
 				
 				document.getElementById("scan-qrcode").addEventListener("click", showScanDialog);
 				function showScanDialog() {

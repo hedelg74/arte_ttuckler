@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="/css/intlTelInput.css" />
 		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
 		<script src="/html5-qrcode.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 		
 	</head>
 	<body class="relative">
@@ -18,7 +19,7 @@
 		<header class="bg-[#252a33] text-[#daa520] fixed top-0 p-2 w-full z-[1000]"><%- include('./partials/menu.admin.panel.ejs') %></header>
 		
 
-		<div id="data-list" class="mt-32 mb-32 mx-2"></div>
+		<div id="data-list" class="mt-32 mb-32 mx-2 w-full max-w-full"></div>
 		
 		<script src="./js/admin.panel.menu.addeventlisteners.js"></script>
 	

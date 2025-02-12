@@ -95,7 +95,7 @@ const controllerMantCategory = {
 			await connection.end();
 		}
 	},
-	deleteSubCategory: async (req, res, next) => {
+	deleteSubCategory: async (req, res, next) => {c
 		const connection = await createConnection();
 		const categoryId = req.body.id;
 		try {

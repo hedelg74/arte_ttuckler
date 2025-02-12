@@ -14,19 +14,22 @@
           <select id="search-type" class="search-input border border-gray-300 rounded h-10"> 
             <option value="id">Buscar por ID</option>
             <option value="name">Buscar por Nombre</option> 
-            <option value="description">Buscar por Descripción</option> 
+            <option value="description">Buscar por Descripción</option>
+			<option value="status">Buscar por Estatus</option> 
         </select> 
         <input type="text" id="search-input" class="search-input border h-10 w-64" placeholder="Ingrese su búsqueda"> </div>
       </div>
       <div>
         <hr>
-        <div class="grid grid-cols-8 p-2 font-medium">
-          <div>Producto</div>
-          <div>Id</div>
-          <div>Nombre</div>
-          <div>Descripción</div>
-          <div class="text-right">Stock</div>
+        <div class="grid items-center grid-cols-11 p-2 font-medium">
+          <div class="">Producto</div>
+          <div class="" >Id</div>
+          <div class="" >Nombre</div>
+          <div class="" >Descripción</div>
+          <div  class="text-right">Stock</div>
           <div class="text-right">Precio</div>
+		  <div class="text-right">Estatus</div>
+		  
         </div>
         <hr>
       </div>
@@ -34,17 +37,29 @@
   </div>
 
   <div class="absolute top-[190px] z-40 w-full" >
-      <ul id="lista" class="mx-5 mt-2 ">
+      <ul id="lista" class="mx-5 mt-2 w-full">
         <% for (let i = 0; i < data.length; i++) { %>
-          <li class="item grid items-center grid-cols-8 p-1 focus:text-white focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2d w-full">
-            <div><img src=<%=data[i].image_path%> class="image h-16 w-16 rounded"></div>
-            <div class="id"><%= data[i].id %></div> <div class="name"><%= data[i].name %></div> <div class="description"><%= data[i].description || 'Sin descripción' %></div> <div class="stock text-right"><%= data[i].stock %></div> <div class="price text-right">$<%= data[i].price %></div>
+          <li data-id=<%=data[i].id%> tabindex="0" class="item grid items-center grid-cols-11 p-1 focus:text-white focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 w-full">
+		    <div><img src=<%=data[i].image_path%> class="image h-16 w-16 rounded"></div>
+            <div class="id"><%= data[i].id %></div>
+			<div class="name"><%= data[i].name %></div> 
+			<div class="description"><%= data[i].description || 'Sin descripción' %></div>
+			<div class="stock text-right"><%= data[i].stock %></div> 
+			<div class="price text-right">$<%= data[i].price %></div>
+			<div class="status text-right"><%= data[i].product_status=== 1 ? "Activo" : "Inactivo" %></div>
             <button><i data-id=<%=data[i].id%> class="bi bi-pencil hover:text-green-500 edit"></i></button>
             <button><i data-id=<%=data[i].id%> class="bi bi-trash hover:text-red-500 delete"></i></button>
+			<i data-id=<%=data[i].id%> class="bi bi-printer hover:text-fuchsia-500 cursor-pointer print"> QR</i>
+			<input type="hidden" id="hiddenQR" value=<%=data[i].qr_code%> hidden>
+			
           </li>
         <% } %>
-      </ul>
+      </ul> 
+
   </div>
+
+  
+ 
 
 <!--PRODUCTOS DIALOGOS-------------------------------- -->
 				
@@ -59,7 +74,7 @@
 				<form id="edit-form" class="flex flex-col gap-y-2">
 					<label for="img_path">Directorio:</label>
 					<input type="text" id="img_path" name="img_path" class="border" required />
-					<input type="file" id="filename" name="file" required />
+					<input type="file" id="filename" name="file"/>
 					
 					<label for="name" class="font-bold">Nombre</label>
 					<input type="text" id="name" name="name" class="border" required />
@@ -141,7 +156,6 @@
 		<dialog id="scan-dialog" class="fixed m-auto p-5 shadow-lg z-50">
 			<div class="flex flex-col items-center">
 			<button id="close-scan-dialog" class="bg-red-500 text-white rounded hover:bg-red-600 p-2 m-2">Cerrar</button>
-			<button id="print-QR" class="border">Print QR</button>
 			<div id="reader" class="w-[500px] h-[500px] border">
 			</div>
 			<div id="result" class="w-[500px] h-auto border flex flex-col p-5">

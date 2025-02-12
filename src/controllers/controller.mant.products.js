@@ -144,7 +144,7 @@ const controllerMantProducts = {
 			});
 			const [product] = await connection.query("SELECT LAST_INSERT_ID() as product_id");
 			data.push(product[0].product_id);
-			res.status(200).json({ success: true, message: "Producto agegado.", data});
+			res.status(200).json({ success: true, message: "Producto agregado.", data});
 			
 		} catch (error) {
 			next(error);
@@ -159,10 +159,10 @@ const controllerMantProducts = {
 		try{
 
 			const query = "UPDATE product SET name=?, description=?, price=?, id_category=?, id_sub_category=?, product_status=?, image_path=? WHERE id=?";
-			const datos = [name, description, Number(price),Number(category), Number(sub_category), Number(status), img_path, id];
+			const data = [name, description, Number(price),Number(category), Number(sub_category), Number(status), img_path, id];
 
-			await connection.query(query, datos);
-			res.status(200).json({ success: true, message: "Producto actualizado." });
+			await connection.query(query, data);
+			res.status(200).json({ success: true, message: "Producto actualizado.", data });
 			
 		} catch (error) {
 			next(error);
@@ -198,7 +198,7 @@ const controllerMantProducts = {
 		const connection = await createConnection();
 		const productId = req.body.id;
 		try {
-			const [product] = await connection.query("SELECT product_id FROM stock_in WHERE product_id=?", [productId]);
+			const [product] = await connection.query("SELECT product_id FROM stock_in_detail WHERE product_id=?", [productId]);
 			if (product.length > 0) {
 				res.status(400).json({ success: false, message: "No se puede eliminar el producto porque tiene stock." });
 				return;

@@ -31,5 +31,12 @@ document.getElementById("stock-out").addEventListener("click", (event) => {
 	});
 });
 
+document.getElementById("users").addEventListener("click", (event) => {
+	event.preventDefault();
+	import('./admin.users.js').then(module => {
+		module.loadUsers();
+	});
+});
+
 
 

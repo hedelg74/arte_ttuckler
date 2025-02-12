@@ -1,5 +1,6 @@
 
 
+
 import { showDialog } from "./showdialog.message.js";
 
 
@@ -116,7 +117,9 @@ function handlePanelActions() {
     async function editItem(e) {
         const itemId = e.target.getAttribute("data-id");
         const editDialog = document.getElementById("edit-dialog");
+        await loadProducts("edit-dialog");
         editStockIn(itemId);
+        manageAddDetail("edit-dialog");
         editDialog.showModal();
     }
 
@@ -126,7 +129,7 @@ function handlePanelActions() {
         editDialog.close();
     }
 
-    function editStockIn(params) {
+    function editStockIn(params) {  //PARA MOSTRAR LOS DATOS EN EL FORMULARIO DE EDICION
         fetch("/mant-edit-stockin", {
             method: 'POST',
             body: JSON.stringify({ id: params }),
@@ -140,9 +143,9 @@ function handlePanelActions() {
                 }
                 return response.json();
             })
-            .then((data) => {
+            .then(async (data) => {
                 const result = data.data;
-                console.log(result);
+                
                 const form = document.getElementById('edit-form');
                 const stockinId = document.querySelector('#edit-dialog #stockin-id');
                             
@@ -157,18 +160,22 @@ function handlePanelActions() {
                 form.elements['in_type'].value = result[0].in_type;
                 const detail = document.querySelector("#edit-dialog #detail");
                 detail.innerHTML = "";
-                result.forEach((item) => {      
+                result.forEach((item) => {    
+                   
                     const listItem = document.createElement("li");
-                    listItem.classList.add("product-item", "items-center", "grid", "grid-cols-6", "p-1", "focus:text-white", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2", "w-full", "overflow-hidden")
+                    listItem.setAttribute("tabindex", "0");
+                    listItem.classList.add("product-item", "items-center", "grid", "grid-cols-7", "p-1", "focus:text-white", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2", "w-full", "overflow-hidden")
                     listItem.innerHTML = `
-                    <div><img src="${item.image_path}" class="h-8 w-8 rounded min-w-0"></div>
+                    <img src="${item.image_path}" class="h-8 w-8 rounded min-w-0">
                     <div class="min-w-0">${item.product_id}</div>
                     <div class="min-w-0">${item.name}</div>
-                    <div class="text-right min-w-0">${item.quantity}</div>
+                    <div id="item-quantity" data-quantity="${item.quantity}" class="text-right min-w-0">${item.quantity}</div>
                     <div class="text-right min-w-0">${Number(item.price).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    <button type="button" class="min-w-0"><i data-id=${item.product_id} class="bi bi-trash hover:text-red-500 delete"></i></button>`;
+                    <i data-id=${item.detailId} class="bi bi-pencil hover:text-green-500 min-w-0 edit text-center cursor-pointer"></i>
+                    <i data-id=${item.detailId} class="bi bi-trash hover:text-red-500 min-w-0 delete cursor-pointer"></i>`;
                     detail.appendChild(listItem);
                 });
+               
 
                 form.elements['document'].focus();
                             
@@ -180,46 +187,11 @@ function handlePanelActions() {
 
     }
                 
-            
-    document.querySelector("#edit-form").addEventListener("submit", (event) => {
-        event.preventDefault();
-        const stockinId = Number(document.getElementById("stockin-id").textContent);
-        const formData = new FormData(event.target);
-        const formObject = Object.fromEntries(formData);
-        formObject.id = stockinId;
-        updateStockIn(formObject);
-        closeEditDialog();
-                    
-    });
-
-                
-
-    async function updateStockIn(formObject) {
-        try {
-            const response = await fetch("/mant-update-stockin", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formObject),
-            });
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message + response.statusText);
-            }
-            const data = await response.json();
-            if (data) {
-                const item = lista.children[indexSeleccionado];
-                item.children[1].textContent = data.data[0];
-                showDialog(data.success, data.message);
-            }
-        } catch (error) {
-            console.error(error);
-            showDialog(false, error.message);
-        }
-    };
 
     document.getElementById('add-stockin').addEventListener('click', showAddDialog);
     async function showAddDialog() {
-        await loadProducts();
+        await loadProducts("add-dialog");
+        manageAddDetail("add-dialog");
         const addDialog = document.getElementById('add-dialog');
         addDialog.showModal();
     };
@@ -230,7 +202,7 @@ function handlePanelActions() {
         addDialog.close();
         setTimeout(() => {
             if (typeof indexSeleccionado !== 'undefined') {
-                lista.children[indexSeleccionado].focus();
+                if (lista.childres > 0)  lista.children[indexSeleccionado].focus();
             }
         }, 3000);
                         
@@ -246,7 +218,6 @@ function handlePanelActions() {
         // Combina la fecha del input y la hora actual
         const dateTimeString = `${dateValue}T${currentTime}`;
 
-    
         // Asegúrate de que la cadena de fecha y hora sea válida
         const dateTime = new Date(dateTimeString);
 
@@ -287,6 +258,7 @@ function handlePanelActions() {
             });
             if (!response.ok) {
                 const data = await response.json();
+               
                 throw new Error(data.message + response.statusText);
             }
             const data = await response.json();
@@ -303,20 +275,104 @@ function handlePanelActions() {
         }
     }
 
+    document.querySelector("#edit-form").addEventListener("submit", (event) => { //PREPARA LOS DATOS PARA ACTUALIZAR
+        event.preventDefault();
+        const dateValue = document.querySelector('#edit-dialog #date').value;
+        const now = new Date();
+        const currentTime = now.toTimeString().split(' ')[0]; // Obtén la hora actual en formato HH:MM:SS
+
+        // Combina la fecha del input y la hora actual
+        const dateTimeString = `${dateValue}T${currentTime}`;
+
+        // Asegúrate de que la cadena de fecha y hora sea válida
+        const dateTime = new Date(dateTimeString);
+
+        // Formatea la cadena de fecha y hora para SQL DATETIME
+        const formattedDateTime = dateTime.toISOString().slice(0, 19).replace('T', ' ');
+    
+        document.querySelector('#edit-dialog #document_date').value = formattedDateTime;
+        
+        const formData = new FormData(event.target);
+        const formObject = Object.fromEntries(formData);
+        const stockinId = document.querySelector("#edit-dialog #stockin-id");
+        formObject.stockinId = Number(stockinId.value);
+        formObject.detalle = [];
+        const items = Array.from(document.querySelectorAll("#edit-dialog .product-item"));
+        if(items.length > 0){
+            items.forEach((item) => {
+                const product_id = Number(item.children[1].textContent);
+                const beforeQuantity = Number(item.children[3].getAttribute("data-quantity"));
+                const quantity = Number(item.children[3].textContent);
+                const price = Number(item.children[4].textContent);
+                const itemDetailId = Number(item.children[5].getAttribute("data-id"));
+                const toDelete = item.classList.contains("text-red-500") ? true : false;
+                formObject.detalle.push({ product_id, beforeQuantity ,quantity, price, itemDetailId, toDelete });
+            });
+            const total_document = formObject.detalle.reduce((acc, item) => acc + item.quantity * item.price, 0);
+            formObject.total_document = total_document;
+        } else {
+            showDialog(false, "No hay productos en la lista");
+            return;
+        }
+
+        const url = "/mant-update-stockin";
+        updateStockIn(url, formObject);
+    });
+    
+    
+    async function updateStockIn(url, formObject) { //PARA ACTUALIZAR LOS DATOS
+        const editDialog = document.getElementById("edit-dialog");
+        try {
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body:JSON.stringify(formObject),
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message + response.statusText);
+            }
+            const data = await response.json();
+            if (data) {
+
+                showDialog(data.success, data.message);
+                document.querySelector("#edit-form").reset();
+                updateStockInList(data.data);
+                editDialog.close();
+            }
+        } catch (error) {
+            console.error(error);
+            showDialog(false, error.message);
+        }
+    }
+
+    function updateStockInList(data) {
+       
+        const item = document.querySelector(`#lista li[data-id="${data[4]}"]`);
+        const date = new Date(data[1]);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        const formattedDate = new Intl.DateTimeFormat('es-CR', options).format(date);
+        item.children[1].textContent = data[0];
+        item.children[2].textContent = getInDocType(Number(data[2]));
+        item.children[3].textContent = formattedDate;
+        item.children[4].textContent = Number(data[3]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
 
     function insertIntoStockInList(data) {
     
         const item = document.createElement("li");
-        item.classList.add("grid","grid", "grid-cols-8","p-1", "focus:text-white","focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2d");
-        const date = new Date(data[1]);
+        item.classList.add("grid","items-center", "grid-cols-7","p-1", "focus:text-white","focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2d");
+        const date = new Date(data[2]);
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         const formattedDate = new Intl.DateTimeFormat('es-CR', options).format(date);
-
+        console.log(data);
         item.innerHTML = `
-        `+`<div>${data[2]}</div>
         `+`<div>${data[0]}</div>
+        `+ `<div>${data[1]}</div>
+        `+ `<div>${getInDocType(Number(data[3]))}</div>
         `+`<div>${formattedDate}</div>
-        `+`<div>${Number(data[3]).toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 })}</div>
+        `+`<div class="text-right">${Number(data[4]).toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 })}</div>
         `+`<button><i data-id=${data[0]} class="bi bi-pencil hover:text-green-500 edit"></i></button>
         `+`<button><i data-id=${data[0]} class="bi bi-trash hover:text-red-500 delete"></i></button>`;
         lista.appendChild(item);
@@ -327,6 +383,28 @@ function handlePanelActions() {
         indexSeleccionado = newIndex;
 
     }
+    
+    function getInDocType(type) {
+    switch (type) {
+      case 1:
+        return "Compra";
+      case 2:
+        return "Devolucion";
+      case 3:
+        return "Produccion";
+      case 4:
+        return "Donacion";
+      case 5:
+        return "Transferencia";
+      case 6:
+        return "Ajuste";
+      case 7:
+        return "Inventario Inicial";
+      default:
+        return "Desconocido";
+    }
+    
+  }
     
     document.getElementById('search-input').addEventListener('input', function() {
         const query = this.value.toLowerCase();
@@ -374,7 +452,7 @@ function handlePanelActions() {
         }
     }
 
-     async function loadProducts() {
+     async function loadProducts(dialogName) {
         try {
             const response = await fetch("/mant-load-products");
             if (!response.ok) {
@@ -383,7 +461,7 @@ function handlePanelActions() {
             }
             const data = await response.json();
             const result = data.data;
-            const product = document.querySelector("#add-dialog #product");
+            const product = document.querySelector(`#${dialogName} #product`);
             result.forEach((item) => {
                 const option = document.createElement("option");
                 option.value = item.id;
@@ -397,160 +475,238 @@ function handlePanelActions() {
             showDialog(false, error.message);
         }
 }
-
-    const selectProduct = document.querySelector("#add-dialog #product");
-    const inputId = document.querySelector("#add-dialog #product_id");
-    const inputQuantity = document.querySelector("#add-dialog #quantity");
-    const inputPrice = document.querySelector("#add-dialog #price");
-
-    inputId.addEventListener("input", (event)=>{
-        selectProduct.value = event.target.value;
-    })
-
-    selectProduct.addEventListener("change", (event) => { 
-        inputId.value=event.target.value
+    function manageAddDetail(dialogName) {
         
-    })
+    
+        const selectProduct = document.querySelector(`#${dialogName} #product`);
+        const inputId = document.querySelector(`#${dialogName} #product_id`);
+        const inputQuantity = document.querySelector(`#${dialogName} #quantity`);
+        const inputPrice = document.querySelector(`#${dialogName} #price`);
 
-    const addProduct = document.querySelector("#add-dialog #add-product");
-    const ulDetail = document.querySelector("#add-dialog #detail");
-    let itemDetailIndex = 0;
+        inputId.addEventListener("input", (event) => {
+            selectProduct.value = event.target.value;
+        })
+
+        selectProduct.addEventListener("change", (event) => {
+            inputId.value = event.target.value
+        
+        })
+
+        const addProduct = document.querySelector(`#${dialogName} #add-product`);
+        const ulDetail = document.querySelector(`#${dialogName} #detail`);
+        let itemDetailIndex = 0;
     
     
-    addProduct.addEventListener("click", () => {
-        if (inputId.value === "") {
-            showDialog(false, "El producto no es válido");
-            setTimeout(() => {
-                inputId.focus();
-            }, 3001);
-            return;
-        } else if (inputQuantity.value <= 0) {
-            showDialog(false, "La cantidad no es válida");
-            setTimeout(() => {
-                inputQuantity.focus();
-            }, 3001);
-            return;
-        } else if (inputPrice.value <= 0) { 
-            showDialog(false, "El precio no es válido");
-            setTimeout(() => {
-                inputPrice.focus();
-            }, 3001);
-            return;
-        }  
-        const productImg = document.createElement("img")
-        productImg.id = "product-img";
-        productImg.src = selectProduct.options[selectProduct.selectedIndex].getAttribute("data-imgPath");
-        productImg.classList.add("h-8", "w-8", "rounded","min-w-0");
-        const productID = document.createElement("output")
-        productID.id = "product-name";
-        productID.classList.add("min-w-0");
-        productID.value = inputId.value;
-        const productName = document.createElement("output")
-        productName.id = "product-name";
-        productName.classList.add("min-w-0")
-        productName.value = selectProduct.options[selectProduct.selectedIndex].text;
-        const productQuantity = document.createElement("output")
-        productQuantity.id = "product-quantity";
-        productQuantity.classList.add("text-right","min-w-0");
-        productQuantity.value = inputQuantity.value;
-        const producPrice = document.createElement("output")
-        producPrice.id = "product-price";
-        producPrice.classList.add("text-right", "min-w-0");
-        const formatedPrice = Number(inputPrice.value).toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 });
-        producPrice.value = formatedPrice;
-        const btnDelete = document.createElement("button");
-        btnDelete.setAttribute("type", "button");
-        btnDelete.classList.add("min-w-0");
-        btnDelete.setAttribute("data-id", inputId.value);
-        const iDelete=document.createElement("i")
-        iDelete.classList.add("bi", "bi-trash", "hover:text-red-500", "delete", "min-w-0");
-        btnDelete.appendChild(iDelete);
-
-        const listItem = document.createElement("li");
-        listItem.setAttribute("tabindex", "0");
+        addProduct.addEventListener("click", () => {
+            if (inputId.value === "") {
+                showDialog(false, "El producto no es válido");
+                setTimeout(() => {
+                    inputId.focus();
+                }, 3001);
+                return;
+            } else if (inputQuantity.value <= 0) {
+                showDialog(false, "La cantidad no es válida");
+                setTimeout(() => {
+                    inputQuantity.focus();
+                }, 3001);
+                return;
+            } else if (inputPrice.value <= 0) {
+                showDialog(false, "El precio no es válido");
+                setTimeout(() => {
+                    inputPrice.focus();
+                }, 3001);
+                return;
+            }
+            const productImg = document.createElement("img")
+            productImg.id = "product-img";
+            productImg.src = selectProduct.options[selectProduct.selectedIndex].getAttribute("data-imgPath");
+            productImg.classList.add("h-8", "w-8", "rounded", "min-w-0");
+            const productID = document.createElement("output")
+            productID.id = "product-name";
+            productID.classList.add("min-w-0");
+            productID.value = inputId.value;
+            const productName = document.createElement("output")
+            productName.id = "product-name";
+            productName.classList.add("min-w-0")
+            productName.value = selectProduct.options[selectProduct.selectedIndex].text;
+            const productQuantity = document.createElement("output")
+            productQuantity.id = "product-quantity";
+            productQuantity.classList.add("text-right", "min-w-0");
+            productQuantity.setAttribute("data-quantity", 0);
+            productQuantity.value = inputQuantity.value;
+            const producPrice = document.createElement("output")
+            producPrice.id = "product-price";
+            producPrice.classList.add("text-right", "min-w-0");
+            const formatedPrice = Number(inputPrice.value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            producPrice.value = formatedPrice;
+            
+            const iEdit = document.createElement("i")
+            iEdit.setAttribute("data-id", 0);
+            iEdit.classList.add("bi", "bi-pencil", "hover:text-red-500", "text-center", "delete", "min-w-0");
+           
+            const iDelete = document.createElement("i")
+            iDelete.setAttribute("data-id", 0);
+            iDelete.classList.add("bi", "bi-trash", "hover:text-red-500", "delete", "min-w-0");
+          
+            const listItem = document.createElement("li");
+            listItem.setAttribute("tabindex", "0");
     
-        listItem.classList.add("product-item", "items-center", "grid", "grid-cols-6", "p-1", "focus:text-white", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2", "w-full", "overflow-hidden")
-        listItem.classList.add("bg-blue-500", "text-white");
-        listItem.appendChild(productImg);
-        listItem.appendChild(productID);
-        listItem.appendChild(productName);
-        listItem.appendChild(productQuantity);
-        listItem.appendChild(producPrice);
-        listItem.appendChild(btnDelete);
-        clearListItemBackground();
-        ulDetail.appendChild(listItem);
-        clearDetailInputs();
-        itemDetailIndex = ulDetail.children.length - 1;
-        const total =calculateAddDialogTotalDocument();
-        document.querySelector("#add-dialog #total-document").textContent = total;
+            listItem.classList.add("product-item", "items-center", "grid", "grid-cols-7", "p-1", "focus:text-white", "focus:bg-blue-500", "focus:outline-none", "focus:ring-2", "focus:ring-blue-300", "focus:ring-offset-2", "w-full", "overflow-hidden")
+            listItem.classList.add("bg-blue-500", "text-white");
+            listItem.appendChild(productImg);
+            listItem.appendChild(productID);
+            listItem.appendChild(productName);
+            listItem.appendChild(productQuantity);
+            listItem.appendChild(producPrice);
+            listItem.appendChild(iEdit);
+            listItem.appendChild(iDelete);
+            clearListItemBackground();
+            ulDetail.appendChild(listItem);
+            clearDetailInputs();
+            itemDetailIndex = ulDetail.children.length - 1;
+            const total = calculateAddDialogTotalDocument();
+            document.querySelector(`#${dialogName} #total-document`).textContent = total;
         
         
-    });
-
-    function clearDetailInputs(){ 
-        inputId.value = "";
-        selectProduct.value = "";
-        inputQuantity.value ="0";
-        inputPrice.value = "0.00";
-        inputId.focus();
-    };
-
-    function clearListItemBackground(){
-        const items = Array.from(document.querySelectorAll("#add-dialog .product-item"));
-        items.forEach((item) => {
-            item.classList.remove("bg-blue-500");
-            item.classList.remove("text-white");
         });
-    }
 
-    ulDetail.addEventListener("click", functionSelectorDetail);
-    function functionSelectorDetail(e) {
-        if (e.target.classList.contains("delete")) {
-            deleteAddDialogItemDetail(e);
+        function clearDetailInputs() {
+            inputId.value = "";
+            selectProduct.value = "";
+            inputQuantity.value = "0";
+            inputPrice.value = "0.00";
+            inputId.focus();
+        };
+
+        function clearListItemBackground() {
+            const items = Array.from(document.querySelectorAll(`#${dialogName} .product-item`));
+            items.forEach((item) => {
+                item.classList.remove("bg-blue-500");
+                item.classList.remove("text-white");
+            });
         }
-    }
-    
-    function deleteAddDialogItemDetail(e) {
-        e.target.parentElement.parentElement.remove();
-         const total =calculateAddDialogTotalDocument();
-        document.querySelector("#add-dialog #total-document").textContent = total;
-    };
 
-    function calculateAddDialogTotalDocument(){
-        const items = Array.from(document.querySelectorAll("#add-dialog .product-item"));
-        const total = items.reduce((acc, item) => {
-            const quantity = Number(item.children[3].textContent);
-            const price = Number(item.children[4].textContent);
-            return acc + quantity * price;
-        }, 0);
-        return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
+        ulDetail.addEventListener("click", functionSelectorDetail);
+        function functionSelectorDetail(e) {
+            if (e.target.classList.contains("delete")) {
+                if (confirm("¿Está seguro de eliminar este producto?")) deleteItemDetail(e);
+                              
+            } else if (e.target.classList.contains("edit")) {
+               editItemDetail(e);
+            }
+        }
+        
+        function deleteItemDetail(e) {
+
+            if (dialogName === "edit-dialog") {
+                e.target.parentElement.classList.toggle("text-red-500");
+                e.target.parentElement.classList.toggle("line-through");
+
+                const total = calculateAddDialogTotalDocument();
+                document.querySelector(`#${dialogName} #total-document`).textContent = total;
+               
+            } else {
+                e.target.parentElement.remove();
+                const total = calculateAddDialogTotalDocument();
+                document.querySelector(`#${dialogName} #total-document`).textContent = total;
+            }
+        }    
+            
+        async function deleteStockInDetailById(stockin_id, itemDetailId, product_id, itemDetailQty,e) { 
+            try {
+                const response = await fetch("/mant-delete-stockin-detail-by-id", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ stockin_id, itemDetailId, product_id, itemDetailQty }),   
+                });
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message + response.statusText);
+                }
+                const data = await response.json();
+                if (data) {
+                    e.target.parentElement.remove();
+                    const total = calculateAddDialogTotalDocument();
+                    document.querySelector(`#${dialogName} #total-document`).textContent = total;
+                    showDialog(data.success, data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                showDialog(false, error.message);
+            }    
+                
+        }
+            
+
+
+        
+        function editItemDetail(e) {
+            const editDialog = document.getElementById("edit-detail-dialog");
+            const quantity = e.target.parentElement.children[3].textContent;
+            const price = e.target.parentElement.children[4].textContent;
+            const quantityInput = document.querySelector("#edit-detail-dialog #quantity");
+            quantityInput.addEventListener("input", function () {
+					if (this.value < 1) {
+						this.value = 1;
+					}
+			});
+            const priceInput = document.querySelector("#edit-detail-dialog #price");
+            quantityInput.value = quantity;
+            priceInput.value = price;
+            const btnSave = document.querySelector("#edit-detail-dialog #save-detail");
+            btnSave.addEventListener("click", () => {
+                e.target.parentElement.children[3].textContent = quantityInput.value;
+                e.target.parentElement.children[4].textContent = priceInput.value;
+                const total = calculateAddDialogTotalDocument();
+                document.querySelector(`#${dialogName} #total-document`).textContent = total;
+                editDialog.close();
+            });
+            const btnCancel = document.querySelector("#edit-detail-dialog #cancel-detail");
+            btnCancel.addEventListener("click", () => {
+                editDialog.close();
+            });
+
+            editDialog.showModal();
+        }
+        
+        function calculateAddDialogTotalDocument() {
+            const items = Array.from(document.querySelectorAll(`#${dialogName} .product-item`));
+            const total = items.reduce((acc, item) => {
+                const quantity = Number(item.children[3].textContent);
+                const price = Number(item.children[4].textContent);
+                return acc + quantity * price;
+            }, 0);
+            return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
 
    
-    ulDetail.addEventListener("click", (e) => { 
-       clearListItemBackground();
-       this.updateFocusDetail(Array.from(ulDetail.children).indexOf(e.target.parentElement));
-    });
+        ulDetail.addEventListener("click", (e) => {
+            clearListItemBackground();
+            updateFocusDetail(Array.from(ulDetail.children).indexOf(e.target.parentElement));
+            
+        });
 
-    ulDetail.addEventListener("keydown", (e) => {
+        ulDetail.addEventListener("keydown", (e) => {
       
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-            e.preventDefault();
-            const totalItems = ulDetail.children.length;
-            if (e.key === "ArrowDown") {
-                itemDetailIndex = (itemDetailIndex + 1) % totalItems;
-            } else if (e.key === "ArrowUp") {
-                itemDetailIndex = (itemDetailIndex - 1 + totalItems) % totalItems;
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                e.preventDefault();
+                const totalItems = ulDetail.children.length;
+                if (e.key === "ArrowDown") {
+                    itemDetailIndex = (itemDetailIndex + 1) % totalItems;
+                } else if (e.key === "ArrowUp") {
+                    itemDetailIndex = (itemDetailIndex - 1 + totalItems) % totalItems;
+                }
+                updateFocusDetail(itemDetailIndex);
             }
-            updateFocusDetail(itemDetailIndex);
-        }
-    });
+        });
         
-    function updateFocusDetail(index) { 
-        const items = Array.from(ulDetail.children).filter(el => el.tagName === "LI");
-        items[index].focus();
-        itemDetailIndex = index;
-    };
+        function updateFocusDetail(index) {
+        
+            const items = Array.from(ulDetail.children).filter(el => el.tagName === "LI");
+            items[index].focus();
+            itemDetailIndex = index;
+        };
+    }
 
                             
 };
