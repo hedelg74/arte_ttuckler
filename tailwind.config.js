@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export const content = ["./src/**/*.{html,js}", "./public/**/*.{html,js}", "./views/**/*.ejs"];
+export const darkMode = 'class'
 export const theme = {
 	extend: {
 		colors: {
@@ -14,5 +15,6 @@ export const theme = {
 			'15': 'repeat(15, minmax(0, 1fr))',
 	  },
 	},
+
 };
-export const plugins = [];
+//export const plugins = [require('daisyui'),];

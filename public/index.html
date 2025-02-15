@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" >
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,41 +14,15 @@
 		<link href="./css/output.css" rel="stylesheet" />
 	</head>
 
-	<body class="overflow-auto relative">
+	<body class="overflow-auto relative dark:bg-black dark:text-white">
 		<header class="header"><div id="main-menu"></div></header>
 
 		<hr id="inicio" class="mt-2 border-[#D0AB73]" />
 
 		<main class="flex-grow">
-			<section id="alambre-collares">
-				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Collares</h1>
-				<hr class="mt-2 border-[#D0AB73]" />
-				<!-- Contenedor de imagenes -->
-				<div id="img-container-alambre-collares">
-					<!-- Aqui van las imagenes -->
-				</div>
-			</section>
+			<div id="product-section-container">
 
-			<section id="alambre-brazaletes">
-				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Brazaletes</h1>
-				<hr class="mt-2 border-[#D0AB73]" />
-				<!-- Contenedor de imagenes -->
-				<div id="img-container-alambre-brazaletes">
-					<!-- Aqui van las imagenes -->
-				</div>
-			</section>
-
-			<section id="alambre-dijes">
-				<!-- Tiutlo de coleccion -->
-				<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion Alambre-Dijes</h1>
-				<hr class="mt-2 border-[#D0AB73]" />
-				<!-- Contenedor de imagenes -->
-				<div id="img-container-alambre-dijes">
-					<!-- Aqui van las imagenes -->
-				</div>
-			</section>
+			</div>
 
 			<!-- INFORMACION DE SERVICIOS -->
 			<section id="services" class="services">
@@ -130,22 +104,23 @@
 		</footer>
 		<script type="module" src="./js/load.main.menu.js"></script>
 		<script type="module" src="./js/menu.actions.js"></script>
-		<script type="module" src="./js/shoppingcart.js"></script>
-
+		<!--<script type="module" src="./js/shoppingcart.js"></script>-->
+		
 		<script src="./js/verify.shoppingcart.js"></script>
 		<script type="module" src="./js/syncCartWithServer.js"></script>
 		<!--<script type="module" src="./js/login.js"></script>-->
 		<script type="module" src="./js/logout.js"></script>
 		<script type="module" src="./js/authenticate.client.token.js"></script>
-
+		
 		<!-- Llamamos a las funciones para cargar la imagenes -->
 		<script type="module">
 			import { loadProducts } from "./js/load.product.js";
-			document.addEventListener("DOMContentLoaded", async (event) => {
-				await loadProducts("/api/images/alambre/collares", "img-container-alambre-collares"); // Llama a la función cuando la página se ha cargado
-				await loadProducts("/api/images/alambre/dijes", "img-container-alambre-dijes");
-				await loadProducts("/api/images/alambre/brazaletes", "img-container-alambre-brazaletes");
-			});
+			await loadProducts("/api/load-products", "product-section-container");
+			const script = document.createElement('script');
+			script.type="module";
+			script.src = './js/shoppingcart.js';
+			document.body.appendChild(script);
+
 		</script>
 	</body>
 </html>

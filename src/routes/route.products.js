@@ -7,5 +7,6 @@ const routerProducts = express.Router();
 routerProducts.get("/api/images/alambre/collares", controllerProducts.macrameCollares);
 routerProducts.get("/api/images/alambre/brazaletes", controllerProducts.macrameBrazaletes);
 routerProducts.get("/api/images/alambre/dijes", controllerProducts.macrameDijes);
+routerProducts.get("/api/load-products", controllerProducts.loadProducts);
 
 export default routerProducts;

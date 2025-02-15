@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+
 export async function loadProducts(apiUrl, containerId) {
 	try {
 		const response = await fetch(apiUrl);
@@ -10,11 +10,13 @@ export async function loadProducts(apiUrl, containerId) {
 		const products = await response.json();
 
 		if (products) {
-			const container = document.getElementById(containerId);
-			container.classList.add("grid", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "justify-center", "gap-y-10", "m-10");
+			const divContainer = document.getElementById(containerId);
+			//divContainer.classList.add("grid", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "justify-center", "gap-y-10", "m-10");
 
 			//const hrLine = document.createElement("hr");
 			//document.body.appendChild(hrLine);
+			let actualStringCategorySubcategory = "";
+
 
 			products.forEach((product) => {
 				const figure = document.createElement("figure");
@@ -58,6 +60,7 @@ export async function loadProducts(apiUrl, containerId) {
 				addButton.append(" Agregar");
 				addButton.classList.add("add-to-cart", "p-2", "m-5", "rounded", "text-sm", "text-[#15cfc6]", "bg-[#153937]", "hover:bg-[#15cfc6]", "hover:text-[#153937]", "transition-transition-colors");
 				addButton.setAttribute("data-id", `${product.id}`);
+			
 
 				priceQuantityDiv.appendChild(figureCaption);
 				priceQuantityDiv.classList.add("flex", "justify-center");
@@ -79,8 +82,30 @@ export async function loadProducts(apiUrl, containerId) {
 					"transform",
 					"hover:scale-y-105",
 				);
+				//console.log((actualStringCategorySubcategory !== (product.category + "-" + product.subcategory)));
+				if (actualStringCategorySubcategory !== (product.category + "-" + product.subcategory)) {
+					
+					actualStringCategorySubcategory = (product.category + "-" + product.subcategory);
+					const productSection = document.createElement("section");
+					
+					productSection.setAttribute("id", `${actualStringCategorySubcategory.toLowerCase()}`);
+					productSection.innerHTML =`
+						<!-- Tiutlo de coleccion -->
+						<h1 class="mt-32 relative left-10 text-2xl font-sans font-thin text-[#D0AB73]"><i class="bi bi-collection"></i> Colleccion ${actualStringCategorySubcategory}</h1>
+						<hr class="mt-2 border-[#D0AB73]" />
+						<!-- Cont(enedor de imagenes -->
+						<div id="img-container-${actualStringCategorySubcategory.toLowerCase()}" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-y-10 m-10">
+							<!-- Aqui van las imagenes -->
+						</div>`
+					divContainer.appendChild(productSection);
+				}
+			
+				
+				
+				const productContainer = document.getElementById(`img-container-${actualStringCategorySubcategory.toLowerCase()}`);
+				productContainer.appendChild(figure);
 
-				container.appendChild(figure);
+
 			});
 		}
 	} catch (error) {

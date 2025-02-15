@@ -1,5 +1,24 @@
 /* eslint-disable no-unused-vars */
 window.addEventListener("menuLoaded", () => {
+	
+      const themeToggle = document.querySelector('#theme-toggle');
+      const rootElement = document.documentElement;
+
+      if (localStorage.getItem('theme') === 'dark') {
+        rootElement.classList.add('dark');
+        themeToggle.checked = true;
+      }
+
+      themeToggle.addEventListener('change', () => {
+        if (themeToggle.checked) {
+          rootElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          rootElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    
 	const mainMenu = document.querySelector(".submenu-one");
 	const submenuContent = mainMenu.querySelector(".children-one");
 	const submenuToggleArrow = mainMenu.querySelector(".bi-chevron-right");
