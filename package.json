@@ -1,6 +1,9 @@
 {
 	"name": "arte-tuckler",
 	"version": "1.0.0",
+	"engines": {
+  		"node": "18.x"
+	},
 	"main": "app.js",
 	"type": "module",
 	"scripts": {
@@ -56,9 +59,7 @@
 		"postcss": "^8.4.39",
 		"prettier": "^3.3.3",
 		"tailwindcss": "^3.4.6"
-	},
-	"engines": {
-  		"node": ">=22"
 	}
+	
 
 }
