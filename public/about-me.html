@@ -6,11 +6,14 @@
 		<title>Acerca de...</title>
 		<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 		<link href="./css/output.css" rel="stylesheet" />
+		<link rel="stylesheet" href="./css/style.css" />
+
 		<link rel="stylesheet" href="/css/intlTelInput.css" />
 		<link rel="stylesheet" href="./css/bootstrap-icons.css" />
 	</head>
-	<body class="bg-[#0e454e] text-gray-800 font-sans">
-		<div class="container mx-auto mt-10">
+	<body class="bg-[#0e454e] text-gray-800 font-sans  dark:bg-black dark:text-white">
+		<header class="header"><div id="main-menu"></div></header>
+		<div class="container mx-auto mt-28">
 			<div class="w-4/5 mx-auto p-5 bg-[#252a33] shadow-md rounded-md">
 				<div class="text-center mb-5">
 					<h1 class="text-4xl font-semibold text-[#daa520]">Acerca de...</h1>
@@ -40,5 +43,9 @@
 				<a href="/" class="block text-[#15cfc6] text-center text-2xl mt-6"> <i class="bi bi-house-up"></i> Inicio </a>
 			</div>
 		</div>
+		<script type="module" src="./js/load.main.menu.js"></script>
+		<script type="module" src="./js/menu.actions.js"></script>
+		<script type="module" src="./js/logout.js"></script>
+		<script src="./js//authenticate.client.token.js"></script>
 	</body>
 </html>
