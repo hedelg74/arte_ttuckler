@@ -1,5 +1,0 @@
-app = "ArteTTuckler"
-
-[env]
-PORT = "8080"
-DATABASE_URL = "your_database_url_here"
