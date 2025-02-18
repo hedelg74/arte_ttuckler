@@ -831,6 +831,10 @@ video {
   margin-top: 5rem;
 }
 
+.mt-28 {
+  margin-top: 7rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -849,18 +853,6 @@ video {
 
 .mt-6 {
   margin-top: 1.5rem;
-}
-
-.mt-16 {
-  margin-top: 4rem;
-}
-
-.mt-0 {
-  margin-top: 0px;
-}
-
-.mt-28 {
-  margin-top: 7rem;
 }
 
 .block {
@@ -1171,6 +1163,10 @@ video {
 
 .grid-cols-8 {
   grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .flex-col {
